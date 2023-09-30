@@ -1,0 +1,217 @@
+%============================ MAIN DOCUMENT ================================
+% define document class
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[
+  a4paper,
+  BCOR=15mm,            % Binding correction
+  twoside=false,
+% openright,
+%  headings=openright,
+  bibliography=totoc,   % If enabled add bibliography to TOC
+  listof=totoc,         % If enabled add lists to TOC
+  monolingual,
+% bilingual,
+  invert-title,
+]{bfhthesis}
+
+\LoadBFHModule{listings,terminal,boxes}
+%---------------------------------------------------------------------------
+% Documents paths
+%---------------------------------------------------------------------------
+\makeatletter
+\def\input@path{{content/}}
+%or: \def\input@path{{/path/to/folder/}{/path/to/other/folder/}}
+\makeatother
+%-----------------  Base packages     --------------------------------------
+% Include Packages
+\usepackage[french,ngerman,main=english]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
+
+\usepackage{amsmath}          % various features to facilitate writing math formulas
+\usepackage{amsthm}           % enhanced version of latex's newtheorem
+\usepackage{amsfonts}         % set of miscellaneous TeX fonts that augment the standard CM
+\usepackage{amssymb}          % mathematical special characters
+
+\usepackage{siunitx}
+
+\usepackage{graphicx}         % integration of images
+\usepackage{float}            % floating objects
+
+\usepackage{caption}          % for captions of figures and tables
+\usepackage{subcaption}       % for subcaptions in subfigures
+\usepackage{cite}             % use bibtex
+\usepackage{wrapfig}
+
+\usepackage{exscale}          % mathematical size corresponds to textsize
+\usepackage{multirow}         % multirow emables combining rows in tables
+\usepackage{multicol}
+
+\usepackage{longtable}
+
+\usepackage{parskip}
+
+\usepackage{pdfpages}
+
+%---------------------------------------------------------------------------
+% Graphics paths
+%---------------------------------------------------------------------------
+\graphicspath{{pictures/}{figures/}}
+%---------------------------------------------------------------------------
+% Blind text -> for dummy text
+%---------------------------------------------------------------------------
+\usepackage{blindtext}    
+\usepackage{letltxmacro}   
+\LetLtxMacro{\blindtextblindtext}{\blindtext}
+
+\RenewDocumentCommand{\blindtext}{O{\value{blindtext}}}{
+	\begingroup\color{BFH-Gray}\blindtextblindtext[#1]\endgroup
+}
+%---------------------------------------------------------------------------
+% Glossary Package
+%---------------------------------------------------------------------------
+% the glossaries package uses makeindex
+% if you use TeXnicCenter do the following steps:
+%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
+%  - Select the profile "LaTeX => PDF"
+%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
+%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
+%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
+%
+% for futher informations go to http://ewus.de/tipp-1029.html
+%---------------------------------------------------------------------------
+\usepackage[nonumberlist]{glossaries-extra}
+\makeglossaries
+\input{content/glossary}
+%---------------------------------------------------------------------------
+% Makeindex Package
+%---------------------------------------------------------------------------
+\usepackage{makeidx}
+\makeindex
+%\usepackage{imakeidx}          % To produce index
+%\makeindex[columns=2,intoc]    % Index-Initialisation
+%\makeindex[columns=3,columnseprule,columnsep,intoc]
+%---------------------------------------------------------------------------
+% Hyperref Package (Create links in a pdf)
+%---------------------------------------------------------------------------
+\usepackage[
+	,bookmarks
+	,plainpages=false
+	,pdfpagelabels
+        ,pdfusetitle
+	,backref = {false}          % No index backreference
+	,colorlinks = {true}        % Color links in a PDF
+	,hypertexnames = {true}     % no failures "same page(i)"
+	,bookmarksopen = {true}     % opens the bar on the left side
+	,bookmarksopenlevel = {0}   % depth of opened bookmarks
+	,linkcolor=.
+	,filecolor=.
+	,urlcolor=.
+	,citecolor=.
+]{hyperref}
+%---------------------------------------------------------------------------
+
+%% %% Customize Footer and Headers in Document
+%% \KOMAoptions{headsepline,plainheadsepline,footsepline,plainfootsepline}%
+%% \setkomafont{headsepline}{\color{BFH-DarkBlue}}% BFH-DarkBlue required bfhcolors
+%% \setkomafont{footsepline}{\color{BFH-DarkBlue}}%
+%% \lehead*{lehead} % the * character does replace the header on the first chapter page as well
+%% \cehead*{cehead}
+%% \rehead*{rehead}
+%% \lohead*{lohead}
+%% \cohead*{cohead}
+%% \rohead*{rohead}
+
+%% \lefoot*{lefoot}
+%% \cefoot*{cefoot}
+%% \refoot*{refoot}
+%% \lofoot*{lofoot}
+%% \cofoot*{cofoot}
+%% \rofoot*{rofoot}
+%---------------------------------------------------------------------------
+\begin{document}
+
+%------------ START FRONT PART ------------
+\frontmatter
+
+\title{URL-Archiver}
+\subtitle{Project report}
+\author{Nicolin Dora \and Abidin Vejseli \and Kilian Wampfler}
+\institution{Bern University of Applied Sciences}
+\department{Technik und Informatik}
+\institute{Informatik}
+\version{0.1}
+\titlegraphic*{\includegraphics{archive-title-image}}
+\advisor{Dr. Simon Kramer}
+\coadvisor{Frank Helbling}
+%\projectpartner{proj partner}
+%\expert{Some expert}
+\degreeprogram{Project 1}
+\setupSignature{
+	N. Dora={\includegraphics[width=.5\linewidth]{sig_muster}},
+	A. Vejseli={\includegraphics[width=.5\linewidth]{sig_example}},
+	K. Wampfler={\includegraphics[width=.5\linewidth]{sig_example}}
+}
+
+
+%----------------  BFH tile page   -----------------------------------------
+\maketitle
+%------------ ABSTRACT        ----------------
+\addchap{Abstract}
+\input{content/abstract}
+
+%------------ TABLEOFCONTENTS ----------------
+\tableofcontents
+
+%------------ List of Tables -------------
+\listoftables
+
+%------------ List of Figures ------------
+\listoffigures
+
+%------------ List of Listings -----------
+\lstlistoflistings
+
+%------------ START MAIN PART ------------
+\mainmatter
+
+\chapter{Introduction}
+\input{content/introduction}
+
+\chapter{Specification}
+\input{content/system_delimitation}
+\input{content/requirements}
+\input{content/usability}
+
+\chapter{Implementation}
+\input{content/architecture}
+\input{content/processes}
+
+\chapter{Deployment/Integration}
+\input{content/installation}
+\input{content/user_manual}
+
+\chapter{Conclusion}
+\input{content/discussion}
+\input{content/bottom_line}
+\input{content/future_work}
+
+%------------ Glossary -------------------
+\printglossary
+
+%------------ Index ----------------------
+\clearpage
+\printindex
+
+%----------- Bibliography ----------------
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{project}      % the project.bib file gets loaded
+
+%------------ Appendix ----------------	
+\appendix
+\includepdf[scale=0.9, pages=1, offset=0in -1.5in, pagecommand=\chapter{Original Project Description}]{content/kms4-03_URL-Archiver.pdf}
+
+
+%------------ Authorship declaration translated to main language ------------
+\declarationOfAuthorship
+
+\end{document}
