@@ -3,6 +3,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignore everything in the report/_build directory
+report/_build/*
+# But don't ignore .pdf files in report/_build
+!report/_build/*.pdf
+
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
