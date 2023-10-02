@@ -1,7 +1,25 @@
 \section{Initial Situation}
-
+In the age of rapidly evolving digital content, there's an increasing need to archive and preserve web resources. URLs, which provide direct access to these resources, are often embedded within various file types, including but not limited to Unicode-text files like .BIB, .TEX, and .HTML, as well as .PDF files. However, with the internet's transient nature, these URLs can become obsolete or the content they point to can change, leading to the loss of valuable information. It is, therefore, crucial to have a mechanism in place to archive these URLs, ensuring their content remains preserved and accessible over time.
 
 \section{Project Goal}
-
+The primary aim of the ``URL-Archiver`` project is to develop a Free/Libre and Open Source Software (FLOSS) licensed, platform-independent Java program that can effectively archive URLs. The envisioned software should:
+\begin{enumerate}
+    \item Accept as input a directory or any Unicode-text file (like .BIB, .TEX, .HTML), or a .PDF file.
+    \item Scan the provided input for any embedded URLs.
+    \item Extract all identified URLs.
+    \item Offer an option to spring-load these URLs in a Web-browser, providing an immediate view of the referenced content.
+    \item Submit these URLs to the online archiving service, \href{https://archive.ph}{https://archive.ph}, ensuring their content is stored and safeguarded against potential future changes or deletions.
+    \item Retrieve the archived URLs from the service.
+    \item Output a CSV-file detailing the original URLs and their corresponding archived versions.
+    \item Optionally allow the integration of the archived URLs into a .BIB file, facilitating the ease of reference in academic or professional contexts.
+\end{enumerate}
+Furthermore, in the spirit of best programming practices, the program's code should be minimalistic, modular, and self-explanatory. This not only ensures maintainability but also aids any future development or modifications.
 
 \section{Priorities}
+\begin{enumerate}
+    \item \textbf{Functionality}: The primary priority is the accurate extraction and archiving of URLs. The software should reliably identify URLs in varied file types and ensure their successful archiving on \href{https://archive.ph}{https://archive.ph}.
+    \item \textbf{Usability}: Given the diverse potential user base, the program should be platform-independent and possess a user-friendly interface. While the underlying mechanisms may be complex, the user experience should be seamless and intuitive.
+    \item \textbf{Code Quality}: Emphasis should be placed on writing clean, minimal, and modular code. This not only aids in potential future enhancements but also in debugging and troubleshooting.
+    \item \textbf{Documentation}: As with any software project, proper documentation is paramount. The project report should be concise, adhering to the principle of being ``maximally informative, minimally long,`` ensuring clarity of information without overwhelming the reader.
+    \item \textbf{Integration with Existing File Types}: The ability to seamlessly insert archived URLs into .BIB files is a priority, given the potential academic applications of the software.
+\end{enumerate}
