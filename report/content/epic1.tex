@@ -1,0 +1,44 @@
+\subsubsection{Epic 1: File Input and Processing}
+\textbf{Goal}: Allow the user to input various file types via the command line and prepare these files for further processing.
+\begin{enumerate}
+    \item \textbf{Prompt for File Path Input}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, when I start the tool, I want to be prompted to input the path to my file, so the tool knows which file to process.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item Upon starting the tool, it prompts the user to enter a file path.
+            \item On inputting an invalid path or if there are permissions issues, the tool provides a relevant error message.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Automatic File Type Detection}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want the tool to automatically detect the file type (based on file extension) and treat it accordingly so that I don't need to specify the file type separately.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item The tool automatically identifies if the file is a .BIB, .TEX, .HTML, or .PDF.
+            \item For unrecognized file types, the tool provides an appropriate error message.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Processing of Directories}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want to input a whole directory, so the tool processes all supported files contained within.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item The tool can accept directory paths after the prompt.
+            \item It processes all supported file types within the directory.
+            \item The tool gives a message if files within the directory are skipped due to their type.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Processing Feedback}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want to receive feedback when the tool starts processing the file and when it finishes, to know the status.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item A message is displayed when the processing of a file starts.
+            \item Upon completion, a confirmation message is shown, which also includes any potential errors or warnings.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}

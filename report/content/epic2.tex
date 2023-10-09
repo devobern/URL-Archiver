@@ -1,0 +1,45 @@
+\subsubsection{Epic 2: URL Detection and Extraction}
+\textbf{Goal}: Accurately detect and extract URLs from input files for further processing.
+
+\begin{enumerate}
+    \item \textbf{Scan Files for URLs}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want the system to scan my input files and identify any embedded URLs so that they can be extracted for archiving.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item System can detect URLs in a variety of file formats including .BIB, .TEX, .HTML, and .PDF.
+            \item Detected URLs are listed without any duplication.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Use Regular Expressions for Extraction}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want the system to use regular expressions or other reliable techniques to extract URLs so that all valid URLs are captured without error.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item System uses a robust regular expression pattern that matches most URL formats.
+            \item Extracted URLs are validated to ensure they are in the correct format.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Store URL Line Number or Context}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, when a URL is detected and extracted, I want the system to also store its line number or contextual information from the original file, enabling precise placement of its archived counterpart later on.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item Upon URL detection, the system captures and stores the line number or relevant context of the URL from the source file.
+            \item This information is utilized later if archived URLs need to be placed back into the original files.
+        \end{itemize}
+    \end{itemize}
+
+
+    \item \textbf{Compile a List of URLs}
+    \begin{itemize}
+        \item \textbf{Description}: After extraction, I want all URLs to be compiled into a single list, eliminating any duplicates, so that I have a clean list for archiving.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item The list contains all the unique URLs found in the input files.
+            \item Invalid or broken URLs are flagged or removed from the list.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}

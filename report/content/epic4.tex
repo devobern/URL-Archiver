@@ -1,0 +1,36 @@
+\subsubsection{Epic 4: Interaction with archive.ph}
+\textbf{Goal}: Automate the process of archiving URLs via archive.ph while ensuring user interaction is seamless and all necessary data is captured for later use.
+
+\begin{enumerate}
+    \item \textbf{Automated URL Submission}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want the system to automatically fill in the URL into the archive.ph input field and submit it for archiving.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item Upon initiation, system opens the archive.ph website in a browser.
+            \item System auto-fills the given URL into the appropriate input field.
+            \item System automatically triggers the submission process for archiving.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{User Interaction for Captchas}
+    \begin{itemize}
+        \item \textbf{Description}: If required, I want to manually solve captchas to ensure the URL gets archived.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item If archive.ph presents a captcha, the system allows the user to solve it manually.
+            \item The archiving process proceeds once the captcha is successfully solved.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Automatic Retrieval of Archived URL}
+    \begin{itemize}
+        \item \textbf{Description}: Once a URL is archived, I want the system to automatically retrieve and display the archived URL to me.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item System captures the new archived URL from archive.ph after the process completes.
+            \item The archived URL is displayed to the user immediately.
+            \item The archived URL is stored for later processing and reporting.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}

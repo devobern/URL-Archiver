@@ -1,0 +1,46 @@
+\subsubsection{Epic 3: Web Browser Integration}
+\textbf{Goal}: Seamlessly open detected URLs, one at a time, in a web browser for user verification, and immediately initiate the archiving process upon user decision.
+
+\begin{enumerate}
+    \item \textbf{Sequential URL Preview}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want to preview each detected URL in my default browser sequentially to verify its content.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item System opens one URL at a time in the default browser.
+            \item Immediately after the URL is displayed, the system presents the user with the option to archive.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Immediate Archiving Upon Decision}
+    \begin{itemize}
+        \item \textbf{Description}: After reviewing a URL in the browser, I want to decide if it should be archived. If I decide to archive, the system should immediately initiate the archiving process.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item System provides a prompt to accept or decline the archiving of the displayed URL.
+            \item If the user chooses to archive, the system directly begins the archiving process, and the user may need to manually solve captchas.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Track Archiving Progress}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, I want a clear indicator of how many URLs have been displayed, archived, and how many are left to process.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item The system displays a counter indicating the number of URLs already shown to the user.
+            \item Another counter indicates how many URLs have been chosen for archiving.
+            \item Yet another counter shows how many URLs remain to be processed/displayed.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Store User Decisions for Reporting}
+    \begin{itemize}
+        \item \textbf{Description}: As a user, after making a decision about archiving each URL, I want the system to store my choices so that they can be referred to or reported on later.
+        \item \textbf{Acceptance Criteria}:
+        \begin{itemize}
+            \item The system maintains a record of each URL and the user's decision (archived or not archived).
+            \item The stored decisions are available for any subsequent reporting needs.
+        \end{itemize}
+    \end{itemize}
+
+\end{enumerate}
