@@ -42,19 +42,15 @@ public class UnicodeFileHandler {
         pathValidator.validate(inputPath);
 
         UnicodeFileValidator unicodeFileValidator = new UnicodeFileValidator();
-        this.charSet = unicodeFileValidator.validate(inputPath);
+        String result = unicodeFileValidator.validate(inputPath);
 
-
-
-        try {
-            if (isPDF()) {
-                this.isPDF = Boolean.TRUE;
-            } else {
-                this.isPDF = Boolean.FALSE;
-            }
-        } catch (FileNotFoundException e) {
-            throw new UnicodeFileFormatException(ConsoleUI.messages.getString("file.notFound.error"));
+        if (result.equals("PDF")) {
+            this.isPDF = Boolean.TRUE;
+        } else {
+            this.charSet = result;
+            this.isPDF = Boolean.FALSE;
         }
+
 
     }
 
@@ -75,19 +71,6 @@ public class UnicodeFileHandler {
             String text = Files.readString(path);
             return text;
         }
-    }
-
-    private boolean isPDF() throws FileNotFoundException {
-        File file = new File(this.stringPath);
-        Scanner input = new Scanner(new FileReader(file));
-        while (input.hasNextLine()) {
-            final String checkline = input.nextLine();
-            if(checkline.contains("%PDF-")) {
-                // a match!
-                return true;
-            }
-        }
-        return false;
     }
 
 }

@@ -1,9 +1,6 @@
 package ch.bfh.validator;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import java.nio.file.Files;
 import java.nio.charset.CharsetDecoder;
@@ -13,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.InvalidPathException;
 import java.nio.ByteBuffer;
+import java.util.Scanner;
 
 import ch.bfh.exceptions.UnicodeFileFormatException;
 import ch.bfh.exceptions.PathValidationException;
@@ -37,6 +35,14 @@ public class UnicodeFileValidator {
 
         if (!isValidEncoded(stringPath, "UTF-8")) {
             throw new UnicodeFileFormatException(ConsoleUI.messages.getString("file.notUnicode.error"));
+        }
+
+        try {
+            if (isPDF(stringPath)) {
+                return "PDF";
+            }
+        } catch (FileNotFoundException e) {
+            throw new UnicodeFileFormatException(ConsoleUI.messages.getString("file.notFound.error"));
         }
 
         return "UTF-8";
@@ -66,6 +72,19 @@ public class UnicodeFileValidator {
         }
      
         return true;
+    }
+
+    private static boolean isPDF(String inputPath) throws FileNotFoundException {
+        File file = new File(inputPath);
+        Scanner input = new Scanner(new FileReader(file));
+        while (input.hasNextLine()) {
+            final String checkline = input.nextLine();
+            if(checkline.contains("%PDF-")) {
+                // a match!
+                return true;
+            }
+        }
+        return false;
     }
 
 }
