@@ -2,19 +2,48 @@ package ch.bfh.ui;
 
 import java.util.ResourceBundle;
 
+/**
+ * Provides a console-based user interface for displaying messages and options.
+ * This class is responsible for outputting predefined messages and options to the console.
+ */
 public class ConsoleUI {
-    public static final ResourceBundle messages = ResourceBundle.getBundle("messages");
 
-    public static void printMessage(String key) {
+    /** Resource bundle containing message strings. */
+    private final ResourceBundle messages;
+
+    /**
+     * Constructs a new ConsoleUI with the provided resource bundle.
+     *
+     * @param messages the resource bundle containing message strings.
+     */
+    public ConsoleUI(ResourceBundle messages) {
+        this.messages = messages;
+    }
+
+    /**
+     * Prints a message to the console using the provided key.
+     *
+     * @param key the key used to retrieve the message from the resource bundle.
+     */
+    public void printMessage(String key) {
         System.out.print(messages.getString(key));
     }
 
-    public static void printFormattedMessage(String key, Object... args) {
+    /**
+     * Prints a formatted message to the console using the provided key and arguments.
+     *
+     * @param key  the key used to retrieve the message from the resource bundle.
+     * @param args arguments to format the message.
+     */
+    public void printFormattedMessage(String key, Object... args) {
         System.out.printf(messages.getString(key), args);
         System.out.println();
     }
 
-    public static void printOptions(){
+    /**
+     * Prints a list of user options to the console.
+     */
+    public void printOptions() {
         System.out.println(messages.getString("instructions.option.title"));
         System.out.println(messages.getString("instructions.option.o"));
         System.out.println(messages.getString("instructions.option.a"));
@@ -24,11 +53,18 @@ public class ConsoleUI {
         System.out.println();
     }
 
-    public static void printSeparator(){
+    /**
+     * Prints a separator line to the console.
+     */
+    public void printSeparator() {
         System.out.println("------------------------------------------------------------------");
     }
 
-    public static void printWelcomeMessage() {
+    /**
+     * Prints a welcome message and ASCII Art to the console.
+     * Also outputs instructions and options available to the user.
+     */
+    public void printWelcomeMessage() {
         // todo: Decide if ASCII Art is cool or not. Also consider bad looking if terminal is small
         System.out.println("██╗   ██╗██████╗ ██╗       █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗██████╗ ");
         System.out.println("██║   ██║██╔══██╗██║      ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝██╔══██╗");
