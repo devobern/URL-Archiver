@@ -4,29 +4,41 @@ import ch.bfh.ui.ConsoleUI;
 import ch.bfh.validator.PathValidator;
 import ch.bfh.exceptions.PathValidationException;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Scanner;
-
+/**
+ * Handles the input for files or directory paths, including validation, processing, and user interactions.
+ * Works in conjunction with {@code ConsoleUI}, {@code UserInputHandler}, and {@code PathProcessor} to manage the workflow.
+ */
 public class FileInputHandler {
+    private final ConsoleUI consoleUI;
+    private final UserInputHandler userInputHandler;
+    private final PathProcessor pathProcessor;
+
+    /**
+     * Initializes a new instance of the {@code FileInputHandler} class.
+     *
+     * @param consoleUI The user interface for providing feedback and messages.
+     */
+    public FileInputHandler(ConsoleUI consoleUI){
+        this.consoleUI = consoleUI;
+        this.userInputHandler = new UserInputHandler(consoleUI);
+        this.pathProcessor = new PathProcessor(consoleUI);
+    }
 
     /**
      * Prompts the user to provide a file or directory path.
      * Repeatedly asks until a valid path is given.
      */
     public void promptUserForInput() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isVlaid = false;
-        while(!isVlaid) {
-            ConsoleUI.printMessage("path.prompt");
-            String path = scanner.nextLine();
+        boolean isValid = false;
+        while(!isValid) {
+            String path = userInputHandler.promptUserForPath();
             try {
                 PathValidator.validate(path);
-                processPath(path);
-                isVlaid = true;
+                pathProcessor.process(path);
+                isValid = true;
             } catch (PathValidationException e) {
                 System.out.println(e.getMessage());
-                ConsoleUI.printFormattedMessage("error.retry");
+                consoleUI.printFormattedMessage("error.retry");
             }
         }
     }
@@ -38,30 +50,14 @@ public class FileInputHandler {
      * @param path the path provided via command line
      */
     public void processCommandLineInput(String path) {
-        ConsoleUI.printFormattedMessage("info.command_line_arg");
+        consoleUI.printFormattedMessage("info.command_line_arg");
         try {
             PathValidator.validate(path);
-            processPath(path);
+            pathProcessor.process(path);
         } catch (PathValidationException e) {
             System.out.println(e.getMessage());
-            ConsoleUI.printFormattedMessage("error.retry");
+            consoleUI.printFormattedMessage("error.retry");
             promptUserForInput();
         }
-    }
-
-    /**
-     * Processes the given file or directory path.
-     * Determines if it's a file or directory and displays an appropriate message.
-     *
-     * @param inputPath the path to be processed
-     */
-    private void processPath(String inputPath) {
-        if(Files.isDirectory(Path.of(inputPath))){
-            ConsoleUI.printFormattedMessage("info.processing_dir");
-        } else {
-            ConsoleUI.printFormattedMessage("info.processing_file");
-        }
-
-        // Proceed with further processing if path is valid
     }
 }
