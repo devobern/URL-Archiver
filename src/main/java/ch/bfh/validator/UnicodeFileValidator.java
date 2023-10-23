@@ -20,7 +20,7 @@ import ch.bfh.ui.ConsoleUI;
 
 public class UnicodeFileValidator {
     
-    public static void validate(String stringPath) throws UnicodeFileFormatException, PathValidationException {
+    public static String validate(String stringPath) throws UnicodeFileFormatException, PathValidationException {
         
         Path path;
         try {
@@ -39,6 +39,8 @@ public class UnicodeFileValidator {
             throw new UnicodeFileFormatException(ConsoleUI.messages.getString("file.notUnicode.error"));
         }
 
+        return "UTF-8";
+
     }
 
 
@@ -54,9 +56,6 @@ public class UnicodeFileValidator {
         } catch (IOException e) {
             throw new UnicodeFileFormatException(ConsoleUI.messages.getString("file.notReadable.error"));
         }
-        
-        
-        
 
         try {
             Charset.availableCharsets().get(charSet).newDecoder().decode(ByteBuffer.wrap(buffer));
