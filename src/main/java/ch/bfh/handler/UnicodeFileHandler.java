@@ -20,6 +20,9 @@ import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+/**
+ * Handler for validating and converting a file to a string for processing
+ */
 public class UnicodeFileHandler {
 
     private String charSet;
@@ -36,7 +39,8 @@ public class UnicodeFileHandler {
         this.stringPath = inputPath;
         Path path = Paths.get(inputPath.trim());
         this.fileName = path.getFileName().toString();
-        System.out.println("Validate the file " + this.fileName);
+        ConsoleUI.printFormattedMessage("file.validate.info", this.fileName);
+
 
         PathValidator pathValidator = new PathValidator();
         pathValidator.validate(inputPath);
@@ -54,8 +58,13 @@ public class UnicodeFileHandler {
 
     }
 
+    /**
+     * method which converts a unicode file or pdf file to a string (not for files larger than 2GB)
+     * @return
+     * @throws IOException
+     */
     public String fileToString() throws IOException {
-        System.out.println("Convert the file " + this.fileName + " to String for processing.");
+        ConsoleUI.printFormattedMessage("file.toString.info", this.fileName);
         if (this.isPDF) {
             //Loading an existing document
             File file = new File(this.stringPath);
