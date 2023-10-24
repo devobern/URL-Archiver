@@ -21,6 +21,8 @@ import ch.bfh.ui.ConsoleUI;
  */
 public class UnicodeFileValidator {
 
+    //TODO: validation doesn't work --> example .docx files
+
     /**
      * method for validating if a file is unicode encrypted or is a pdf file
      * @param stringPath -> path to the file for validation
