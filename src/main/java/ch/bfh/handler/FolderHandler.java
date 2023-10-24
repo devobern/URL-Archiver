@@ -2,7 +2,7 @@ package ch.bfh.handler;
 
 import ch.bfh.exceptions.FolderHandlerException;
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.UnicodeFileFormatException;
+import ch.bfh.exceptions.UnicodeFileHandlerException;
 import ch.bfh.ui.ConsoleUI;
 import ch.bfh.validator.FolderValidator;
 
@@ -28,7 +28,7 @@ public class FolderHandler {
                 if (!Files.isDirectory(path)) {
                     try {
                         this.unicodeFiles.add(new UnicodeFileHandler(this.basePath + path.getFileName().toString()));
-                    } catch (UnicodeFileFormatException e) {
+                    } catch (UnicodeFileHandlerException e) {
                         ConsoleUI.printFormattedMessage("folder.skipFile.info", path.getFileName().toString());
                     }
 

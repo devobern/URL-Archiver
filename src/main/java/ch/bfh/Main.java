@@ -2,14 +2,17 @@ package ch.bfh;
 
 import ch.bfh.exceptions.FolderHandlerException;
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.UnicodeFileFormatException;
+import ch.bfh.exceptions.UnicodeFileHandlerException;
 import ch.bfh.handler.FolderHandler;
 import ch.bfh.handler.UnicodeFileHandler;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws UnicodeFileFormatException, PathValidationException, IOException, FolderHandlerException {
+    public static void main(String[] args) throws UnicodeFileHandlerException, PathValidationException, IOException, FolderHandlerException {
+
+        java.util.logging.Logger.getLogger("org.apache.pdfbox")
+                .setLevel(java.util.logging.Level.OFF);
 
         System.out.println("Hello world!");
 
@@ -20,7 +23,8 @@ public class Main {
         System.out.println(unicodeFileHandler.fileToString());
 
         FolderHandler folderHandler = new FolderHandler("/Users/kilian/Downloads/");
-        System.out.println(folderHandler.next());
-
+        while (!folderHandler.wasLastFile()) {
+            System.out.println(folderHandler.next());
+        }
     }
 }

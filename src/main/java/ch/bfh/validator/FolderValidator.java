@@ -1,7 +1,6 @@
 package ch.bfh.validator;
 
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.UnicodeFileFormatException;
 import ch.bfh.ui.ConsoleUI;
 
 import java.nio.file.Files;

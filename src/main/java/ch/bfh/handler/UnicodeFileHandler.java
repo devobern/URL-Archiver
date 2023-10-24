@@ -1,19 +1,15 @@
 package ch.bfh.handler;
 
 import ch.bfh.ui.ConsoleUI;
-import ch.bfh.validator.PathValidator;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.validator.UnicodeFileValidator;
-import ch.bfh.exceptions.UnicodeFileFormatException;
+import ch.bfh.exceptions.UnicodeFileHandlerException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 
 import org.apache.pdfbox.Loader;
@@ -25,9 +21,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
  */
 public class UnicodeFileHandler {
 
-    private String charSet;
+    private String mimeType;
     private String fileName;
-    private boolean isPDF;
     private String stringPath;
 
     /**
@@ -35,22 +30,19 @@ public class UnicodeFileHandler {
      * @param inputPath needs as input a path to a file
      * @throws PathValidationException throws Exception if path is invalid or path isn't a file
      */
-    public UnicodeFileHandler(String inputPath) throws PathValidationException, UnicodeFileFormatException {
+    public UnicodeFileHandler(String inputPath) throws PathValidationException, UnicodeFileHandlerException {
 
         UnicodeFileValidator unicodeFileValidator = new UnicodeFileValidator();
-        String result = unicodeFileValidator.validate(inputPath);
 
+        try {
+            this.mimeType = unicodeFileValidator.validate(inputPath);
+        } catch (IOException e) {
+            throw new UnicodeFileHandlerException(ConsoleUI.messages.getString("file.notReadable.error"));
+        }
         this.stringPath = inputPath;
         Path path = Paths.get(inputPath.trim());
         this.fileName = path.getFileName().toString();
         ConsoleUI.printFormattedMessage("file.validate.info", this.fileName);
-
-        if (result.equals("PDF")) {
-            this.isPDF = true;
-        } else {
-            this.charSet = result;
-            this.isPDF = false;
-        }
 
 
     }
@@ -62,7 +54,7 @@ public class UnicodeFileHandler {
      */
     public String fileToString() throws IOException {
         ConsoleUI.printFormattedMessage("file.toString.info", this.fileName);
-        if (this.isPDF) {
+        if (this.mimeType.equals("application/pdf")) {
             //Loading an existing document
             File file = new File(this.stringPath);
             PDDocument document = Loader.loadPDF(file);
