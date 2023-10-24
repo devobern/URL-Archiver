@@ -96,6 +96,9 @@ public class UnicodeFileValidator {
         return true;
     }
 
+
+    //TODO: check only first lines not the complete file
+
     /**
      * method for checking if file is a pdf file
      * @param path -> path to file for validation

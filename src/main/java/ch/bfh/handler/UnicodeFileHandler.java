@@ -27,7 +27,7 @@ public class UnicodeFileHandler {
 
     private String charSet;
     private String fileName;
-    private Boolean isPDF;
+    private boolean isPDF;
     private String stringPath;
 
     /**
@@ -36,23 +36,20 @@ public class UnicodeFileHandler {
      * @throws PathValidationException throws Exception if path is invalid or path isn't a file
      */
     public UnicodeFileHandler(String inputPath) throws PathValidationException, UnicodeFileFormatException {
+
+        UnicodeFileValidator unicodeFileValidator = new UnicodeFileValidator();
+        String result = unicodeFileValidator.validate(inputPath);
+
         this.stringPath = inputPath;
         Path path = Paths.get(inputPath.trim());
         this.fileName = path.getFileName().toString();
         ConsoleUI.printFormattedMessage("file.validate.info", this.fileName);
 
-
-        PathValidator pathValidator = new PathValidator();
-        pathValidator.validate(inputPath);
-
-        UnicodeFileValidator unicodeFileValidator = new UnicodeFileValidator();
-        String result = unicodeFileValidator.validate(inputPath);
-
         if (result.equals("PDF")) {
-            this.isPDF = Boolean.TRUE;
+            this.isPDF = true;
         } else {
             this.charSet = result;
-            this.isPDF = Boolean.FALSE;
+            this.isPDF = false;
         }
 
 
