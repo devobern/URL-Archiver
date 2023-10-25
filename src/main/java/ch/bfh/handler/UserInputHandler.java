@@ -1,6 +1,6 @@
 package ch.bfh.handler;
 
-import ch.bfh.ui.ConsoleUI;
+import ch.bfh.view.ConsoleView;
 
 import java.util.Scanner;
 
@@ -10,15 +10,15 @@ import java.util.Scanner;
  */
 public class UserInputHandler {
 
-    private final ConsoleUI consoleUI;
+    private final ConsoleView consoleView;
 
     /**
      * Initializes a new instance of the {@code UserInputHandler} class.
      *
-     * @param consoleUI The user interface for providing feedback and messages.
+     * @param consoleView The user interface for providing feedback and messages.
      */
-    public UserInputHandler(ConsoleUI consoleUI) {
-        this.consoleUI = consoleUI;
+    public UserInputHandler(ConsoleView consoleView) {
+        this.consoleView = consoleView;
     }
 
     /**
@@ -27,7 +27,7 @@ public class UserInputHandler {
      * @return The path entered by the user.
      */
     public String promptUserForPath() {
-        consoleUI.printMessage("path.prompt");
+        consoleView.printMessage("path.prompt");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

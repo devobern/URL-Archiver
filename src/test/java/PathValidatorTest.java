@@ -1,5 +1,5 @@
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.validator.PathValidator;
+import ch.bfh.helper.PathValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

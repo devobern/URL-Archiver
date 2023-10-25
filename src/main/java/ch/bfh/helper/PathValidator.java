@@ -1,4 +1,4 @@
-package ch.bfh.validator;
+package ch.bfh.helper;
 
 import ch.bfh.exceptions.PathValidationException;
 
@@ -29,7 +29,7 @@ public class PathValidator {
         // Use trim() to remove leading and trailing whitespace to ensure
         // that strings consisting solely of spaces are treated as empty.
         if (inputPath == null || inputPath.trim().isEmpty()) {
-            throw new PathValidationException(messages.getString("path.empty.error"));
+            throw new PathValidationException(I18n.getString("path.empty.error"));
         }
         Path path;
         try {
@@ -37,15 +37,15 @@ public class PathValidator {
             // whitespaces for better user experience.
             path = Paths.get(inputPath.trim());
         } catch (InvalidPathException e) {
-            throw new PathValidationException(messages.getString("path.invalid.error"));
+            throw new PathValidationException(I18n.getString("path.invalid.error"));
         }
 
         if (!Files.exists(path)) {
-            throw new PathValidationException(messages.getString("path.notExist.error"));
+            throw new PathValidationException(I18n.getString("path.notExist.error"));
         }
 
         if (!Files.isReadable(path)) {
-            throw new PathValidationException(messages.getString("path.notReadable.error"));
+            throw new PathValidationException(I18n.getString("path.notReadable.error"));
         }
     }
 }

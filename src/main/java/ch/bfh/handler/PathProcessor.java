@@ -1,6 +1,6 @@
 package ch.bfh.handler;
 
-import ch.bfh.ui.ConsoleUI;
+import ch.bfh.view.ConsoleView;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,15 +11,15 @@ import java.nio.file.Path;
  */
 public class PathProcessor {
 
-    private final ConsoleUI consoleUI;
+    private final ConsoleView consoleView;
 
     /**
      * Initializes a new instance of the {@code PathProcessor} class.
      *
-     * @param consoleUI The user interface for providing feedback and messages.
+     * @param consoleView The user interface for providing feedback and messages.
      */
-    public PathProcessor(ConsoleUI consoleUI) {
-        this.consoleUI = consoleUI;
+    public PathProcessor(ConsoleView consoleView) {
+        this.consoleView = consoleView;
     }
 
     /**
@@ -30,9 +30,9 @@ public class PathProcessor {
      */
     public void process(String inputPath) {
         if (Files.isDirectory(Path.of(inputPath))) {
-            consoleUI.printFormattedMessage("info.processing_dir");
+            consoleView.printFormattedMessage("info.processing_dir");
         } else {
-            consoleUI.printFormattedMessage("info.processing_file");
+            consoleView.printFormattedMessage("info.processing_file");
         }
 
         // Proceed with further processing if the path is valid

@@ -1,23 +1,28 @@
 package ch.bfh;
 
-import ch.bfh.handler.CommandLineHandler;
-import ch.bfh.handler.FileInputHandler;
-import ch.bfh.handler.UrlActionHandler;
-import ch.bfh.ui.ConsoleUI;
+import ch.bfh.controller.CLIController;
 
-import java.util.ResourceBundle;
+import ch.bfh.helper.URLArchiver;
+import ch.bfh.helper.URLExtractor;
+import ch.bfh.model.URLArchiverModel;
+import ch.bfh.view.ConsoleView;
+
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) {
-        ResourceBundle messages = ResourceBundle.getBundle("messages");
-        ConsoleUI consoleUI = new ConsoleUI(messages);
-        consoleUI.printWelcomeMessage();
+        Locale locale = Locale.forLanguageTag("en-US");
+        URLArchiverModel model = new URLArchiverModel();
+        ConsoleView consoleView = new ConsoleView(locale);
+        URLExtractor extractor = new URLExtractor();
+        URLArchiver archiver = new URLArchiver();
 
-        FileInputHandler fileInputHandler = new FileInputHandler(consoleUI);
-        CommandLineHandler commandLineHandler = new CommandLineHandler(fileInputHandler);
-        commandLineHandler.handleArgs(args);
 
-        UrlActionHandler urlActionHandler = new UrlActionHandler(consoleUI);
-        urlActionHandler.handleActions();
+
+        CLIController cliController = new CLIController(model, consoleView, extractor, archiver);
+        cliController.start(args);
     }
 }
+
+// todo: Module Info File erstellen. Berechtigungen: Welche Module sehen welche Module etc.
+// todo: Ist es möglich nur eine Klasse zu haben die prints macht? So das alle anderen Klassen auch von einem GUI verwendet werden könnten.

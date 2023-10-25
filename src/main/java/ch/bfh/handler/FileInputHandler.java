@@ -1,7 +1,7 @@
 package ch.bfh.handler;
 
-import ch.bfh.ui.ConsoleUI;
-import ch.bfh.validator.PathValidator;
+import ch.bfh.view.ConsoleView;
+import ch.bfh.helper.PathValidator;
 import ch.bfh.exceptions.PathValidationException;
 
 /**
@@ -9,19 +9,19 @@ import ch.bfh.exceptions.PathValidationException;
  * Works in conjunction with {@code ConsoleUI}, {@code UserInputHandler}, and {@code PathProcessor} to manage the workflow.
  */
 public class FileInputHandler {
-    private final ConsoleUI consoleUI;
+    private final ConsoleView consoleView;
     private final UserInputHandler userInputHandler;
     private final PathProcessor pathProcessor;
 
     /**
      * Initializes a new instance of the {@code FileInputHandler} class.
      *
-     * @param consoleUI The user interface for providing feedback and messages.
+     * @param consoleView The user interface for providing feedback and messages.
      */
-    public FileInputHandler(ConsoleUI consoleUI){
-        this.consoleUI = consoleUI;
-        this.userInputHandler = new UserInputHandler(consoleUI);
-        this.pathProcessor = new PathProcessor(consoleUI);
+    public FileInputHandler(ConsoleView consoleView){
+        this.consoleView = consoleView;
+        this.userInputHandler = new UserInputHandler(consoleView);
+        this.pathProcessor = new PathProcessor(consoleView);
     }
 
     /**
@@ -38,7 +38,7 @@ public class FileInputHandler {
                 isValid = true;
             } catch (PathValidationException e) {
                 System.out.println(e.getMessage());
-                consoleUI.printFormattedMessage("error.retry");
+                consoleView.printFormattedMessage("error.retry");
             }
         }
     }
@@ -50,13 +50,13 @@ public class FileInputHandler {
      * @param path the path provided via command line
      */
     public void processCommandLineInput(String path) {
-        consoleUI.printFormattedMessage("info.command_line_arg");
+        consoleView.printFormattedMessage("info.command_line_arg");
         try {
             PathValidator.validate(path);
             pathProcessor.process(path);
         } catch (PathValidationException e) {
             System.out.println(e.getMessage());
-            consoleUI.printFormattedMessage("error.retry");
+            consoleView.printFormattedMessage("error.retry");
             promptUserForInput();
         }
     }
