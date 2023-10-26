@@ -21,6 +21,7 @@ public class CLIController implements URLArchiverController {
     private URLExtractor extractor;
     private URLArchiver archiver;
     private int currentURLPairIndex;
+    private final Scanner scanner;
 
 
     public CLIController(URLArchiverModel model, ConsoleView view, URLExtractor extractor, URLArchiver archiver) {
@@ -29,6 +30,7 @@ public class CLIController implements URLArchiverController {
         this.extractor = extractor;
         this.archiver = archiver;
         this.currentURLPairIndex = 0;
+        this.scanner = new Scanner(System.in);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class CLIController implements URLArchiverController {
 
     @Override
     public void processUserInput() {
-        Scanner scanner = new Scanner(System.in);
+
         boolean running = true;
         while (running) {
             URLPair currentURLPair = getCurrentURLPair();
@@ -75,7 +77,7 @@ public class CLIController implements URLArchiverController {
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN:
-                        handleOpen(extractedURL, archivedURL);
+                        handleOpen(currentURLPair);
                         break;
                     case ARCHIVE:
                         handleArchive(extractedURL);
@@ -89,6 +91,7 @@ public class CLIController implements URLArchiverController {
                     case QUIT:
                         handleQuit();
                         running = false;
+                        shutdown();
                         break;
                 }
             } else {
@@ -101,12 +104,34 @@ public class CLIController implements URLArchiverController {
     /**
      * Handles the user's choice to open a URL.
      *
-     * @param extractedURL The URL to be opened.
+     * @param currentURLPair The current URL pair.
      */
-    private void handleOpen(String extractedURL, String archivedURL) {
-        // Logic to open URL
-        String targetUrl = (archivedURL != null) ? archivedURL : extractedURL;
+    private void handleOpen(URLPair currentURLPair) {
+        if(currentURLPair.getArchivedURL() != null){
+            handleOpenArchived(currentURLPair);
+        } else {
+            view.printFormattedMessage("action.opening", currentURLPair.getExtractedURL());
+            // todo: Logic to open URL
+        }
+    }
+
+    private void handleOpenArchived(URLPair currentURLPair){
+        view.printMessage("action.open_archived");
+        String choice = scanner.nextLine();
+        String targetUrl = null;
+        switch (choice){
+            case "1":
+                targetUrl = currentURLPair.getExtractedURL();
+                break;
+            case "2":
+                targetUrl = currentURLPair.getArchivedURL();
+                break;
+            default:
+                view.printFormattedMessage("action.invalid");
+                return;
+        }
         view.printFormattedMessage("action.opening", targetUrl);
+        // todo: Logic to open URL
     }
 
     /**
@@ -167,5 +192,11 @@ public class CLIController implements URLArchiverController {
 
     public void resetURLPairCounter() {
         currentURLPairIndex = 0;
+    }
+
+    public void shutdown() {
+        if (scanner != null) {
+            scanner.close();
+        }
     }
 }
