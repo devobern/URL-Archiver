@@ -32,8 +32,4 @@ public class URLArchiverModel {
             }
         }
     }
-
-
-
-    // ... other model methods if needed ...
 }

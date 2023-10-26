@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class ConsoleView {
     private final ResourceBundle messages;
 
+    private final String OPTIONS = "(o/a/n/q/h)";
+
     public ConsoleView(Locale locale) {
         this.messages = I18n.getResourceBundle(locale);
     }
@@ -36,13 +38,17 @@ public class ConsoleView {
      * Prints a list of user options to the console.
      */
     public void printOptions() {
-        System.out.println(messages.getString("instructions.option.title"));
-        System.out.println(messages.getString("instructions.option.o"));
-        System.out.println(messages.getString("instructions.option.a"));
-        System.out.println(messages.getString("instructions.option.n"));
-        System.out.println(messages.getString("instructions.option.q"));
-        System.out.println(messages.getString("instructions.option.h"));
+        System.out.println(messages.getString("option.title"));
+        System.out.println("[o]\t" + messages.getString("option.open"));
+        System.out.println("[a]\t" + messages.getString("option.archive"));
+        System.out.println("[n]\t" + messages.getString("option.next"));
+        System.out.println("[q]\t" + messages.getString("option.quit"));
+        System.out.println("[h]\t" + messages.getString("option.help"));
         System.out.println();
+    }
+
+    public void promptUserForOption(){
+        System.out.print(messages.getString("options.prompt") + " " + OPTIONS + ":");
     }
 
     /**
@@ -58,7 +64,7 @@ public class ConsoleView {
      * @return The path entered by the user.
      */
     public String promptUserForPath() {
-        System.out.println(messages.getString("path.prompt"));
+        System.out.print(messages.getString("path.prompt"));
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

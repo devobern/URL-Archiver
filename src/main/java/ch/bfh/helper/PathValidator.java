@@ -24,8 +24,6 @@ public class PathValidator {
      * @throws PathValidationException if the path is invalid
      */
     public static void validate(String inputPath) throws PathValidationException {
-        ResourceBundle messages = ResourceBundle.getBundle("messages");
-
         // Use trim() to remove leading and trailing whitespace to ensure
         // that strings consisting solely of spaces are treated as empty.
         if (inputPath == null || inputPath.trim().isEmpty()) {

@@ -6,6 +6,7 @@ import ch.bfh.helper.URLArchiver;
 import ch.bfh.helper.URLExtractor;
 import ch.bfh.model.URLArchiverModel;
 import ch.bfh.model.URLPair;
+import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
@@ -41,8 +42,6 @@ public class CLIController implements URLArchiverController {
             path = (args.length > 0) ? args[0] : view.promptUserForPath();
             try {
                 PathValidator.validate(path);
-                // todo: remove
-                System.out.println("Path ok: " + path);
                 isValid = true;
             } catch (PathValidationException e) {
                 System.out.println(e.getMessage());
@@ -68,30 +67,34 @@ public class CLIController implements URLArchiverController {
             if (archivedURL != null) {
                 view.printFormattedMessage("info.archived_url", archivedURL);
             }
-            view.printMessage("instructions.options.prompt");
+            view.promptUserForOption();
             String choice = scanner.nextLine();
 
-            // todo: ENUM verwenden damit auch die Optionen internationalisierbar sind
-            switch (choice.toLowerCase()) {
-                case "o":
-                    handleOpen(extractedURL, archivedURL);
-                    break;
-                case "a":
-                    handleArchive(extractedURL);
-                    break;
-                case "n":
-                    handleNext();
-                    break;
-                case "h":
-                    view.printOptions();
-                    break;
-                case "q":
-                    handleQuit();
-                    running = false;
-                    break;
-                default:
-                    view.printFormattedMessage("action.invalid");
+            UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
+
+            if (userChoice != null) {
+                switch (userChoice) {
+                    case OPEN:
+                        handleOpen(extractedURL, archivedURL);
+                        break;
+                    case ARCHIVE:
+                        handleArchive(extractedURL);
+                        break;
+                    case NEXT:
+                        handleNext();
+                        break;
+                    case HELP:
+                        view.printOptions();
+                        break;
+                    case QUIT:
+                        handleQuit();
+                        running = false;
+                        break;
+                }
+            } else {
+                view.printFormattedMessage("action.invalid");
             }
+
         }
     }
 
