@@ -19,10 +19,6 @@ public enum UserChoice {
         return command;
     }
 
-    public String getI18nKey() {
-        return i18nKey;
-    }
-
     public static UserChoice fromCommand(String command) {
         for (UserChoice choice : values()) {
             if (choice.getCommand().equalsIgnoreCase(command)) {
