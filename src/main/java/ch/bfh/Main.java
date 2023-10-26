@@ -23,6 +23,3 @@ public class Main {
         cliController.start(args);
     }
 }
-
-// todo: Module Info File erstellen. Berechtigungen: Welche Module sehen welche Module etc.
-// todo: Ist es möglich nur eine Klasse zu haben die prints macht? So das alle anderen Klassen auch von einem GUI verwendet werden könnten.
