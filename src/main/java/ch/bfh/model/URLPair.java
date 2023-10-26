@@ -1,9 +1,9 @@
 package ch.bfh.model;
 
 public class URLPair {
-    private String extractedURL;
+    private final String extractedURL;
     private String archivedURL;
-    private int lineNumber;
+    private final int lineNumber;
 
     public URLPair(String extractedURL, int lineNumber) {
         this.extractedURL = extractedURL;
