@@ -1,4 +1,3 @@
-import ch.bfh.handler.FileInputHandler;
 import ch.bfh.handler.CommandLineHandler;
 import org.junit.After;
 import org.junit.Before;

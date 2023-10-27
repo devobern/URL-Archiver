@@ -46,5 +46,18 @@ public class PathValidator {
             throw new PathValidationException(I18n.getString("path.notReadable.error"));
         }
     }
+
+    public static boolean isFolder(String inputPath) throws PathValidationException {
+        Path path;
+        try {
+            // Use trim() to remove accidentally added leading and trailing
+            // whitespaces for better user experience.
+            path = Paths.get(inputPath.trim());
+        } catch (InvalidPathException e) {
+            throw new PathValidationException(I18n.getString("path.invalid.error"));
+        }
+
+        return Files.isDirectory(path);
+    }
 }
 

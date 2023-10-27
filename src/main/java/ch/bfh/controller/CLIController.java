@@ -1,9 +1,10 @@
 package ch.bfh.controller;
 
+import ch.bfh.exceptions.FileModelException;
+import ch.bfh.exceptions.FolderModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.helper.URLArchiver;
-import ch.bfh.helper.URLExtractor;
+import ch.bfh.model.FolderModel;
 import ch.bfh.model.URLArchiverModel;
 import ch.bfh.model.URLPair;
 import ch.bfh.model.UserChoice;
@@ -51,7 +52,7 @@ public class CLIController implements URLArchiverController {
             }
         }
         // Calls url extractor and saves url's to model
-        handleFilePath(path);
+        handlePath(path);
         processUserInput();
     }
 
@@ -161,11 +162,22 @@ public class CLIController implements URLArchiverController {
         view.printMessage("action.quit");
     }
 
-    public void handleFilePath(String filePath) {
+    public void handlePath(String path) {
         try {
-            model.setUrlPairs(extractor.extractFromFile(filePath));
+            if (PathValidator.isFolder(path)) {
+                model.setUrlPairs(extractor.extractFromFolder(path));
+            } else {
+                model.setUrlPairs(extractor.extractFromFile(path));
+            }
+
         } catch (IOException e) {
             view.printMessage("file.read.error");
+        } catch (FileModelException e) {
+            view.printMessage("file.read.error");
+        } catch (PathValidationException e) {
+            view.printMessage("path.invalid.error");
+        } catch (FolderModelException e) {
+            System.out.println(e.getMessage());
         }
 
     }

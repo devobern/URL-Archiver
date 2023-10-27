@@ -1,7 +1,6 @@
-package ch.bfh.validator;
+package ch.bfh.helper;
 
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.ui.ConsoleUI;
 
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -16,11 +15,11 @@ public class FolderValidator {
             // whitespaces for better user experience.
             path = Paths.get(inputPath.trim());
         } catch (InvalidPathException e) {
-            throw new PathValidationException(ConsoleUI.messages.getString("path.invalid.error"));
+            throw new PathValidationException(I18n.getString("path.invalid.error"));
         }
 
         if (!Files.isDirectory(path)) {
-            throw new PathValidationException(ConsoleUI.messages.getString("path.isNotDirectory.error"));
+            throw new PathValidationException(I18n.getString("path.isNotDirectory.error"));
         }
 
     }

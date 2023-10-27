@@ -1,9 +1,9 @@
-package ch.bfh.handler;
+package ch.bfh.model;
 
-import ch.bfh.ui.ConsoleUI;
+import ch.bfh.helper.I18n;
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.validator.UnicodeFileValidator;
-import ch.bfh.exceptions.UnicodeFileHandlerException;
+import ch.bfh.helper.FileValidator;
+import ch.bfh.exceptions.FileModelException;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
+import ch.bfh.view.ConsoleView;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -19,30 +20,34 @@ import org.apache.pdfbox.text.PDFTextStripper;
 /**
  * Handler for validating and converting a file to a string for processing
  */
-public class UnicodeFileHandler {
+public class FileModel {
 
     private String mimeType;
     private String fileName;
     private String stringPath;
+    private ConsoleView view;
 
     /**
      * Constructor for UnicodeFileHandler each file has its own handler
      * @param inputPath needs as input a path to a file
      * @throws PathValidationException throws Exception if path is invalid or path isn't a file
      */
-    public UnicodeFileHandler(String inputPath) throws PathValidationException, UnicodeFileHandlerException {
+    public FileModel(String inputPath, ConsoleView view) throws FileModelException {
 
-        UnicodeFileValidator unicodeFileValidator = new UnicodeFileValidator();
+        this.view = view;
+        FileValidator fileValidator = new FileValidator();
 
         try {
-            this.mimeType = unicodeFileValidator.validate(inputPath);
+            this.mimeType = fileValidator.validate(inputPath);
         } catch (IOException e) {
-            throw new UnicodeFileHandlerException(ConsoleUI.messages.getString("file.notReadable.error"));
+            throw new FileModelException(I18n.getString("file.notReadable.error"));
+        } catch (PathValidationException e) {
+            throw new FileModelException(I18n.getString("file.pathInvalid.error"));
         }
         this.stringPath = inputPath;
         Path path = Paths.get(inputPath.trim());
         this.fileName = path.getFileName().toString();
-        ConsoleUI.printFormattedMessage("file.validate.info", this.fileName);
+        view.printFormattedMessage("file.validate.info", this.fileName);
 
 
     }
@@ -53,7 +58,7 @@ public class UnicodeFileHandler {
      * @throws IOException
      */
     public String fileToString() throws IOException {
-        ConsoleUI.printFormattedMessage("file.toString.info", this.fileName);
+        this.view.printFormattedMessage("file.toString.info", this.fileName);
         if (this.mimeType.equals("application/pdf")) {
             //Loading an existing document
             File file = new File(this.stringPath);

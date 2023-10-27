@@ -1,4 +1,4 @@
-package ch.bfh.helper;
+package ch.bfh.controller;
 
 public class URLArchiver {
     public String archiveURL(String url){
