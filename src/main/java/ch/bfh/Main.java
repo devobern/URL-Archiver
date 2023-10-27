@@ -1,30 +1,25 @@
 package ch.bfh;
 
-import ch.bfh.exceptions.FolderHandlerException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.UnicodeFileHandlerException;
-import ch.bfh.handler.FolderHandler;
-import ch.bfh.handler.UnicodeFileHandler;
+import ch.bfh.controller.CLIController;
 
-import java.io.IOException;
+import ch.bfh.helper.URLArchiver;
+import ch.bfh.helper.URLExtractor;
+import ch.bfh.model.URLArchiverModel;
+import ch.bfh.view.ConsoleView;
+
+import java.util.Locale;
 
 public class Main {
-    public static void main(String[] args) throws UnicodeFileHandlerException, PathValidationException, IOException, FolderHandlerException {
+    public static void main(String[] args) {
+        Locale locale = Locale.forLanguageTag("en-US");
+        URLArchiverModel model = new URLArchiverModel();
+        ConsoleView consoleView = new ConsoleView(locale);
+        URLExtractor extractor = new URLExtractor();
+        URLArchiver archiver = new URLArchiver();
 
-        java.util.logging.Logger.getLogger("org.apache.pdfbox")
-                .setLevel(java.util.logging.Level.OFF);
 
-        System.out.println("Hello world!");
 
-        UnicodeFileHandler unicodeFileHandler = new UnicodeFileHandler("/Users/kilian/Downloads/test.txt");
-        System.out.println(unicodeFileHandler.fileToString());
-
-        unicodeFileHandler = new UnicodeFileHandler("/Users/kilian/Downloads/UI_TeamC.pdf");
-        System.out.println(unicodeFileHandler.fileToString());
-
-        FolderHandler folderHandler = new FolderHandler("/Users/kilian/Downloads/");
-        while (!folderHandler.wasLastFile()) {
-            System.out.println(folderHandler.next());
-        }
+        CLIController cliController = new CLIController(model, consoleView, extractor, archiver);
+        cliController.start(args);
     }
 }

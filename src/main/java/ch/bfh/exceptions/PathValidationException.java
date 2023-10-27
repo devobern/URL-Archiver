@@ -14,3 +14,14 @@ public class PathValidationException extends Exception {
         super(message);
     }
 }
+
+
+    /**
+     * Constructs a new exception with the specified detail message.
+     *
+     * @param message the detail message
+     */
+    public PathValidationException(String message) {
+        super(message);
+    }
+}
