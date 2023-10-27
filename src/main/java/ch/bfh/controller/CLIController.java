@@ -13,17 +13,29 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Command-Line Interface (CLI) controller for managing URLs.
+ * This class interacts with users through the console to perform operations
+ * like extracting and archiving URLs.
+ */
 public class CLIController implements URLArchiverController {
 
-    private URLArchiverModel model;
-    private ConsoleView view;
+    private final URLArchiverModel model;
+    private final ConsoleView view;
 
-    private URLExtractor extractor;
-    private URLArchiver archiver;
+    private final URLExtractor extractor;
+    private final URLArchiver archiver;
     private int currentURLPairIndex;
     private final Scanner scanner;
 
-
+    /**
+     * Constructs a new CLIController with the specified model, view, extractor, and archiver.
+     *
+     * @param model     the URL archiver model
+     * @param view      the console view
+     * @param extractor the URL extractor
+     * @param archiver  the URL archiver
+     */
     public CLIController(URLArchiverModel model, ConsoleView view, URLExtractor extractor, URLArchiver archiver) {
         this.model = model;
         this.view = view;
@@ -33,6 +45,11 @@ public class CLIController implements URLArchiverController {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Initiates the URL management process.
+     *
+     * @param args the command-line arguments
+     */
     @Override
     public void start(String[] args) {
         view.printWelcomeMessage();
@@ -55,6 +72,10 @@ public class CLIController implements URLArchiverController {
         processUserInput();
     }
 
+    /**
+     * Processes user input to execute various operations like opening,
+     * archiving, moving to next URL, etc.
+     */
     @Override
     public void processUserInput() {
 
@@ -101,13 +122,9 @@ public class CLIController implements URLArchiverController {
         }
     }
 
-    /**
-     * Handles the user's choice to open a URL.
-     *
-     * @param currentURLPair The current URL pair.
-     */
-    private void handleOpen(URLPair currentURLPair) {
-        if(currentURLPair.getArchivedURL() != null){
+    @Override
+    public void handleOpen(URLPair currentURLPair) {
+        if (currentURLPair.getArchivedURL() != null) {
             handleOpenArchived(currentURLPair);
         } else {
             view.printFormattedMessage("action.opening", currentURLPair.getExtractedURL());
@@ -115,11 +132,11 @@ public class CLIController implements URLArchiverController {
         }
     }
 
-    private void handleOpenArchived(URLPair currentURLPair){
+    public void handleOpenArchived(URLPair currentURLPair) {
         view.printMessage("action.open_archived");
         String choice = scanner.nextLine();
         String targetUrl = null;
-        switch (choice){
+        switch (choice) {
             case "1":
                 targetUrl = currentURLPair.getExtractedURL();
                 break;
@@ -134,33 +151,31 @@ public class CLIController implements URLArchiverController {
         // todo: Logic to open URL
     }
 
-    /**
-     * Handles the user's choice to archive a URL.
-     *
-     * @param url The URL to be archived.
-     */
-    private void handleArchive(String url) {
+    @Override
+    public void handleArchive(String url) {
         view.printFormattedMessage("action.archiving", url);
         String archivedURL = archiver.archiveURL(url);
         model.setArchivedURL(url, archivedURL);
         view.printFormattedMessage("info.archived_url", archivedURL);
     }
 
-    /**
-     * Handles the user's choice to move to the next URL.
-     */
-    private void handleNext() {
+    @Override
+    public void handleNext() {
         moveToNextURLPair();
         view.printFormattedMessage("action.next");
     }
 
-    /**
-     * Handles the user's choice to quit the application.
-     */
-    private void handleQuit() {
+    @Override
+    public void handleQuit() {
         view.printMessage("action.quit");
     }
 
+    /**
+     * Handles the processing of the given file path to extract URLs.
+     *
+     * @param filePath the path to the file to process
+     */
+    @Override
     public void handleFilePath(String filePath) {
         try {
             model.setUrlPairs(extractor.extractFromFile(filePath));
@@ -170,6 +185,7 @@ public class CLIController implements URLArchiverController {
 
     }
 
+    @Override
     public URLPair getCurrentURLPair() {
         List<URLPair> pairs = model.getUrlPairs();
         if (currentURLPairIndex >= 0 && currentURLPairIndex < pairs.size()) {
@@ -178,10 +194,20 @@ public class CLIController implements URLArchiverController {
         return null;
     }
 
+    @Override
     public void moveToNextURLPair() {
         if (currentURLPairIndex < model.getUrlPairs().size() - 1) {
             currentURLPairIndex++;
+            return;
         }
+        lastURLPair();
+    }
+
+    @Override
+    public void lastURLPair(){
+        view.printMessage("action.end");
+        // todo: Handle write to .BIB
+        handleQuit();
     }
 
     public void moveToPreviousURLPair() {
