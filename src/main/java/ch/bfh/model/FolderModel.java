@@ -21,6 +21,7 @@ public class FolderModel {
     private ConsoleView view;
 
     public FolderModel(String inputPath, ConsoleView view) throws PathValidationException, IOException {
+        // TODO: remove view from model
         FolderValidator folderValidator = new FolderValidator();
         folderValidator.validate(inputPath);
         if (!inputPath.endsWith("/")) {

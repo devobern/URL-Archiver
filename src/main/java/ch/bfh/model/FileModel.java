@@ -34,6 +34,7 @@ public class FileModel {
      */
     public FileModel(String inputPath, ConsoleView view) throws FileModelException {
 
+        // TODO: remove view from  model
         this.view = view;
         FileValidator fileValidator = new FileValidator();
 
