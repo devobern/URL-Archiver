@@ -11,7 +11,8 @@ import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 
 /**
- * Validator for UnicodeFileHandler
+ * Validator for file path
+ * determines the type of the file and if its supported
  */
 public class FileValidator {
 
@@ -43,7 +44,17 @@ public class FileValidator {
 
         String mimeType = Files.probeContentType(path);
 
-        if (mimeType != null && (mimeType.equals("text/plain") || mimeType.equals("application/pdf"))) {
+        // probeContentType doesn't discover .bib files so it's checked with the file extension
+        if (mimeType == null) {
+            String fileName = path.getFileName().toString();
+            int index = fileName.lastIndexOf(".");
+            if (fileName.substring(index + 1).equals("bib")) {
+                mimeType = "text/bib";
+            }
+        }
+
+
+        if (mimeType != null && (mimeType.contains("text/") || mimeType.equals("application/pdf"))) {
             return mimeType;
         } else {
             throw new FileModelException(I18n.getString("file.notSupported.error"));

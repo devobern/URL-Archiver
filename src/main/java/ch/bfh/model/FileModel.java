@@ -1,8 +1,6 @@
 package ch.bfh.model;
 
-import ch.bfh.helper.I18n;
 import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.helper.FileValidator;
 import ch.bfh.exceptions.FileModelException;
 
 import java.io.File;
@@ -12,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-import ch.bfh.view.ConsoleView;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -25,41 +22,32 @@ public class FileModel {
     private String mimeType;
     private String fileName;
     private String stringPath;
-    private ConsoleView view;
+
 
     /**
      * Constructor for UnicodeFileHandler each file has its own handler
      * @param inputPath needs as input a path to a file
      * @throws PathValidationException throws Exception if path is invalid or path isn't a file
      */
-    public FileModel(String inputPath, ConsoleView view) throws FileModelException {
+    /**
+     * Constructor for fileModel object
+     * @param inputPath needs as input a path to a file
+     * @param mimeType needs as input the type of the file (only plaintext and pdf are supported)
+     */
+    public FileModel(String inputPath, String mimeType) {
 
-        // TODO: remove view from  model
-        this.view = view;
-        FileValidator fileValidator = new FileValidator();
-
-        try {
-            this.mimeType = fileValidator.validate(inputPath);
-        } catch (IOException e) {
-            throw new FileModelException(I18n.getString("file.notReadable.error"));
-        } catch (PathValidationException e) {
-            throw new FileModelException(I18n.getString("file.pathInvalid.error"));
-        }
+        this.mimeType = mimeType;
         this.stringPath = inputPath;
         Path path = Paths.get(inputPath.trim());
         this.fileName = path.getFileName().toString();
-        view.printFormattedMessage("file.validate.info", this.fileName);
-
-
     }
 
     /**
      * method which converts a unicode file or pdf file to a string (not for files larger than 2GB)
-     * @return
+     * @return returns the file as a string object
      * @throws IOException
      */
     public String fileToString() throws IOException {
-        this.view.printFormattedMessage("file.toString.info", this.fileName);
         if (this.mimeType.equals("application/pdf")) {
             //Loading an existing document
             File file = new File(this.stringPath);
@@ -75,6 +63,10 @@ public class FileModel {
             String text = Files.readString(path);
             return text;
         }
+    }
+
+    public String getFileName() {
+        return this.fileName;
     }
 
 }

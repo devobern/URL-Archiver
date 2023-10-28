@@ -1,16 +1,17 @@
 package ch.bfh.controller;
 
 import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.FolderModelException;
 import ch.bfh.exceptions.PathValidationException;
+import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
-import ch.bfh.model.UserChoice;
+import ch.bfh.model.*;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -162,23 +163,47 @@ public class CLIController implements URLArchiverController {
         view.printMessage("action.quit");
     }
 
-    public void handlePath(String path) {
+    public void handlePath(String inputPath) {
         try {
-            if (PathValidator.isFolder(path)) {
-                model.setUrlPairs(extractor.extractFromFolder(path));
+            if (PathValidator.isFolder(inputPath)) {
+
+                FolderModel folder = new FolderModel(inputPath);
+
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(folder.getBasePath()))) {
+                    for (Path path : stream) {
+                        if (!Files.isDirectory(path)) {
+                            try {
+                                String mimeType = FileValidator.validate(folder.getBasePath() + path.getFileName().toString());
+                                view.printFormattedMessage("file.validated.info", path.getFileName().toString());
+                                folder.addFile(new FileModel(folder.getBasePath() + path.getFileName().toString(), mimeType));
+                            } catch (FileModelException e) {
+                                view.printFormattedMessage("folder.skipFile.info", path.getFileName().toString());
+                            }
+
+                        }
+                    }
+                }
+
+                model.setUrlPairs(extractor.extractFromFolder(folder));
+
+
             } else {
-                model.setUrlPairs(extractor.extractFromFile(path));
+                String mimeType = FileValidator.validate(inputPath);
+                FileModel file = new FileModel(inputPath, mimeType);
+                view.printFormattedMessage("file.validated.info", file.getFileName());
+
+                model.setUrlPairs(extractor.extractFromFile(file));
+
+
             }
 
         } catch (IOException e) {
             view.printMessage("file.read.error");
-        } catch (FileModelException e) {
-            view.printMessage("file.read.error");
         } catch (PathValidationException e) {
             view.printMessage("path.invalid.error");
-        } catch (FolderModelException e) {
-            System.out.println(e.getMessage());
-        }
+        } catch (FileModelException e) {
+        view.printMessage("file.notSupported.error");
+    }
 
     }
 

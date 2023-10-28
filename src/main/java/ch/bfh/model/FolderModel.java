@@ -1,50 +1,36 @@
 package ch.bfh.model;
 
 import ch.bfh.exceptions.FolderModelException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.FileModelException;
 import ch.bfh.helper.I18n;
-import ch.bfh.helper.FolderValidator;
-import ch.bfh.view.ConsoleView;
 
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * a folder object contains a list of file (FileModel) objects
+ */
 public class FolderModel {
     private int index = 0;
     private String basePath;
     private ArrayList<FileModel> files = new ArrayList<>();
-    private ConsoleView view;
 
-    public FolderModel(String inputPath, ConsoleView view) throws PathValidationException, IOException {
-        // TODO: remove view from model
-        FolderValidator folderValidator = new FolderValidator();
-        folderValidator.validate(inputPath);
+
+    /**
+     * constructor for a folder object
+     * @param inputPath needs the path to the folder as a string
+     */
+    public FolderModel(String inputPath) {
+
         if (!inputPath.endsWith("/")) {
             inputPath = inputPath + "/";
         }
         this.basePath = inputPath;
-        this.view = view;
-
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(inputPath))) {
-            for (Path path : stream) {
-                if (!Files.isDirectory(path)) {
-                    try {
-                        this.files.add(new FileModel(this.basePath + path.getFileName().toString(), this.view));
-                    } catch (FileModelException e) {
-                        view.printFormattedMessage("folder.skipFile.info", path.getFileName().toString());
-                    }
-
-                }
-            }
-        }
 
     }
 
+    /**
+     * returns if the last file was iteratet through
+     * @return
+     */
     public boolean wasLastFile() {
         if (this.index < this.files.size()) {
             return false;
@@ -53,13 +39,30 @@ public class FolderModel {
         }
     }
 
-    public String next() throws FolderModelException, IOException {
+    /**
+     * returns the next file object from the list
+     * @return
+     * @throws FolderModelException
+     */
+    public FileModel next() throws FolderModelException {
         if (wasLastFile()) {
             throw new FolderModelException(I18n.getString("folder.outOfRange.error"));
         }
-        String result = this.files.get(index).fileToString();
+        FileModel file = this.files.get(index);
         this.index = this.index + 1;
-        return result;
+        return file;
+    }
+
+    /**
+     * add a file object to the list
+     * @param file
+     */
+    public void addFile(FileModel file) {
+        this.files.add(file);
+    }
+
+    public String getBasePath(){
+        return this.basePath;
     }
     
 }

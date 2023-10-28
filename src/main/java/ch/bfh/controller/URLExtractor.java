@@ -24,14 +24,14 @@ public class URLExtractor {
     /**
      * Extracts URLs from a file at the given path.
      *
-     * @param filePath the path to the file from which URLs should be extracted.
+     * @param file the file object from which URLs should be extracted.
      * @return a list of extracted URLs.
      * @throws IOException if there's an issue reading the file.
      */
-    public List<URLPair> extractFromFile(String filePath) throws IOException, FileModelException {
+    public List<URLPair> extractFromFile(FileModel file) throws IOException {
         List<URLPair> extractedUrls = new ArrayList<>();
 
-        FileModel file = new FileModel(filePath, this.view);
+
 
         // TODO: remove print
         System.out.println(file.fileToString());
@@ -43,19 +43,17 @@ public class URLExtractor {
         return extractedUrls;
     }
 
-    public List<URLPair> extractFromFolder(String folderPath) throws IOException, PathValidationException, FolderModelException {
+    public List<URLPair> extractFromFolder(FolderModel folder) throws IOException {
         List<URLPair> extractedUrls = new ArrayList<>();
 
-        FolderModel folder = new FolderModel(folderPath, this.view);
-
-        // TODO: remove print
-        while(!folder.wasLastFile()) {
-            System.out.println(folder.next());
+        try {
+            while(!folder.wasLastFile()) {
+                extractedUrls.addAll(extractFromFile(folder.next()));
+            }
+        } catch (FolderModelException e) {
+            // shouldn't be thrown if correctly iterated
         }
 
-        // todo: Actual logic here
-        URLPair urlPairExample = new URLPair("example.com", 1);
-        extractedUrls.add(urlPairExample);
 
         return  extractedUrls;
     }
