@@ -1,8 +1,5 @@
 package ch.bfh.model;
 
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.exceptions.FileModelException;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,11 +21,6 @@ public class FileModel {
     private String stringPath;
 
 
-    /**
-     * Constructor for UnicodeFileHandler each file has its own handler
-     * @param inputPath needs as input a path to a file
-     * @throws PathValidationException throws Exception if path is invalid or path isn't a file
-     */
     /**
      * Constructor for fileModel object
      * @param inputPath needs as input a path to a file
