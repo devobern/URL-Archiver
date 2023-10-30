@@ -1,4 +1,5 @@
-import ch.bfh.model.URLPair;
+package ch.bfh.model;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,5 @@
-import ch.bfh.helper.I18n;
+package ch.bfh.helper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

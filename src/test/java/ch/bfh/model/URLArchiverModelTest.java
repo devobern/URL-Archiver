@@ -1,5 +1,5 @@
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
+package ch.bfh.model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
