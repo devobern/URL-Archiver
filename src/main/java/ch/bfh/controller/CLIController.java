@@ -13,12 +13,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 /**
  * Command-Line Interface (CLI) controller for managing URLs.
  * This class interacts with users through the console to perform operations
  * like extracting and archiving URLs.
  */
-public class CLIController implements URLArchiverController {
+public class CLIController {
 
     private final URLArchiverModel model;
     private final ConsoleView view;
@@ -46,11 +48,11 @@ public class CLIController implements URLArchiverController {
     }
 
     /**
-     * Initiates the URL management process.
+     * Initiates the URL management process by welcoming the user, validating the path,
+     * handling the given file path, and processing the user's input.
      *
      * @param args the command-line arguments
      */
-    @Override
     public void start(String[] args) {
         view.printWelcomeMessage();
         String path = null;
@@ -76,8 +78,7 @@ public class CLIController implements URLArchiverController {
      * Processes user input to execute various operations like opening,
      * archiving, moving to next URL, etc.
      */
-    @Override
-    public void processUserInput() {
+    private void processUserInput() {
 
         boolean running = true;
         while (running) {
@@ -122,8 +123,13 @@ public class CLIController implements URLArchiverController {
         }
     }
 
-    @Override
-    public void handleOpen(URLPair currentURLPair) {
+    /**
+     * Handles the action to open the specified URLPair. If the URLPair has an archived URL,
+     * it prompts the user for further options.
+     *
+     * @param currentURLPair the URLPair to be opened
+     */
+    private void handleOpen(URLPair currentURLPair) {
         if (currentURLPair.getArchivedURL() != null) {
             handleOpenArchived(currentURLPair);
         } else {
@@ -132,7 +138,12 @@ public class CLIController implements URLArchiverController {
         }
     }
 
-    public void handleOpenArchived(URLPair currentURLPair) {
+    /**
+     * Handles the action to open an archived URL from the specified URLPair.
+     *
+     * @param currentURLPair the URLPair containing the archived URL
+     */
+    private void handleOpenArchived(URLPair currentURLPair) {
         view.printMessage("action.open_archived");
         String choice = scanner.nextLine();
         String targetUrl = null;
@@ -151,32 +162,39 @@ public class CLIController implements URLArchiverController {
         // todo: Logic to open URL
     }
 
-    @Override
-    public void handleArchive(String url) {
+    /**
+     * Archives the specified URL and updates the model.
+     *
+     * @param url the URL to be archived
+     */
+    private void handleArchive(String url) {
         view.printFormattedMessage("action.archiving", url);
         String archivedURL = archiver.archiveURL(url);
         model.setArchivedURL(url, archivedURL);
         view.printFormattedMessage("info.archived_url", archivedURL);
     }
 
-    @Override
-    public void handleNext() {
+    /**
+     * Handles the action to move to the next URLPair.
+     */
+    private void handleNext() {
         moveToNextURLPair();
         view.printFormattedMessage("action.next");
     }
 
-    @Override
-    public void handleQuit() {
+    /**
+     * Notifies the user that the application is quitting.
+     */
+    private void handleQuit() {
         view.printMessage("action.quit");
     }
 
     /**
-     * Handles the processing of the given file path to extract URLs.
+     * Processes the given file path to extract URLs and sets them to the model.
      *
-     * @param filePath the path to the file to process
+     * @param filePath the path to the file containing URLs
      */
-    @Override
-    public void handleFilePath(String filePath) {
+    private void handleFilePath(String filePath) {
         try {
             model.setUrlPairs(extractor.extractFromFile(filePath));
         } catch (IOException e) {
@@ -185,8 +203,12 @@ public class CLIController implements URLArchiverController {
 
     }
 
-    @Override
-    public URLPair getCurrentURLPair() {
+    /**
+     * Retrieves the current URLPair based on the current index.
+     *
+     * @return the current URLPair
+     */
+    private URLPair getCurrentURLPair() {
         List<URLPair> pairs = model.getUrlPairs();
         if (currentURLPairIndex >= 0 && currentURLPairIndex < pairs.size()) {
             return pairs.get(currentURLPairIndex);
@@ -194,8 +216,11 @@ public class CLIController implements URLArchiverController {
         return null;
     }
 
-    @Override
-    public void moveToNextURLPair() {
+    /**
+     * Moves the internal counter to the next URLPair. If it's the last URLPair,
+     * the user is notified and the application quits.
+     */
+    private void moveToNextURLPair() {
         if (currentURLPairIndex < model.getUrlPairs().size() - 1) {
             currentURLPairIndex++;
             return;
@@ -203,24 +228,35 @@ public class CLIController implements URLArchiverController {
         lastURLPair();
     }
 
-    @Override
-    public void lastURLPair(){
+    /**
+     * Notifies the user that they have reached the end of the URLPairs and prepares to quit the application.
+     */
+    private void lastURLPair(){
         view.printMessage("action.end");
         // todo: Handle write to .BIB
         handleQuit();
     }
 
-    public void moveToPreviousURLPair() {
+    /**
+     * Moves the internal counter to the previous URLPair.
+     */
+    private void moveToPreviousURLPair() {
         if (currentURLPairIndex > 0) {
             currentURLPairIndex--;
         }
     }
 
-    public void resetURLPairCounter() {
+    /**
+     * Resets the internal counter of the URLPair to the starting position.
+     */
+    private void resetURLPairCounter() {
         currentURLPairIndex = 0;
     }
 
-    public void shutdown() {
+    /**
+     * Performs the necessary shutdown operations, such as closing resources.
+     */
+    private void shutdown() {
         if (scanner != null) {
             scanner.close();
         }

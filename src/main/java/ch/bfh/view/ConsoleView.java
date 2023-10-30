@@ -6,14 +6,23 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+/**
+ * Console-based view to interact with the user.
+ */
 public class ConsoleView {
     private final ResourceBundle messages;
 
     private final String OPTIONS = "(o/a/n/q/h)";
 
+    /**
+     * Initializes the console view with the specified locale.
+     *
+     * @param locale the locale for internationalization.
+     */
     public ConsoleView(Locale locale) {
         this.messages = I18n.getResourceBundle(locale);
     }
+
     /**
      * Prints a message to the console using the provided key.
      *
@@ -47,6 +56,9 @@ public class ConsoleView {
         System.out.println();
     }
 
+    /**
+     * Prompts the user to select an option from the given list.
+     */
     public void promptUserForOption(){
         System.out.print(messages.getString("options.prompt") + " " + OPTIONS + ":");
     }
