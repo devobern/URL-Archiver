@@ -4,11 +4,11 @@ import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.helper.URLArchiver;
-import ch.bfh.helper.URLExtractor;
 import ch.bfh.model.URLArchiverModel;
 import ch.bfh.model.URLPair;
 import ch.bfh.model.UserChoice;
+import ch.bfh.model.FolderModel;
+import ch.bfh.model.FileModel;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
