@@ -1,0 +1,92 @@
+\documentclass[
+    ngerman,%globale Übergabe der Hauptsprache
+%	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
+    authorontitle=true,
+]{bfhbeamer}
+
+
+%\usepackage[main=ngerman]{babel}
+
+% Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
+\fi
+
+
+%Makros für Formatierungen der Doku
+%Im Allgemeinen nicht notwendig!
+\let\code\texttt
+
+\title{\LaTeX-Beamer using BFH CI}
+\subtitle{Version 0.4}
+\author[M. Peischl]{Marei Peischl}
+\institute{pei\TeX}
+\titlegraphic*{\includegraphics{example-image}}%is only used with BFH-graphic and BFH-fullgraphic
+
+%Activate the output of a frame number:
+%\setbeamertemplate{page number in head/foot}[framenumber]
+
+\begin{document}
+
+    \maketitle
+
+%second title variant
+    \setbeamertemplate{title page}[BFH-Orange]
+    \maketitle
+
+    \setbeamertemplate{title page}[BFH-graphic]
+    \maketitle
+
+    \setbeamertemplate{title page}[BFH-fullgraphic]
+    \maketitle
+
+    \section{Example Frames}
+
+    \begin{frame}{Frame with a subtitle}
+        \framesubtitle{Subtitle}
+        Example Content.
+    \end{frame}
+
+    \begin{frame}{Blocks}
+        \begin{block}{Block with a title}
+            Content.
+        \end{block}
+        \begin{block}{}
+            Without title
+        \end{block}
+    \end{frame}
+
+    \begin{frame}{Block types}
+        \begin{exampleblock}{Exampleblock}
+            Content.
+        \end{exampleblock}
+        \begin{alertblock}{Alertblock}
+            Content.
+        \end{alertblock}
+        \begin{example}[Example environment]
+            Content.
+        \end{example}
+    \end{frame}
+
+    \section{section pages}
+%These can be automaticlly called by using \AtBeginSection{\sectionpage}
+
+    \frame{\sectionpage}
+
+    \setbeamertemplate{section page}[BFH-ruled]
+
+    \frame{\sectionpage}
+
+%Change base color scheme (option can be added)
+
+    \setbeamercolor{BFH}{parent=BFH-Orange}
+
+    \frame{\sectionpage}
+
+    \setbeamertemplate{section page}[BFH]
+
+    \frame{\sectionpage}
+
+\end{document}
+
