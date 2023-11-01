@@ -3,50 +3,123 @@
 %	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
     authorontitle=true,
 ]{bfhbeamer}
+\usepackage{svg}
 
 
 %\usepackage[main=ngerman]{babel}
 
 % Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
-\usepackage{iftex}
-\ifPDFTeX
-\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
-\fi
+%\usepackage{iftex}
+%\ifPDFTeX
+%\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
+%\fi
 
 
 %Makros für Formatierungen der Doku
 %Im Allgemeinen nicht notwendig!
-\let\code\texttt
+%\let\code\texttt
 
-\title{\LaTeX-Beamer using BFH CI}
-\subtitle{Version 0.4}
-\author[M. Peischl]{Marei Peischl}
-\institute{pei\TeX}
-\titlegraphic*{\includegraphics{example-image}}%is only used with BFH-graphic and BFH-fullgraphic
+\title{URL-Archiver - Intermediate Presentation}
+\subtitle{Version 1.0}
+\author[N. Dora \and A. Vejseli \and K. Wampfler]{Nicolin Dora \and Abidin Vejseli \and Kilian Wampfler}
+\institute{IT}
+\titlegraphic*{\includegraphics{pictures/archive-title-image}}%is only used with BFH-graphic and BFH-fullgraphic
 
 %Activate the output of a frame number:
-%\setbeamertemplate{page number in head/foot}[framenumber]
+\setbeamertemplate{page number in head/foot}[framenumber]
 
 \begin{document}
 
-    \maketitle
-
-%second title variant
-    \setbeamertemplate{title page}[BFH-Orange]
-    \maketitle
-
-    \setbeamertemplate{title page}[BFH-graphic]
-    \maketitle
+%    Was ist die Problemstellung Ihres Projektes
+%   (Zielsetzungen, Anforderungen, Rahmenbedingungen)
+%    Kilian
+%    Wie wollen Sie die Problemstellung lösen?
+%    (Architektur, Datenmodell, Prozessmodell, Technologien, usw.)
+%    Nicolin
+%    Wie setzen Sie das Projekt mit Scrum um?
+%    Abidin Vejseli
 
     \setbeamertemplate{title page}[BFH-fullgraphic]
     \maketitle
 
-    \section{Example Frames}
 
-    \begin{frame}{Frame with a subtitle}
-        \framesubtitle{Subtitle}
-        Example Content.
+
+    \begin{frame}{Table of Content}
+        \framesubtitle{We will speak about:}
+        \tableofcontents
     \end{frame}
+
+    % Chapter one "Problem Statement"
+    \section{Problem Statement}
+    \setbeamertemplate{section page}[BFH-ruled]
+    \frame{\sectionpage}
+
+    \begin{frame}{Objectives}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Requirements}
+        \framesubtitle{}
+
+    \end{frame}
+
+    \begin{frame}{General conditions}
+        \framesubtitle{}
+    \end{frame}
+    %-------------------------------%
+
+    % Chapter two "Solving the Problem"
+    \section{Solving The Problem}
+    \setbeamertemplate{section page}[BFH-ruled]
+    \frame{\sectionpage}
+
+    \begin{frame}{Architecture}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Data model}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Process model}
+        \framesubtitle{}
+        \includegraphics[width=1\textwidth]{pictures/process_model-detailed_curved.pdf}
+    \end{frame}
+
+    \begin{frame}{Technologies}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{etc.}
+        \framesubtitle{}
+    \end{frame}
+    %-------------------------------%
+
+    % Chapter two "Project Management with SCRUM"
+    \section{Project Management with SCRUM}
+    \setbeamertemplate{section page}[BFH-ruled]
+    \frame{\sectionpage}
+
+    \begin{frame}{Scrum-Rollen}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Sprintziele}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Anforderungen}<
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{Scrum Adaptionen}
+        \framesubtitle{}
+    \end{frame}
+
+    \begin{frame}{etc.}
+        \framesubtitle{}
+    \end{frame}
+    %-------------------------------%
 
     \begin{frame}{Blocks}
         \begin{block}{Block with a title}
@@ -72,21 +145,18 @@
     \section{section pages}
 %These can be automaticlly called by using \AtBeginSection{\sectionpage}
 
-    \frame{\sectionpage}
-
     \setbeamertemplate{section page}[BFH-ruled]
-
     \frame{\sectionpage}
 
 %Change base color scheme (option can be added)
 
-    \setbeamercolor{BFH}{parent=BFH-Orange}
+    %\setbeamercolor{BFH}{parent=BFH-Orange}
 
-    \frame{\sectionpage}
+    %\frame{\sectionpage}
 
-    \setbeamertemplate{section page}[BFH]
+    %\setbeamertemplate{section page}[BFH]
 
-    \frame{\sectionpage}
+    %\frame{\sectionpage}
 
 \end{document}
 
