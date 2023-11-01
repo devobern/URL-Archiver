@@ -102,6 +102,7 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
+            // Todo: Use new Switch style
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN:
