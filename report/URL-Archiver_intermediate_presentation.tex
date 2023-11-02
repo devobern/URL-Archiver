@@ -74,7 +74,21 @@
     \frame{\sectionpage}
 
     \begin{frame}{Architecture}
-        \framesubtitle{}
+        \framesubtitle{Employing the MVC Pattern}
+
+        \begin{columns} % Start the columns environment
+            \begin{column}{0.5\textwidth} % Define the width of the left column
+                \begin{itemize}
+                    \item Modular design for easy extension.
+                    \item Separate data, interface, and control flow.
+                    \item Facilitates the potential addition of a GUI.
+                \end{itemize}
+            \end{column}
+
+            \begin{column}{0.5\textwidth} % Define the width of the right column
+                \includegraphics[width=1\textwidth]{pictures/mvc_diagram}
+            \end{column}
+        \end{columns} % End the columns environment
     \end{frame}
 
     \begin{frame}{Data model}
