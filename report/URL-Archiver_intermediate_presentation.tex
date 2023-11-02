@@ -119,7 +119,35 @@
     \end{frame}
 
     \begin{frame}{Data model}
-        \framesubtitle{}
+        \framesubtitle{Structured Data Logic}
+        \begin{itemize}
+            \item \textbf{FolderModel:}
+            \begin{itemize}
+                \item Represents a structured collection of files.
+                \item Can throw a `FolderModelException` during invalid operations.
+            \end{itemize}
+
+            \item \textbf{FileModel:}
+            \begin{itemize}
+                \item Represents individual file data.
+                \item Associated with `URLPair` objects.
+                \item Can throw a `FileModelException` during invalid operations.
+            \end{itemize}
+
+            \item \textbf{URLPair:} Represents a pair of a URL and its related data.
+
+            \item \textbf{URLArchiverModel:}
+            \begin{itemize}
+                \item Core model handling the archiving of URLs.
+                \item Interacts with `URLExtractor` and `URLArchiver` utilities.
+            \end{itemize}
+
+            \item \textbf{UserChoice:} Captures user's decisions, possibly related to file operations or URL choices.
+
+        \end{itemize}
+
+        \textbf{Note:} These models ensure data integrity and consistency within our application, separating data handling from other concerns.
+
     \end{frame}
 
     \begin{frame}{Process model}
