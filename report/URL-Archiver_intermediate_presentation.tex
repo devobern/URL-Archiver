@@ -178,36 +178,46 @@
         \end{itemize}
     \end{frame}
 
-    \begin{frame}{Data model}
-        \framesubtitle{Structured Data Logic}
+    % Slide for Overview of the Data Model
+    \begin{frame}{Overview of the Data Model}
+        The data model is designed to represent and manage the data structures essential for the application's operation. It encompasses handling files, user interactions, and archiving URLs.
+    \end{frame}
+
+% Slide for Key Components
+    \begin{frame}{Key Components of the Data Model}
         \begin{itemize}
-            \item \textbf{FolderModel:}
-            \begin{itemize}
-                \item Represents a structured collection of files.
-                \item Can throw a `FolderModelException` during invalid operations.
-            \end{itemize}
-
-            \item \textbf{FileModel:}
-            \begin{itemize}
-                \item Represents individual file data.
-                \item Associated with `URLPair` objects.
-                \item Can throw a `FileModelException` during invalid operations.
-            \end{itemize}
-
-            \item \textbf{URLPair:} Represents a pair of a URL and its related data.
-
-            \item \textbf{URLArchiverModel:}
-            \begin{itemize}
-                \item Core model handling the archiving of URLs.
-                \item Interacts with `URLExtractor` and `URLArchiver` utilities.
-            \end{itemize}
-
-            \item \textbf{UserChoice:} Captures user's decisions, possibly related to file operations or URL choices.
-
+            \item \textbf{FileModel}: Represents and handles individual files.
+            \item \textbf{FolderModel}: Manages a collection of FileModel instances.
+            \item \textbf{URLPair}: Links extracted URLs with their archived counterparts.
+            \item \textbf{URLArchiverModel}: Organizes and maintains URLPairs.
+            \item \textbf{UserChoice}: Enumerates possible user commands and actions.
         \end{itemize}
+    \end{frame}
 
-        \textbf{Note:} These models ensure data integrity and consistency within our application, separating data handling from other concerns.
+% Slide for Interactions and Relationships
+    \begin{frame}{Interactions and Relationships}
+        This model's components interact to facilitate file and URL management:
+        \begin{itemize}
+            \item FolderModel aggregates FileModels representing files in a folder.
+            \item URLArchiverModel processes and pairs URLs from FileModels.
+            \item User actions guide the flow of data through the models.
+        \end{itemize}
+    \end{frame}
 
+% Slide for Use Case Flow
+    \begin{frame}{Use Case Flow in the Data Model}
+        A typical use case might involve:
+        \begin{enumerate}
+            \item A user selects an action (UserChoice).
+            \item The system processes files in a folder (FolderModel with FileModels).
+            \item URLs are extracted, archived, and paired (URLArchiverModel with URLPairs).
+        \end{enumerate}
+        This flow demonstrates the integrated operation of the data model components.
+    \end{frame}
+
+% Slide for Conclusion
+    \begin{frame}{Conclusion}
+        The data model is a critical framework within the application, enabling structured data manipulation, storage, and retrieval, which are fundamental to the application's functionality and user experience.
     \end{frame}
 
 
