@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-04T20:31:56.340Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="AA4Sh8Y5fl0r1SeQkGj7" version="22.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-04T20:57:32.145Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="p2c-qZ3GRn4o_pdsa7vx" version="22.0.8" type="github">
   <diagram id="pTSd4cfAjrHc5XA5leJu" name="Page-1">
-    <mxGraphModel dx="1529" dy="2399" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1980" dy="3038" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -16,8 +16,8 @@
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-21" value="using" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;endArrow=open;endFill=0;" parent="1" source="node15" target="s7rxcZxsQfcRuFrsy-j0-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="node15" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FileModel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FileModel(String, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- fileName: String&lt;br/&gt;- urlPairs: List&amp;lt;URLPair&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setArchivedURL(String, String): void&lt;br/&gt;+ fileToString(): String&lt;br/&gt;+ addExtractedURL(String, int): void&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; urlPairs: List&amp;lt;URLPair&amp;gt;&lt;br/&gt; fileName: String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="1570" y="-410" width="269" height="320" as="geometry" />
+        <mxCell id="node15" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FileModel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FileModel(String, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- fileName: String&lt;br&gt;- urlPairs: List&amp;lt;URLPair&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ loadAndProcessFile(): String&lt;/p&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setArchivedURL(String, String): void&lt;br&gt;+ addExtractedURL(String, int): void&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; urlPairs: List&amp;lt;URLPair&amp;gt;&lt;br&gt; fileName: String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2265" y="-420" width="269" height="320" as="geometry" />
         </mxCell>
         <mxCell id="node6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FileModelException&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FileModelException(String): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="-120" y="1367" width="222" height="67" as="geometry" />
@@ -50,7 +50,7 @@
           <mxGeometry x="-57" y="600" width="345" height="118" as="geometry" />
         </mxCell>
         <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;URLPair&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ URLPair(String, int): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- extractedURL: String&lt;br/&gt;- archivedURL: String&lt;br/&gt;- lineNumber: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ toString(): String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; extractedURL: String&lt;br/&gt; archivedURL: String&lt;br/&gt; lineNumber: int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="2040" y="-384" width="174" height="268" as="geometry" />
+          <mxGeometry x="2735" y="-394" width="174" height="268" as="geometry" />
         </mxCell>
         <mxCell id="node14" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;UserChoice&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- UserChoice(String, String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- command: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): UserChoice[]&lt;br/&gt;+ fromCommand(String): UserChoice?&lt;br/&gt;+ valueOf(String): UserChoice&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; command: String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="417" y="1367" width="270" height="180" as="geometry" />
@@ -231,13 +231,13 @@
           <mxGeometry x="287" y="542" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-12" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FileReaderInterface&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ readFile(): String&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1210" y="-400" width="190" height="90" as="geometry" />
+          <mxGeometry x="1905" y="-410" width="190" height="90" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-22" value="implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=block;endFill=0;" parent="1" source="s7rxcZxsQfcRuFrsy-j0-13" target="s7rxcZxsQfcRuFrsy-j0-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-13" value="TextFileReader" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1129" y="-206" width="160" height="60" as="geometry" />
+          <mxGeometry x="1824" y="-216" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-14" value="+ readFile(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="s7rxcZxsQfcRuFrsy-j0-13" vertex="1">
           <mxGeometry y="26" width="160" height="26" as="geometry" />
@@ -249,7 +249,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-17" value="PDFFileReader" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1350" y="-206" width="160" height="60" as="geometry" />
+          <mxGeometry x="2045" y="-216" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-18" value="+ readFile(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="s7rxcZxsQfcRuFrsy-j0-17" vertex="1">
           <mxGeometry y="26" width="160" height="26" as="geometry" />
@@ -258,7 +258,7 @@
           <mxGeometry y="52" width="160" height="8" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-24" value="FileReaderFactory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1185" y="-560" width="240" height="60" as="geometry" />
+          <mxGeometry x="1880" y="-570" width="240" height="60" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-25" value="+ getFileReader(): FileReaderInterface" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="s7rxcZxsQfcRuFrsy-j0-24" vertex="1">
           <mxGeometry y="26" width="240" height="26" as="geometry" />
@@ -267,13 +267,34 @@
           <mxGeometry y="52" width="240" height="8" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-28" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FolderModel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FolderModel(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- basePath: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ next(): FileModel&lt;br/&gt;+ wasLastFile(): boolean&lt;br/&gt;+ addFile(FileModel): void&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; basePath: String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="1607.5" y="40" width="194" height="180" as="geometry" />
+          <mxGeometry x="2665" y="30" width="194" height="180" as="geometry" />
         </mxCell>
         <mxCell id="s7rxcZxsQfcRuFrsy-j0-29" value="has a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamond;startFill=0;startSize=13;endArrow=open;endFill=0;" parent="1" source="s7rxcZxsQfcRuFrsy-j0-28" target="node15" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1849" y="-240" as="sourcePoint" />
-            <mxPoint x="1940" y="60" as="targetPoint" />
+            <mxPoint x="2544" y="-250" as="sourcePoint" />
+            <mxPoint x="2635" y="50" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-4" value="creates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=open;endFill=0;startArrow=diamond;startFill=1;" edge="1" parent="1" source="koLGY-mUpxRukAlsvuZr-3" target="node15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-5" value="creates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=open;endFill=0;startArrow=diamond;startFill=1;" edge="1" parent="1" source="koLGY-mUpxRukAlsvuZr-3" target="s7rxcZxsQfcRuFrsy-j0-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=open;endFill=0;" edge="1" parent="1" source="koLGY-mUpxRukAlsvuZr-3" target="koLGY-mUpxRukAlsvuZr-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CLIController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CLIController(FileModel, ConsoleView, URLExtractor, URLArchiver): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- moveToNextURLPair(): void&lt;br/&gt;- processUserInput(): void&lt;br/&gt;- handleOpenArchived(URLPair): void&lt;br/&gt;- handleNext(): void&lt;br/&gt;+ start(String[]): void&lt;br/&gt;- moveToPreviousURLPair(): void&lt;br/&gt;- resetURLPairCounter(): void&lt;br/&gt;- handleOpen(URLPair): void&lt;br/&gt;- handleQuit(): void&lt;br/&gt;- handleArchive(String): void&lt;br/&gt;- lastURLPair(): void&lt;br/&gt;+ handlePath(String): void&lt;br/&gt;- shutdown(): void&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; currentURLPair: URLPair?&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2115" y="240" width="437" height="386" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ConsoleView&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ConsoleView(Locale): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ printWelcomeMessage(): void&lt;br/&gt;+ printFormattedMessage(String, Object[]): void&lt;br/&gt;+ printOptions(): void&lt;br/&gt;+ printMessage(String): void&lt;br/&gt;+ promptUserForOption(): void&lt;br/&gt;+ printSeparator(): void&lt;br/&gt;+ promptUserForPath(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="321" width="334" height="224" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-9" value="creates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=open;endFill=0;" edge="1" parent="1" source="koLGY-mUpxRukAlsvuZr-8" target="koLGY-mUpxRukAlsvuZr-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="koLGY-mUpxRukAlsvuZr-8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Main&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Main(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ main(String[]): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2251.5" y="840" width="164" height="93" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
