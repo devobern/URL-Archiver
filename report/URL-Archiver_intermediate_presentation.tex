@@ -55,21 +55,80 @@
     \setbeamertemplate{section page}[BFH-ruled]
     \frame{\sectionpage}
 
+    \begin{frame}{Problem Statement}
+        \framesubtitle{The ever changing internet}
+        \begin{itemize}
+            \item ever-changing internet (websites are taken down or changed)
+            \item not a problem for everyday internet users but\ldots
+            \item \ldots what about documents (e. g. theses, documentations etc.)
+            \begin{itemize}
+                \item invalid links to content-relevant information
+                \item invalid quote links
+                \item old documents may contain numerous broken hyperlinks
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Problem Statement}
+        \framesubtitle{Simple Solution}
+        \begin{itemize}
+            \item Archive the actual state of the linked websites
+            \begin{itemize}
+                \item Wayback machine
+                \item archive.today
+                \item Memento Time Travel
+                \item and many more…
+            \end{itemize}
+            \item But who has the time and motivation?
+            \begin{itemize}
+                \item \ldots to search each hyperlink
+                \item \ldots to manually archive each website
+            \end{itemize}
+        \end{itemize}
+    \end{frame}
+
     \begin{frame}{Objectives}
         \framesubtitle{}
+        \begin{itemize}
+            \item Develop a software that\ldots
+            \begin{itemize}
+                \item \ldots searches hyperlinks within documents
+                \item \ldots is capable of archiving linked websites
+                \item \ldots can store current and archived links in a file
+                \item \ldots is easy and intuitive to use
+            \end{itemize}
+        \end{itemize}
     \end{frame}
 
     \begin{frame}{Requirements}
         \framesubtitle{}
+        \begin{itemize}
+            \item The software must be\ldots
+            \begin{itemize}
+                \item \ldots a Java application that is compatible with multiple platforms
+                \item \ldots FLOSS-licensed
+                \item \ldots capable of archiving websites on archive.ph or/and WayBackMachine
+                \item \ldots capable of generating a CSV-file with key-value (URL, archived URL)
+            \end{itemize}
+        \end{itemize}
 
     \end{frame}
 
     \begin{frame}{General conditions}
         \framesubtitle{}
+        \begin{itemize}
+            \item The program code should be minimal, modular, and self-explaining
+            \item The program code should be published in a git repository
+            \item The project must be carried out according to scrum
+            \item Public documents should be written in English
+            \item LaTeX should be used for the project report
+        \end{itemize}
     \end{frame}
     %-------------------------------%
 
     % Chapter two "Solving the Problem"
+
+
     \section{Solving The Problem}
     \setbeamertemplate{section page}[BFH-ruled]
     \frame{\sectionpage}
