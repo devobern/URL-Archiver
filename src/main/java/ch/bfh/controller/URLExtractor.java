@@ -14,13 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class URLExtractor {
-
-    private ConsoleView view;
-
-    public URLExtractor(ConsoleView view) {
-        this.view = view;
-    }
-
     /**
      * Extracts URLs from a file at the given path.
      *
