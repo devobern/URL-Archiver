@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-05T07:39:21.515Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="ZZO4PfPqKqqEy5pmLSqm" version="22.0.8" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2023-11-05T07:46:12.885Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="Au86drOWG6nHrlQN36gl" version="22.0.8" type="github" pages="4">
   <diagram id="pTSd4cfAjrHc5XA5leJu" name="Full_Detail">
-    <mxGraphModel dx="2168" dy="2535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+    <mxGraphModel dx="544" dy="2337" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -105,7 +105,7 @@
         <mxCell id="koLGY-mUpxRukAlsvuZr-16" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PathValidator&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ PathValidator(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ validate(String): void&lt;br/&gt;+ isFolder(String): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="2676" y="369" width="199" height="118" as="geometry" />
         </mxCell>
-        <mxCell id="koLGY-mUpxRukAlsvuZr-19" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;I18n&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ I18n(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getString(String, Object[]): String&lt;br/&gt;+ getString(String): String&lt;br/&gt;+ getResourceBundle(Locale): ResourceBundle&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="koLGY-mUpxRukAlsvuZr-19" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;I18n&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;u&gt;+ getString(String, Object[]): String&lt;br&gt;+ getString(String): String&lt;br&gt;+ getResourceBundle(Locale): ResourceBundle&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="1330" y="530" width="327" height="143" as="geometry" />
         </mxCell>
         <mxCell id="koLGY-mUpxRukAlsvuZr-20" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FileValidator&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FileValidator(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ validate(String): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
@@ -304,6 +304,17 @@
         </mxCell>
         <mxCell id="e8eLEw0zrXZO1Ecf-ctt-2" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;FileModel&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ FileModel(String, String): &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="1126.5" y="20" width="269" height="81" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="7TF9L_4rOvAmBgYjS8Fl" name="I18n">
+    <mxGraphModel dx="458" dy="1153" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mGbrqpfEtb_iRB26NEzA-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;I18n&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;u&gt;+ getString(String, Object[]): String&lt;br&gt;+ getString(String): String&lt;br&gt;+ getResourceBundle(Locale): ResourceBundle&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="500" width="327" height="120" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
