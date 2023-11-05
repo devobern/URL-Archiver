@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-05T08:09:41.268Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="n1Spm8apfR-EFq5z4hoU" version="22.0.8" type="github" pages="9">
+<mxfile host="app.diagrams.net" modified="2023-11-05T08:36:58.710Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="OMnn6zvkaUMEZUBdieqP" version="22.0.8" type="github" pages="10">
   <diagram id="pTSd4cfAjrHc5XA5leJu" name="Full_Detail">
-    <mxGraphModel dx="1848" dy="2535" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+    <mxGraphModel dx="261" dy="2292" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -637,7 +637,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="Presentation_4" id="yKIR_InfJdi9253aAACC">
-    <mxGraphModel dx="1224" dy="2367" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="246" dy="2219" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="aDdJkRPcovXt7GfmWuFR-0" />
         <mxCell id="aDdJkRPcovXt7GfmWuFR-1" parent="aDdJkRPcovXt7GfmWuFR-0" />
@@ -764,7 +764,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="Presentation_5" id="vxKEre_qz7cHeJ6nCpet">
-    <mxGraphModel dx="1224" dy="2367" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="439" dy="2416" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="7sSgK-p-HbAS10__dveE-0" />
         <mxCell id="7sSgK-p-HbAS10__dveE-1" parent="7sSgK-p-HbAS10__dveE-0" />
@@ -952,6 +952,89 @@
         <mxCell id="1" parent="0" />
         <mxCell id="mGbrqpfEtb_iRB26NEzA-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;I18n&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;u&gt;+ getString(String, Object[]): String&lt;br&gt;+ getString(String): String&lt;br&gt;+ getResourceBundle(Locale): ResourceBundle&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="1220" y="500" width="327" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Yrp4zHfgK6IulwaWzBhD" name="DataModel">
+    <mxGraphModel dx="-604" dy="2219" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-1" value="has a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=diamond;startFill=1;startSize=13;endArrow=open;endFill=0;endSize=13;fontSize=16;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-4" target="LHkPLHItjzqTlBXfXBhJ-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-2" value="use" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;dashed=1;endArrow=open;endFill=0;endSize=13;startSize=13;fontSize=16;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-4" target="LHkPLHItjzqTlBXfXBhJ-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-3" value="use" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;endArrow=open;endFill=0;endSize=13;startSize=13;fontSize=16;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-4" target="LHkPLHItjzqTlBXfXBhJ-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-4" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;FileModel&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ FileModel(String, String): &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="2047.5" y="-207" width="269" height="81" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-5" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;URLPair&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ URLPair(String, int): &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2430" y="-208" width="220" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-6" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;i style=&quot;font-size: 16px;&quot;&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;FileReaderInterface&lt;/b&gt;&lt;br style=&quot;font-size: 16px;&quot;&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 16px;&quot;&gt;+ readFile(): String&lt;br style=&quot;font-size: 16px;&quot;&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; font-size: 16px;&quot;&gt;&lt;br style=&quot;font-size: 16px;&quot;&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;whiteSpace=wrap;fillColor=default;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="1910" y="52" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-7" value="implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=block;endFill=0;endSize=13;startSize=13;fontSize=16;strokeColor=default;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-8" target="LHkPLHItjzqTlBXfXBhJ-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-8" value="TextFileReader" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=default;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="1829" y="236" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-9" value="+ readFile(): String" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-8">
+          <mxGeometry y="26" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-10" value="" style="line;strokeWidth=1;fillColor=default;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=default;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-8">
+          <mxGeometry y="52" width="160" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-11" value="implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=block;endFill=0;endSize=13;startSize=13;fontSize=16;strokeColor=default;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-12" target="LHkPLHItjzqTlBXfXBhJ-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-12" value="PDFFileReader" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=default;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="2050" y="236" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-13" value="+ readFile(): String" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-12">
+          <mxGeometry y="26" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-14" value="" style="line;strokeWidth=1;fillColor=default;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=default;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-12">
+          <mxGeometry y="52" width="160" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-15" value="create" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;dashed=1;endSize=13;startSize=13;fontSize=16;strokeColor=default;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-16" target="LHkPLHItjzqTlBXfXBhJ-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-16" value="FileReaderFactory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=16;fillColor=default;strokeColor=default;" vertex="1" parent="1">
+          <mxGeometry x="1858" y="-70" width="294" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-17" value="+ getFileReader(): FileReaderInterface" style="text;strokeColor=default;fillColor=default;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-16">
+          <mxGeometry y="26" width="294" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-18" value="" style="line;strokeWidth=1;fillColor=default;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=default;fontSize=16;" vertex="1" parent="LHkPLHItjzqTlBXfXBhJ-16">
+          <mxGeometry y="60" width="294" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-19" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;FolderModel&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ FolderModel(String): &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2390" y="-30" width="194" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-20" value="has a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamond;startFill=0;startSize=13;endArrow=open;endFill=0;endSize=13;fontSize=16;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-19" target="LHkPLHItjzqTlBXfXBhJ-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2444" y="-297" as="sourcePoint" />
+            <mxPoint x="2535" y="3" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-21" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;URLExtractor&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ URLExtractor() &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1960" y="-357" width="250" height="77" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-22" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; font-size: 16px;&quot;&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;URLArchiver&lt;/b&gt;&lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6; font-size: 16px;&quot;&gt;+ URLArchiver(): &lt;/p&gt;&lt;hr style=&quot;font-size: 16px;&quot;&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=16;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="2244" y="-360" width="206" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LHkPLHItjzqTlBXfXBhJ-23" value="use" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;dashed=1;endArrow=open;endFill=0;endSize=13;startSize=13;fontSize=16;" edge="1" parent="1" source="LHkPLHItjzqTlBXfXBhJ-4" target="LHkPLHItjzqTlBXfXBhJ-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2259" y="-197" as="sourcePoint" />
+            <mxPoint x="2357" y="-270" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
