@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -28,9 +29,8 @@ import java.util.Scanner;
  */
 public class CLIController {
 
-    private final URLArchiverModel model;
+    private final FileModel fileModel;
     private final ConsoleView view;
-
     private final URLExtractor extractor;
     private final URLArchiver archiver;
     private int currentURLPairIndex;
@@ -39,16 +39,13 @@ public class CLIController {
     /**
      * Constructs a new CLIController with the specified model, view, extractor, and archiver.
      *
-     * @param model     the URL archiver model
-     * @param view      the console view
-     * @param extractor the URL extractor
-     * @param archiver  the URL archiver
+     * @param locale     the current locale
      */
-    public CLIController(URLArchiverModel model, ConsoleView view, URLExtractor extractor, URLArchiver archiver) {
-        this.model = model;
-        this.view = view;
-        this.extractor = extractor;
-        this.archiver = archiver;
+    public CLIController(Locale locale) {
+        this.fileModel = null;
+        this.view = new ConsoleView(locale);
+        this.extractor = new URLExtractor();
+        this.archiver = new URLArchiver();
         this.currentURLPairIndex = 0;
         this.scanner = new Scanner(System.in);
     }
@@ -177,7 +174,7 @@ public class CLIController {
     private void handleArchive(String url) {
         view.printFormattedMessage("action.archiving", url);
         String archivedURL = archiver.archiveURL(url);
-        model.setArchivedURL(url, archivedURL);
+        fileModel.setArchivedURL(url, archivedURL);
         view.printFormattedMessage("info.archived_url", archivedURL);
     }
 
@@ -217,7 +214,7 @@ public class CLIController {
                     }
                 }
 
-                model.setUrlPairs(extractor.extractFromFolder(folder));
+                fileModel.setUrlPairs(extractor.extractFromFolder(folder));
 
 
             } else {
@@ -225,7 +222,7 @@ public class CLIController {
                 FileModel file = new FileModel(inputPath, mimeType);
                 view.printFormattedMessage("file.validated.info", file.getFileName());
 
-                model.setUrlPairs(extractor.extractFromFile(file));
+                fileModel.setUrlPairs(extractor.extractFromFile(file));
 
 
             }
@@ -246,7 +243,7 @@ public class CLIController {
      * @return the current URLPair
      */
     private URLPair getCurrentURLPair() {
-        List<URLPair> pairs = model.getUrlPairs();
+        List<URLPair> pairs = fileModel.getUrlPairs();
         if (currentURLPairIndex >= 0 && currentURLPairIndex < pairs.size()) {
             return pairs.get(currentURLPairIndex);
         }
@@ -258,7 +255,7 @@ public class CLIController {
      * the user is notified and the application quits.
      */
     private void moveToNextURLPair() {
-        if (currentURLPairIndex < model.getUrlPairs().size() - 1) {
+        if (currentURLPairIndex < fileModel.getUrlPairs().size() - 1) {
             currentURLPairIndex++;
             return;
         }
