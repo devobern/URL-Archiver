@@ -5,10 +5,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.InvalidPathException;
 
 import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.PathValidationException;
 
 /**
  * Validator for file path
@@ -23,18 +21,10 @@ public class FileValidator {
      * @param stringPath -> path to the file for validation
      * @return -> returns "PDF" if the file is a PDF or the used UTF-Encryption
      * @throws FileModelException -> throws UnicodeFileFormat Exception if file is not a pdf or unicode encrypted
-     * @throws PathValidationException     -> is thrown stringPath is invalid
      */
-    public static String validate(String stringPath) throws FileModelException, PathValidationException, IOException {
+    public static String validate(String stringPath) throws FileModelException, IOException {
 
-        Path path;
-        try {
-            // Use trim() to remove accidentally added leading and trailing
-            // whitespaces for better user experience.
-            path = Paths.get(stringPath.trim());
-        } catch (InvalidPathException e) {
-            throw new PathValidationException(I18n.getString("path.invalid.error"));
-        }
+        Path path = Paths.get(stringPath.trim());
 
         // check if the path is a file
         if (!Files.isRegularFile(path)) {

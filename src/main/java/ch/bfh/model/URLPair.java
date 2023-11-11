@@ -1,10 +1,11 @@
 package ch.bfh.model;
 
+// todo: We need something to store the context, where the url is in the file. Important for the .bib file processing!
 /**
  * Represents a pair of URLs: one extracted from a source and its corresponding archived version.
  */
 public class URLPair {
-    private final String extractedURL;
+    private String extractedURL;
     private String archivedURL;
     private final int lineNumber;
 
@@ -12,12 +13,11 @@ public class URLPair {
      * Constructs a URLPair with the given extracted URL and its line number.
      *
      * @param extractedURL the URL extracted from a source
-     * @param lineNumber   the line number where the URL was extracted from
      */
-    public URLPair(String extractedURL, int lineNumber) {
+    public URLPair(String extractedURL) {
         this.extractedURL = extractedURL;
         this.archivedURL = null;
-        this.lineNumber = lineNumber;
+        this.lineNumber = 0;
     }
 
     /**
@@ -55,6 +55,7 @@ public class URLPair {
     public void setArchivedURL(String archivedURL) {
         this.archivedURL = archivedURL;
     }
+
 
     /**
      * Returns a string representation of the URL pair.

@@ -5,24 +5,21 @@ package ch.bfh.model;
  * Enumeration of possible user choices with corresponding command and internationalization keys.
  */
 public enum UserChoice {
-    OPEN("o", "option.open"),
-    ARCHIVE("a", "option.archive"),
-    NEXT("n", "option.next"),
-    HELP("h", "option.help"),
-    QUIT("q", "option.quit");
+    OPEN("o"),
+    ARCHIVE("a"),
+    NEXT("n"),
+    HELP("h"),
+    QUIT("q");
 
     private final String command;
-    private final String i18nKey;
 
     /**
      * Constructs a UserChoice enum value with the given command and internationalization key.
      *
      * @param command the command representing the user choice
-     * @param i18nKey the internationalization key associated with the choice
      */
-    UserChoice(String command, String i18nKey) {
+    UserChoice(String command) {
         this.command = command;
-        this.i18nKey = i18nKey;
     }
 
     /**

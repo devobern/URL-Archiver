@@ -16,7 +16,7 @@ public class URLPairTest {
      */
     @Test
     public void testGetExtractedURL() {
-        URLPair pair = new URLPair("http://example.com", 5);
+        URLPair pair = new URLPair("http://example.com");
         assertEquals("http://example.com", pair.getExtractedURL());
     }
 
@@ -26,7 +26,7 @@ public class URLPairTest {
      */
     @Test
     public void testGetArchivedURL_InitiallyNull() {
-        URLPair pair = new URLPair("http://example.com", 5);
+        URLPair pair = new URLPair("http://example.com");
         assertNull(pair.getArchivedURL());
     }
 
@@ -36,7 +36,7 @@ public class URLPairTest {
      */
     @Test
     public void testGetAndSetArchivedURL() {
-        URLPair pair = new URLPair("http://example.com", 5);
+        URLPair pair = new URLPair("http://example.com");
         pair.setArchivedURL("http://archive.org/example");
         assertEquals("http://archive.org/example", pair.getArchivedURL());
     }
@@ -47,7 +47,7 @@ public class URLPairTest {
      */
     @Test
     public void testGetLineNumber() {
-        URLPair pair = new URLPair("http://example.com", 5);
+        URLPair pair = new URLPair("http://example.com");
         assertEquals(5, pair.getLineNumber());
     }
 
@@ -57,7 +57,7 @@ public class URLPairTest {
      */
     @Test
     public void testToString() {
-        URLPair pair = new URLPair("http://example.com", 5);
+        URLPair pair = new URLPair("http://example.com");
         pair.setArchivedURL("http://archive.org/example");
         String expectedString = "URLPair { Extracted URL: http://example.com, Archived URL: http://archive.org/example, Line: 5 }";
         assertEquals(expectedString, pair.toString());
