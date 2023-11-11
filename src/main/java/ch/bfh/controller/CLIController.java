@@ -4,11 +4,7 @@ import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
-import ch.bfh.model.UserChoice;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.FileModel;
+import ch.bfh.model.*;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
@@ -16,10 +12,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-
 
 
 /**
@@ -37,17 +31,23 @@ public class CLIController {
     private final Scanner scanner;
 
     /**
-     * Constructs a new CLIController with the specified model, view, extractor, and archiver.
+     * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
+     * It sets up the necessary view, extractor, archiver, and scanner components based on the provided locale.
      *
-     * @param locale     the current locale
+     * @param locale the locale to use for user interface messages
      */
     public CLIController(Locale locale) {
-        this.fileModel = null;
+        // Initialization of components with the provided locale
         this.view = new ConsoleView(locale);
         this.extractor = new URLExtractor();
         this.archiver = new URLArchiver();
-        this.currentURLPairIndex = 0;
         this.scanner = new Scanner(System.in);
+
+        // Default state initialization
+        this.fileModel = null;
+        this.currentURLPairIndex = 0;
+        this.folderModel = null;
+        this.currentFileIndex = 0;
     }
 
     /**
@@ -68,22 +68,23 @@ public class CLIController {
                 PathValidator.validate(path);
                 isValid = true;
             } catch (PathValidationException e) {
-                System.out.println(e.getMessage());
                 view.printFormattedMessage("error.retry");
             }
         }
-        // Calls url extractor and saves url's to model
+        // Calls url extractor and saves hurl's to model
         handlePath(path);
         processUserInput();
     }
 
     /**
-     * Processes user input to execute various operations like opening,
-     * archiving, moving to next URL, etc.
+     * Manages the interactive command loop to process user commands for URL management.
+     * This includes opening URLs, archiving them, navigating to the next or previous URL,
+     * requesting help, or quitting the application. The method handles user input and
+     * executes the corresponding actions until the user chooses to quit.
      */
     private void processUserInput() {
 
-        boolean running = true;
+
         while (running) {
             URLPair currentURLPair = getCurrentURLPair();
             String extractedURL = currentURLPair.getExtractedURL();
@@ -108,21 +109,17 @@ public class CLIController {
                     case QUIT -> {
                         handleQuit();
                         running = false;
-                        shutdown();
                     }
                 }
             } else {
                 view.printFormattedMessage("action.invalid");
             }
-
         }
     }
 
     /**
-     * Handles the action to open the specified URLPair. If the URLPair has an archived URL,
-     * it prompts the user for further options.
-     *
-     * @param currentURLPair the URLPair to be opened
+     * Opens the currently selected URL for viewing. If an archived version exists,
+     * additional options are provided for opening either the original or the archived URL.
      */
     private void handleOpen(URLPair currentURLPair) {
         if (currentURLPair.getArchivedURL() != null) {
@@ -134,9 +131,8 @@ public class CLIController {
     }
 
     /**
-     * Handles the action to open an archived URL from the specified URLPair.
-     *
-     * @param currentURLPair the URLPair containing the archived URL
+     * Prompts for and processes the user's choice to open either the original or archived URL
+     * from the current URLPair.
      */
     private void handleOpenArchived(URLPair currentURLPair) {
         view.printMessage("action.open_archived");
@@ -170,7 +166,9 @@ public class CLIController {
     }
 
     /**
-     * Handles the action to move to the next URLPair.
+     * Moves the internal counter to the next URLPair. If it's the last URLPair in the current file,
+     * it checks for more files in the folder. If more files are present, it moves to the next file
+     * and resets the URLPair index; otherwise, it notifies the user that the process is completed.
      */
     private void handleNext() {
         moveToNextURLPair();
@@ -229,9 +227,11 @@ public class CLIController {
     }
 
     /**
-     * Retrieves the current URLPair based on the current index.
+     * Processes a single file path, validates it, and initializes the file model.
      *
-     * @return the current URLPair
+     * @param filePath the path of the file to process
+     * @throws IOException if an I/O error occurs when reading the file
+     * @throws FileModelException if the file model cannot be initialized
      */
     private URLPair getCurrentURLPair() {
         List<URLPair> pairs = fileModel.getUrlPairs();
@@ -242,8 +242,10 @@ public class CLIController {
     }
 
     /**
-     * Moves the internal counter to the next URLPair. If it's the last URLPair,
-     * the user is notified and the application quits.
+     * Attempts to move to the next URL pair and returns true if successful. If not,
+     * it means it was the last URLPair, and further action may be needed.
+     *
+     * @return boolean - true if it moved to the next URLPair, false if it was the last one.
      */
     private void moveToNextURLPair() {
         if (currentURLPairIndex < fileModel.getUrlPairs().size() - 1) {
@@ -272,18 +274,9 @@ public class CLIController {
     }
 
     /**
-     * Resets the internal counter of the URLPair to the starting position.
-     */
-    private void resetURLPairCounter() {
-        currentURLPairIndex = 0;
-    }
-
-    /**
      * Performs the necessary shutdown operations, such as closing resources.
      */
     private void shutdown() {
-        if (scanner != null) {
-            scanner.close();
-        }
+        scanner.close();
     }
 }
