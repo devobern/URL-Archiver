@@ -5,7 +5,11 @@ import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.BrowserOpener;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.model.*;
+import ch.bfh.model.FileModel;
+import ch.bfh.model.FileReaderFactory;
+import ch.bfh.model.FileReaderInterface;
+import ch.bfh.model.FolderModel;
+import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
@@ -30,8 +34,6 @@ public class CLIController {
     private FolderModel folderModel;
     private int currentFileIndex;
     private final ConsoleView view;
-    private final URLExtractor extractor;
-    private final URLArchiver archiver;
     private final Scanner scanner;
     private boolean running = true;
 
@@ -44,8 +46,6 @@ public class CLIController {
     public CLIController(Locale locale) {
         // Initialization of components with the provided locale
         this.view = new ConsoleView(locale);
-        this.extractor = new URLExtractor();
-        this.archiver = new URLArchiver();
         this.scanner = new Scanner(System.in);
 
         // Default state initialization
@@ -187,7 +187,7 @@ public class CLIController {
      */
     private void handleArchive(String url) {
         view.printFormattedMessage("action.archiving", url);
-        String archivedURL = archiver.archiveURL(url);
+        String archivedURL = URLArchiver.archiveURL(url);
         fileModel.setArchivedURL(url, archivedURL);
         view.printFormattedMessage("info.archived_url", archivedURL);
     }
