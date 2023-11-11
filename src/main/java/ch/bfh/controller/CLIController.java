@@ -99,26 +99,17 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
-            // Todo: Use new Switch style
             if (userChoice != null) {
                 switch (userChoice) {
-                    case OPEN:
-                        handleOpen(currentURLPair);
-                        break;
-                    case ARCHIVE:
-                        handleArchive(extractedURL);
-                        break;
-                    case NEXT:
-                        handleNext();
-                        break;
-                    case HELP:
-                        view.printOptions();
-                        break;
-                    case QUIT:
+                    case OPEN -> handleOpen(currentURLPair);
+                    case ARCHIVE -> handleArchive(extractedURL);
+                    case NEXT -> handleNext();
+                    case HELP -> view.printOptions();
+                    case QUIT -> {
                         handleQuit();
                         running = false;
                         shutdown();
-                        break;
+                    }
                 }
             } else {
                 view.printFormattedMessage("action.invalid");
