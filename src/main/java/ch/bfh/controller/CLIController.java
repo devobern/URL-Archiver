@@ -23,11 +23,13 @@ import java.util.Scanner;
  */
 public class CLIController {
 
-    private final FileModel fileModel;
+    private FileModel fileModel;
+    private int currentURLPairIndex;
+    private FolderModel folderModel;
+    private int currentFileIndex;
     private final ConsoleView view;
     private final URLExtractor extractor;
     private final URLArchiver archiver;
-    private int currentURLPairIndex;
     private final Scanner scanner;
     private boolean running = true;
 
@@ -87,9 +89,8 @@ public class CLIController {
 
 
         while (running) {
-            URLPair currentURLPair = getCurrentURLPair();
-            String extractedURL = currentURLPair.getExtractedURL();
-            String archivedURL = currentURLPair.getArchivedURL();
+            String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
+            String archivedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL();
 
             view.printSeparator();
             view.printFormattedMessage("info.extracted_url", extractedURL);
@@ -103,7 +104,7 @@ public class CLIController {
 
             if (userChoice != null) {
                 switch (userChoice) {
-                    case OPEN -> handleOpen(currentURLPair);
+                    case OPEN -> handleOpen();
                     case ARCHIVE -> handleArchive(extractedURL);
                     case NEXT -> handleNext();
                     case HELP -> view.printOptions();
@@ -122,11 +123,11 @@ public class CLIController {
      * Opens the currently selected URL for viewing. If an archived version exists,
      * additional options are provided for opening either the original or the archived URL.
      */
-    private void handleOpen(URLPair currentURLPair) {
-        if (currentURLPair.getArchivedURL() != null) {
-            handleOpenArchived(currentURLPair);
+    private void handleOpen() {
+        if (fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL() != null) {
+            handleOpenArchived();
         } else {
-            view.printFormattedMessage("action.opening", currentURLPair.getExtractedURL());
+            view.printFormattedMessage("action.opening", fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL());
             // todo: Logic to open URL
         }
     }
@@ -202,48 +203,81 @@ public class CLIController {
         shutdown();
     }
 
+    /**
+     * Iterates through a directory to extract all files and adds them to the folder model.
+     * It skips directories and only processes files that are valid according to the FileValidator.
+     * Valid files are added to the folder model with their MIME type. Any errors encountered
+     * during file validation or adding are logged for information purposes. IOExceptions
+     * thrown during directory iteration are converted to RuntimeExceptions to simplify error handling.
+     */
+    private void extractFilesFromFolder() {
+        // Iterate over the directory stream to process files
+        Path directoryPath = Paths.get(folderModel.getBasePath());
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directoryPath)) {
+            for (Path entry : stream) {
+                Path fullPath = directoryPath.resolve(entry.getFileName());
+                processFile(fullPath);
+            }
+        } catch (IOException e) {
+            // Convert to unchecked exception to simplify error handling
+            throw new RuntimeException("Error iterating through the directory", e);
+        }
+    }
+
+    /**
+     * Processes a single file filePath to validate and add to the folder model if it is not a directory.
+     *
+     * @param filePath The file filePath to process.
+     */
+    private void processFile(Path filePath) throws IOException {
+        if (!Files.isDirectory(filePath)) {
+            try {
+                String mimeType = FileValidator.validate(filePath.toString());
+                view.printFormattedMessage("file.validated.info", filePath.getFileName().toString());
+                folderModel.addFile(new FileModel(filePath, mimeType));
+            } catch (FileModelException e) {
+                view.printFormattedMessage("folder.skipFile.info", filePath.getFileName().toString());
+            }
+        }
+    }
+
+
+    /**
+     * Processes the given path by determining if it's a file or a folder and
+     * populating the appropriate model with URL data extracted from the contents.
+     *
+     * @param inputPath the path to be processed
+     */
     public void handlePath(String inputPath) {
         try {
             if (PathValidator.isFolder(inputPath)) {
-
-                FolderModel folder = new FolderModel(inputPath);
-
-                try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(folder.getBasePath()))) {
-                    for (Path path : stream) {
-                        if (!Files.isDirectory(path)) {
-                            try {
-                                String mimeType = FileValidator.validate(folder.getBasePath() + path.getFileName().toString());
-                                view.printFormattedMessage("file.validated.info", path.getFileName().toString());
-                                folder.addFile(new FileModel(folder.getBasePath() + path.getFileName().toString(), mimeType));
-                            } catch (FileModelException e) {
-                                view.printFormattedMessage("folder.skipFile.info", path.getFileName().toString());
-                            }
-
-                        }
-                    }
-                }
-
-                fileModel.setUrlPairs(extractor.extractFromFolder(folder));
-
-
+                handleFolder(inputPath);
             } else {
-                String mimeType = FileValidator.validate(inputPath);
-                FileModel file = new FileModel(inputPath, mimeType);
-                view.printFormattedMessage("file.validated.info", file.getFileName());
-
-                fileModel.setUrlPairs(extractor.extractFromFile(file));
-
-
+                handleSingleFile(inputPath);
             }
-
         } catch (IOException e) {
             view.printMessage("file.read.error");
         } catch (PathValidationException e) {
             view.printMessage("path.invalid.error");
         } catch (FileModelException e) {
-        view.printMessage("file.notSupported.error");
+            view.printMessage("file.notSupported.error");
+        }
     }
 
+    /**
+     * Processes the contents of a folder path and initializes the folder model with the contents.
+     *
+     * @param folderPath the directory path to process
+     * @throws IOException if an I/O error occurs when opening the directory
+     */
+    private void handleFolder(String folderPath) throws IOException {
+        folderModel = new FolderModel(folderPath);
+        extractFilesFromFolder();
+        // Assume that folderModel.getFiles() is never null and has at least one file
+        this.fileModel = folderModel.getFiles().get(0);
+        for (FileModel file : folderModel.getFiles()) {
+            processFileModel(file);
+        }
     }
 
     /**
@@ -253,12 +287,24 @@ public class CLIController {
      * @throws IOException if an I/O error occurs when reading the file
      * @throws FileModelException if the file model cannot be initialized
      */
-    private URLPair getCurrentURLPair() {
-        List<URLPair> pairs = fileModel.getUrlPairs();
-        if (currentURLPairIndex >= 0 && currentURLPairIndex < pairs.size()) {
-            return pairs.get(currentURLPairIndex);
-        }
-        return null;
+    private void handleSingleFile(String filePath) throws IOException, FileModelException {
+        Path validatedPath = Paths.get(filePath);
+        String mimeType = FileValidator.validate(filePath);
+        fileModel = new FileModel(validatedPath, mimeType);
+        view.printFormattedMessage("file.validated.info", fileModel.getFileName());
+        processFileModel(fileModel);
+    }
+
+    /**
+     * Reads the content from the file model's path and extracts URLs to add to the model.
+     *
+     * @param fileModel the file model to process
+     * @throws IOException if an I/O error occurs when reading the file's content
+     */
+    private void processFileModel(FileModel fileModel) throws IOException {
+        FileReaderInterface fileReader = FileReaderFactory.getFileReader(fileModel.getMimeType());
+        String fileContent = fileReader.readFile(fileModel.getFilePath());
+        fileModel.addExtractedURLs(extractor.extractFromFile(fileContent));
     }
 
     /**
