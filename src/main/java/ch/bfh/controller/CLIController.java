@@ -136,20 +136,17 @@ public class CLIController {
      * Prompts for and processes the user's choice to open either the original or archived URL
      * from the current URLPair.
      */
-    private void handleOpenArchived(URLPair currentURLPair) {
+    private void handleOpenArchived() {
         view.printMessage("action.open_archived");
         String choice = scanner.nextLine();
-        String targetUrl = null;
+        String targetUrl;
         switch (choice) {
-            case "1":
-                targetUrl = currentURLPair.getExtractedURL();
-                break;
-            case "2":
-                targetUrl = currentURLPair.getArchivedURL();
-                break;
-            default:
+            case "1" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
+            case "2" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL();
+            default -> {
                 view.printFormattedMessage("action.invalid");
                 return;
+            }
         }
         view.printFormattedMessage("action.opening", targetUrl);
         // todo: Logic to open URL
