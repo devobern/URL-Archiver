@@ -99,8 +99,6 @@ class FileValidatorTest {
             mimeType = fileValidator.validate("testTextFileValidatorTest.txt");
         } catch (FileModelException e) {
             System.out.println(e.getMessage());
-        } catch (PathValidationException e) {
-            System.out.println(e.getMessage());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
