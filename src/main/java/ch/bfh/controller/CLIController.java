@@ -301,7 +301,7 @@ public class CLIController {
     private void processFileModel(FileModel fileModel) throws IOException {
         FileReaderInterface fileReader = FileReaderFactory.getFileReader(fileModel.getMimeType());
         String fileContent = fileReader.readFile(fileModel.getFilePath());
-        fileModel.addExtractedURLs(extractor.extractFromFile(fileContent));
+        fileModel.addExtractedURLs(URLExtractor.extractURLs(fileContent));
     }
 
     /**
