@@ -1,6 +1,5 @@
 package ch.bfh.controller;
 
-import ch.bfh.helper.I18n;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
