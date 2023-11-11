@@ -2,12 +2,14 @@ package ch.bfh.controller;
 
 import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
+import ch.bfh.helper.BrowserOpener;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
 import ch.bfh.model.*;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -127,10 +129,34 @@ public class CLIController {
         if (fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL() != null) {
             handleOpenArchived();
         } else {
-            view.printFormattedMessage("action.opening", fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL());
-            // todo: Logic to open URL
+            String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
+            view.printFormattedMessage("action.opening", extractedURL);
+
+            // Open the URL in the users default browser
+            openURL(extractedURL);
         }
     }
+
+    /**
+     * Attempts to open a given URL in the user's default web browser.
+     * If an exception occurs, it displays an error message to the console.
+     *
+     * @param url The URL to open.
+     */
+    private void openURL(String url) {
+        try {
+            BrowserOpener.openURL(url);
+        } catch (IOException e) {
+            view.printFormattedMessage("error.ioexception", e.getMessage());
+        } catch (URISyntaxException e) {
+            view.printFormattedMessage("error.uriexception", e.getMessage());
+        } catch (UnsupportedOperationException e) {
+            view.printFormattedMessage(e.getMessage().contains("BROWSE action not supported") ? "error.browsenotsupported" : "error.desktopnotsupported");
+        } catch (Exception e) {
+            view.printFormattedMessage("error.genericexception", e.getMessage());
+        }
+    }
+
 
     /**
      * Prompts for and processes the user's choice to open either the original or archived URL
@@ -149,7 +175,9 @@ public class CLIController {
             }
         }
         view.printFormattedMessage("action.opening", targetUrl);
-        // todo: Logic to open URL
+
+        // Open the URL in the users default browser
+        openURL(targetUrl);
     }
 
     /**
@@ -281,7 +309,7 @@ public class CLIController {
      * Processes a single file path, validates it, and initializes the file model.
      *
      * @param filePath the path of the file to process
-     * @throws IOException if an I/O error occurs when reading the file
+     * @throws IOException        if an I/O error occurs when reading the file
      * @throws FileModelException if the file model cannot be initialized
      */
     private void handleSingleFile(String filePath) throws IOException, FileModelException {
