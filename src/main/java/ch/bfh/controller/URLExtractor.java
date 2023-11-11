@@ -1,41 +1,34 @@
 package ch.bfh.controller;
 
-import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.FolderModelException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.model.FileModel;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
-import ch.bfh.view.ConsoleView;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class URLExtractor {
     /**
      * Extracts URLs from a file at the given path.
      *
-     * @param file the file object from which URLs should be extracted.
+     * @param fileContent the content of the file from which urls should be extracted.
      * @return a list of extracted URLs.
      * @throws IOException if there's an issue reading the file.
      */
-    public List<URLPair> extractFromFile(FileModel file) throws IOException {
-        List<URLPair> extractedUrls = new ArrayList<>();
+    public Set<String> extractFromFile(String fileContent) throws IOException {
+        Set<String> extractedUrls = new HashSet<>();
 
 
 
         // TODO: remove print
-        System.out.println(file.fileToString());
+        //System.out.println(file.fileToString());
 
         // todo: Actual logic here
-        URLPair urlPairExample = new URLPair("example.com", 1);
-        extractedUrls.add(urlPairExample);
+        String urlExample = "example.com";
+        extractedUrls.add(urlExample);
 
         return extractedUrls;
     }
 
+    // todo: We do not need this function anymore. I guess...
+    /**
     public List<URLPair> extractFromFolder(FolderModel folder) throws IOException {
         List<URLPair> extractedUrls = new ArrayList<>();
 
@@ -50,4 +43,5 @@ public class URLExtractor {
 
         return  extractedUrls;
     }
+     **/
 }
