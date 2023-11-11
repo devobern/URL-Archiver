@@ -13,12 +13,12 @@ public class FileReaderFactory {
             throw new IllegalArgumentException("MIME type cannot be null or empty");
         }
 
-        return switch (mimeType) {
-            case "application/pdf" -> new PDFFileReader();
-            case "text/plain" -> new TextFileReader();
-            default -> throw new IllegalArgumentException("Unsupported file type" + mimeType);
-        };
-
-
+        if (mimeType.startsWith("text/")) {
+            return new TextFileReader(); // This will handle all text/* MIME types
+        } else if (mimeType.equals("application/pdf")) {
+            return new PDFFileReader(); // Specific case for PDF files
+        } else {
+            throw new IllegalArgumentException("Unsupported file type: " + mimeType);
+        }
     }
 }
