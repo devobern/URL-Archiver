@@ -23,11 +23,10 @@ public class FileModel {
      * @param filePath the file's path
      * @param mimeType the file's MIME type
      */
-    public FileModel(String inputPath, String mimeType) {
+    public FileModel(Path filePath, String mimeType) {
         this.mimeType = mimeType;
-        this.stringPath = inputPath;
-        Path path = Paths.get(inputPath.trim());
-        this.fileName = path.getFileName().toString();
+        this.filePath = filePath;
+        this.fileName = filePath.getFileName().toString();
         this.urlPairs = new ArrayList<>();
     }
 
@@ -36,24 +35,6 @@ public class FileModel {
      *
      * @return the file name as a string
      */
-    public String fileToString() throws IOException {
-        if (this.mimeType.equals("application/pdf")) {
-            //Loading an existing document
-            File file = new File(this.stringPath);
-            PDDocument document = Loader.loadPDF(file);
-            //Instantiate PDFTextStripper class
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            //Retrieving text from PDF document
-            String text = pdfStripper.getText(document);
-
-            return text;
-        } else{
-            Path path = Paths.get(this.stringPath.trim());
-            String text = Files.readString(path);
-            return text;
-        }
-    }
-
     public String getFileName() {
         return this.fileName;
     }
@@ -63,8 +44,8 @@ public class FileModel {
      *
      * @return the MIME type as a string
      */
-    public void setUrlPairs(List<URLPair> urlPairs) {
-        this.urlPairs = urlPairs;
+    public String getMimeType() {
+        return mimeType;
     }
 
     /**
@@ -94,8 +75,10 @@ public class FileModel {
      *
      * @param extractedURLs a list of URLs as strings
      */
-    public void addExtractedURL(String extractedURL, int lineNumber) {
-        urlPairs.add(new URLPair(extractedURL, lineNumber));
+    public void addExtractedURLs(Set<String> extractedURLs) {
+        for (String url:extractedURLs) {
+            urlPairs.add(new URLPair(url));
+        }
     }
 
     /**
