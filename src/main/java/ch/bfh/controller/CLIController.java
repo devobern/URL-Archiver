@@ -29,6 +29,7 @@ public class CLIController {
     private final URLArchiver archiver;
     private int currentURLPairIndex;
     private final Scanner scanner;
+    private boolean running = true;
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -171,15 +172,34 @@ public class CLIController {
      * and resets the URLPair index; otherwise, it notifies the user that the process is completed.
      */
     private void handleNext() {
-        moveToNextURLPair();
-        view.printFormattedMessage("action.next");
+        if (!moveToNextURLPair()) { // If it returns false, it means we are at the last URLPair.
+            view.printFormattedMessage("action.end_of_urls_in_file");
+
+            if (folderModel != null && currentFileIndex < folderModel.getFiles().size() - 1) {
+                currentFileIndex++; // Move to the next file in the folder.
+                currentURLPairIndex = 0; // Reset the URLPair index for the new file.
+                fileModel = folderModel.getFiles().get(currentFileIndex); // Set the new fileModel.
+                view.printFormattedMessage("action.next_file", fileModel.getFileName());
+                // Process the new fileModel here or prompt user to continue with the new file.
+            } else {
+                // No more files left to process.
+                view.printFormattedMessage("action.end_of_folder");
+                handleQuit();
+            }
+        } else {
+            // Moved to next URL pair within the same file.
+            view.printFormattedMessage("action.next_url");
+        }
     }
+
 
     /**
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
         view.printMessage("action.quit");
+        this.running = false;
+        shutdown();
     }
 
     public void handlePath(String inputPath) {
@@ -247,21 +267,12 @@ public class CLIController {
      *
      * @return boolean - true if it moved to the next URLPair, false if it was the last one.
      */
-    private void moveToNextURLPair() {
+    private boolean moveToNextURLPair() {
         if (currentURLPairIndex < fileModel.getUrlPairs().size() - 1) {
             currentURLPairIndex++;
-            return;
+            return true;
         }
-        lastURLPair();
-    }
-
-    /**
-     * Notifies the user that they have reached the end of the URLPairs and prepares to quit the application.
-     */
-    private void lastURLPair(){
-        view.printMessage("action.end");
-        // todo: Handle write to .BIB
-        handleQuit();
+        return false; // Return false to indicate it's the last URLPair.
     }
 
     /**
