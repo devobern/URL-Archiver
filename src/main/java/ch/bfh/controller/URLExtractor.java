@@ -1,60 +1,26 @@
 package ch.bfh.controller;
 
-import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.FolderModelException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.model.FileModel;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
-import ch.bfh.view.ConsoleView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class URLExtractor {
-
-    private ConsoleView view;
-
-    public URLExtractor(ConsoleView view) {
-        this.view = view;
+    public URLExtractor() {
     }
+    public static Set<String> extractURLs(String text) {
+        Set<String> urls = new HashSet<>();
+        // Regular expression for URL
+        Pattern pattern = Pattern.compile(
+                "(https?://[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?)",
+                Pattern.CASE_INSENSITIVE
+        );
+        Matcher matcher = pattern.matcher(text);
 
-    /**
-     * Extracts URLs from a file at the given path.
-     *
-     * @param file the file object from which URLs should be extracted.
-     * @return a list of extracted URLs.
-     * @throws IOException if there's an issue reading the file.
-     */
-    public List<URLPair> extractFromFile(FileModel file) throws IOException {
-        List<URLPair> extractedUrls = new ArrayList<>();
-
-
-
-        // TODO: remove print
-        System.out.println(file.fileToString());
-
-        // todo: Actual logic here
-        URLPair urlPairExample = new URLPair("example.com", 1);
-        extractedUrls.add(urlPairExample);
-
-        return extractedUrls;
-    }
-
-    public List<URLPair> extractFromFolder(FolderModel folder) throws IOException {
-        List<URLPair> extractedUrls = new ArrayList<>();
-
-        try {
-            while(!folder.wasLastFile()) {
-                extractedUrls.addAll(extractFromFile(folder.next()));
-            }
-        } catch (FolderModelException e) {
-            // shouldn't be thrown if correctly iterated
+        while (matcher.find()) {
+            urls.add(matcher.group());
         }
 
-
-        return  extractedUrls;
+        return urls;
     }
 }
