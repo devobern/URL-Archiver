@@ -6,17 +6,18 @@ import ch.bfh.helper.I18n;
 import java.util.ArrayList;
 
 /**
- * a folder object contains a list of file (FileModel) objects
+ * Represents a folder containing multiple file models.
  */
 public class FolderModel {
     private int index = 0;
-    private String basePath;
-    private ArrayList<FileModel> files = new ArrayList<>();
+    private final String basePath;
+    private final ArrayList<FileModel> files = new ArrayList<>();
 
 
     /**
-     * constructor for a folder object
-     * @param inputPath needs the path to the folder as a string
+     * Constructs a FolderModel with the specified directory path.
+     *
+     * @param inputPath The path to the directory.
      */
     public FolderModel(String inputPath) {
 
@@ -28,21 +29,19 @@ public class FolderModel {
     }
 
     /**
-     * returns if the last file was iteratet through
-     * @return
+     * Checks whether all files have been iterated over.
+     *
+     * @return True if all files have been iterated, false otherwise.
      */
     public boolean wasLastFile() {
-        if (this.index < this.files.size()) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.index >= this.files.size();
     }
 
     /**
-     * returns the next file object from the list
-     * @return
-     * @throws FolderModelException
+     * Retrieves the next file in the iteration.
+     *
+     * @return The next FileModel object.
+     * @throws FolderModelException if there are no more files to return.
      */
     public FileModel next() throws FolderModelException {
         if (wasLastFile()) {
@@ -54,15 +53,30 @@ public class FolderModel {
     }
 
     /**
-     * add a file object to the list
-     * @param file
+     * Adds a file model to the folder's list of files.
+     *
+     * @param file The FileModel to add.
      */
     public void addFile(FileModel file) {
         this.files.add(file);
     }
 
+    /**
+     * Returns the base path of the folder.
+     *
+     * @return The base directory path as a string.
+     */
     public String getBasePath(){
         return this.basePath;
     }
-    
+
+    /**
+     * Returns the list of file models in the folder.
+     *
+     * @return A list of FileModel objects.
+     */
+    public ArrayList<FileModel> getFiles() {
+        return files;
+    }
+
 }

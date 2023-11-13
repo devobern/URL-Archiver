@@ -1,7 +1,7 @@
 package ch.bfh.controller;
 
 public class URLArchiver {
-    public String archiveURL(String url){
+    public static String archiveURL(String url){
         // todo: archiving logic
         return "example.archive.com";
     }

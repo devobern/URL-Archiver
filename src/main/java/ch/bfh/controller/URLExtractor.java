@@ -1,60 +1,39 @@
 package ch.bfh.controller;
 
-import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.FolderModelException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.model.FileModel;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.URLArchiverModel;
-import ch.bfh.model.URLPair;
-import ch.bfh.view.ConsoleView;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Provides utility for extracting URLs from a given text string.
+ * This class uses a regular expression to identify and extract URLs, focusing primarily on HTTP and HTTPS formats.
+ * It is capable of handling multiple URLs within a single text string and ensures uniqueness of the extracted URLs.
+ */
 public class URLExtractor {
-
-    private ConsoleView view;
-
-    public URLExtractor(ConsoleView view) {
-        this.view = view;
+    public URLExtractor() {
     }
 
     /**
-     * Extracts URLs from a file at the given path.
+     * Extracts a set of unique URLs from the provided text string.
+     * The method uses a regular expression to match HTTP and HTTPS URLs within the text and collects them into a set to ensure uniqueness.
      *
-     * @param file the file object from which URLs should be extracted.
-     * @return a list of extracted URLs.
-     * @throws IOException if there's an issue reading the file.
+     * @param text The string from which URLs are to be extracted.
+     * @return A Set of unique URLs found in the provided text. If no URLs are found, an empty Set is returned.
      */
-    public List<URLPair> extractFromFile(FileModel file) throws IOException {
-        List<URLPair> extractedUrls = new ArrayList<>();
+    public static Set<String> extractURLs(String text) {
+        Set<String> urls = new HashSet<>();
+        // Regular expression for URL
+        Pattern pattern = Pattern.compile(
+                "(https?://[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?)",
+                Pattern.CASE_INSENSITIVE
+        );
+        Matcher matcher = pattern.matcher(text);
 
-
-
-        // TODO: remove print
-        System.out.println(file.fileToString());
-
-        // todo: Actual logic here
-        URLPair urlPairExample = new URLPair("example.com", 1);
-        extractedUrls.add(urlPairExample);
-
-        return extractedUrls;
-    }
-
-    public List<URLPair> extractFromFolder(FolderModel folder) throws IOException {
-        List<URLPair> extractedUrls = new ArrayList<>();
-
-        try {
-            while(!folder.wasLastFile()) {
-                extractedUrls.addAll(extractFromFile(folder.next()));
-            }
-        } catch (FolderModelException e) {
-            // shouldn't be thrown if correctly iterated
+        while (matcher.find()) {
+            urls.add(matcher.group());
         }
 
-
-        return  extractedUrls;
+        return urls;
     }
 }
