@@ -1,5 +1,6 @@
 package ch.bfh.controller;
 
+import ch.bfh.archiver.*;
 import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.BrowserOpener;
@@ -18,6 +19,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -36,6 +39,7 @@ public class CLIController {
     private final ConsoleView view;
     private final Scanner scanner;
     private boolean running = true;
+    private final ArchiverManager archiverManager;
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -53,6 +57,12 @@ public class CLIController {
         this.currentURLPairIndex = 0;
         this.folderModel = null;
         this.currentFileIndex = 0;
+
+        // Create a Archiver Manager
+        this.archiverManager = new ArchiverManager();
+        // Initialize all possible archivers once
+        archiverManager.addArchiver(new WaybackMachineArchiver());
+        archiverManager.addArchiver(new ArchiveTodayArchiver());
     }
 
     /**
@@ -182,15 +192,48 @@ public class CLIController {
     }
 
     /**
-     * Archives the specified URL and updates the model.
+     * Handles the archiving of a specified URL. This method prompts the user to select
+     * an archiving service, performs the archiving using the selected service(s), and
+     * updates the model with the archived URL. It also informs the user about the
+     * availability of the selected archiving services and displays the archived URL.
      *
      * @param url the URL to be archived
      */
     private void handleArchive(String url) {
         view.printFormattedMessage("action.archiving", url);
-        String archivedURL = URLArchiver.archiveURL(url);
-        fileModel.setArchivedURL(url, archivedURL);
-        view.printFormattedMessage("info.archived_url", archivedURL);
+
+        // Prompt user to choose the archiving service
+        view.printMessage("action.archiving.prompt");
+        String serviceChoice = scanner.nextLine();
+
+        List<URLArchiver> selectedArchivers = new ArrayList<>();
+
+        switch (serviceChoice) {
+            case "1" -> selectedArchivers.add(archiverManager.getArchiver("WaybackMachine"));
+            case "2" -> selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
+            case "3" -> selectedArchivers.addAll(archiverManager.getAllArchivers());
+            default -> {
+                view.printFormattedMessage("action.invalid");
+                return;
+            }
+        }
+
+        // Perform archiving with the selected archivers
+        ArchiverResult result = archiverManager.archive(url, selectedArchivers);
+
+        if (result.getArchivedUrls().isEmpty()) {
+            view.printFormattedMessage("action.archiving.error.no_archivers_available");
+        } else {
+            // You may want to handle multiple URLs here if "Both" was selected
+            String archivedURL = String.join("; ", result.getArchivedUrls());
+            fileModel.setArchivedURL(url, archivedURL);
+            view.printFormattedMessage("info.archived_url", archivedURL);
+        }
+
+        // Inform the user about each unavailable archiver
+        for (String archiverName : result.getUnavailableArchivers()) {
+            view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
+        }
     }
 
     /**
