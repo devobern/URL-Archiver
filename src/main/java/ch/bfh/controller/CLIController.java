@@ -225,7 +225,7 @@ public class CLIController {
             view.printFormattedMessage("action.archiving.error.no_archivers_available");
         } else {
             // You may want to handle multiple URLs here if "Both" was selected
-            String archivedURL = String.join("; ", result.getArchivedUrls());
+            String archivedURL = String.join("; ", result.getArchivedUrls()); // todo: List of archived urls
             fileModel.setArchivedURL(url, archivedURL);
             view.printFormattedMessage("info.archived_url", archivedURL);
         }
