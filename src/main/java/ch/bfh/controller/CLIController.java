@@ -61,7 +61,8 @@ public class CLIController {
         // Create a Archiver Manager
         this.archiverManager = new ArchiverManager();
         // Initialize all possible archivers once
-        archiverManager.addArchiver(new WaybackMachineArchiver());
+        // TODO: get Credentials from a config file
+        archiverManager.addArchiver(new WaybackMachineArchiver("W24jHLHXXWbe3qhT", "SPAvXQNl65m8bnQc"));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
     }
 
