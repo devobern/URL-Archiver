@@ -1,6 +1,6 @@
 package ch.bfh.model;
 
-public class WaybackMaschineArchiveResponse {
+public class WaybackMachineArchiveResponse {
     private String url;
     private String job_id;
     private String message;
