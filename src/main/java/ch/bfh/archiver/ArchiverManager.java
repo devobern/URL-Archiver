@@ -1,5 +1,7 @@
 package ch.bfh.archiver;
 
+import ch.bfh.exceptions.ArchiverException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class ArchiverManager {
      * @param selectedArchivers a list of selected URLArchiver instances to perform the archiving
      * @return an ArchiverResult object containing the archived URLs and any unavailable archivers
      */
-    public ArchiverResult archive(String url, List<URLArchiver> selectedArchivers) {
+    public ArchiverResult archive(String url, List<URLArchiver> selectedArchivers) throws ArchiverException {
         List<String> archivedUrls = new ArrayList<>();
         List<String> unavailableArchivers = new ArrayList<>();
 

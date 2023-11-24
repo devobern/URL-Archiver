@@ -1,5 +1,6 @@
 package ch.bfh.archiver;
 
+import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.model.WaybackMachineArchiveResponse;
 import ch.bfh.model.WaybackMachineJob;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +35,7 @@ public class WaybackMachineArchiver implements URLArchiver{
      * @return A string representing the archived URL, or null if the archiving operation fails.
      */
     @Override
-    public String archiveURL(String url) {
+    public String archiveURL(String url) throws ArchiverException {
         try {
             // The data to be sent in the request body
             String postData = "url=" + url + "&capture_all=1";
@@ -64,6 +65,10 @@ public class WaybackMachineArchiver implements URLArchiver{
             WaybackMachineArchiveResponse archiveResponse = new ObjectMapper().readValue(responseBody, WaybackMachineArchiveResponse.class);
 
             WaybackMachineJob job = waitForJob(archiveResponse);
+
+            if (job.getStatus().contains("error")) {
+                throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
+            }
 
             String archivedUrl = "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
 
@@ -97,7 +102,7 @@ public class WaybackMachineArchiver implements URLArchiver{
 
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() != 502) {
+            if (response.statusCode() < 300) {
                 return true;
             }
 
@@ -125,7 +130,7 @@ public class WaybackMachineArchiver implements URLArchiver{
     /**
      * method for waiting till the archiving job is finished
      * @param archiveResponse the response from the archiving request --> contains the job id
-     * @return returns the successful job --> contains the information to the archived url
+     * @return returns the successful job --> contains the information to the archived urlAutomated URL Submission Wayback Machine
      * @throws IOException
      * @throws InterruptedException
      */

@@ -11,6 +11,7 @@ public class WaybackMachineJob {
     private String original_url;
     private String status;
     private String timestamp;
+    private String exception;
 
     public String getJob_id() {
         return job_id;
@@ -42,5 +43,13 @@ public class WaybackMachineJob {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
     }
 }

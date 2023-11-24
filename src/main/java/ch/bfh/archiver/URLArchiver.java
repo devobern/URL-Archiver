@@ -1,5 +1,7 @@
 package ch.bfh.archiver;
 
+import ch.bfh.exceptions.ArchiverException;
+
 /**
  * Defines the contract for archiving services capable of archiving URLs.
  * Implementations of this interface should provide the specific mechanics
@@ -12,7 +14,7 @@ public interface URLArchiver {
      * @param url The URL to archive.
      * @return The archived URL as a string, or null if archiving is unsuccessful.
      */
-    String archiveURL(String url);
+    String archiveURL(String url) throws ArchiverException;
 
     /**
      * Checks if the archiving service is currently available.

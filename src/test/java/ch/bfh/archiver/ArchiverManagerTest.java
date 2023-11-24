@@ -1,5 +1,6 @@
 package ch.bfh.archiver;
 
+import ch.bfh.exceptions.ArchiverException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,7 +36,7 @@ public class ArchiverManagerTest {
     // Test archiving when both services are available.
     // It should result in URLs being archived and no services reported as unavailable.
     @Test
-    void whenArchiveCalledWithAvailableServices_thenArchiveUrls() {
+    void whenArchiveCalledWithAvailableServices_thenArchiveUrls() throws ArchiverException {
         String testUrl = "http://example.com";
         // Set the mocks to simulate available services.
         Mockito.when(waybackArchiver.isAvailable()).thenReturn(true);
@@ -57,7 +58,7 @@ public class ArchiverManagerTest {
     // Test archiving when both services are unavailable.
     // It should result in no URLs being archived and both services reported as unavailable.
     @Test
-    void whenArchiveCalledWithUnavailableServices_thenReportUnavailable() {
+    void whenArchiveCalledWithUnavailableServices_thenReportUnavailable() throws ArchiverException {
         String testUrl = "http://example.com";
         // Set the mocks to simulate unavailable services.
         Mockito.when(waybackArchiver.isAvailable()).thenReturn(false);
@@ -76,7 +77,7 @@ public class ArchiverManagerTest {
     // Test archiving when one service is available and the other is not.
     // It should result in one URL being archived and the unavailable service reported as such.
     @Test
-    void whenArchiveCalledWithPartialUnavailableServices_thenArchiveUrlsAndReportUnavailable() {
+    void whenArchiveCalledWithPartialUnavailableServices_thenArchiveUrlsAndReportUnavailable() throws ArchiverException {
         String testUrl = "http://example.com";
         // Set one service to be unavailable and the other to be available.
         Mockito.when(waybackArchiver.isAvailable()).thenReturn(false);

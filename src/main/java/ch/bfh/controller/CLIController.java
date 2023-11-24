@@ -1,6 +1,7 @@
 package ch.bfh.controller;
 
 import ch.bfh.archiver.*;
+import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.BrowserOpener;
@@ -220,21 +221,28 @@ public class CLIController {
         }
 
         // Perform archiving with the selected archivers
-        ArchiverResult result = archiverManager.archive(url, selectedArchivers);
+        try {
+            ArchiverResult result = archiverManager.archive(url, selectedArchivers);
 
-        if (result.getArchivedUrls().isEmpty()) {
-            view.printFormattedMessage("action.archiving.error.no_archivers_available");
-        } else {
-            // You may want to handle multiple URLs here if "Both" was selected
-            String archivedURL = String.join("; ", result.getArchivedUrls()); // todo: List of archived urls
-            fileModel.setArchivedURL(url, archivedURL);
-            view.printFormattedMessage("info.archived_url", archivedURL);
+            if (result.getArchivedUrls().isEmpty()) {
+                view.printFormattedMessage("action.archiving.error.no_archivers_available");
+            } else {
+                // You may want to handle multiple URLs here if "Both" was selected
+                String archivedURL = String.join("; ", result.getArchivedUrls()); // todo: List of archived urls
+                fileModel.setArchivedURL(url, archivedURL);
+                view.printFormattedMessage("info.archived_url", archivedURL);
+            }
+
+            // Inform the user about each unavailable archiver
+            for (String archiverName : result.getUnavailableArchivers()) {
+                view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
+            }
+        } catch (ArchiverException e) {
+            view.printFormattedMessage("action.archiving.error.archiver_error", e.getMessage());
         }
 
-        // Inform the user about each unavailable archiver
-        for (String archiverName : result.getUnavailableArchivers()) {
-            view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
-        }
+
+
     }
 
     /**
