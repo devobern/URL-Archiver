@@ -2,6 +2,9 @@ package ch.bfh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * dataclass for objectmapping the response of get status of job request (wayback machine)
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WaybackMachineJob {
     private String job_id;

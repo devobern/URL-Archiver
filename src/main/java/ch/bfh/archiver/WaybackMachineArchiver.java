@@ -122,7 +122,14 @@ public class WaybackMachineArchiver implements URLArchiver{
         return serviceName;
     }
 
-    public WaybackMachineJob waitForJob(WaybackMachineArchiveResponse archiveResponse) throws IOException, InterruptedException {
+    /**
+     * method for waiting till the archiving job is finished
+     * @param archiveResponse the response from the archiving request --> contains the job id
+     * @return returns the successful job --> contains the information to the archived url
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private WaybackMachineJob waitForJob(WaybackMachineArchiveResponse archiveResponse) throws IOException, InterruptedException {
 
         // The API key for authorization
         String apiKey = "LOW " + this.accessKey + ":" + this.secretKey;

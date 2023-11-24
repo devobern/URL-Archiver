@@ -1,5 +1,8 @@
 package ch.bfh.model;
 
+/**
+ * data class for objectmapping the response of save website request (wayback machine)
+ */
 public class WaybackMachineArchiveResponse {
     private String url;
     private String job_id;
