@@ -1,17 +1,19 @@
 package ch.bfh.archiver;
 
+import ch.bfh.exceptions.ArchiverException;
 import org.openqa.selenium.By;
-import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.http.ConnectionFailedException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.InetAddress;
 import java.time.Duration;
 import java.util.List;
+
+import static ch.bfh.helper.WebDriverFactory.getWebDriver;
 
 /**
  * Implementation of the URLArchiver interface for the Archive.today service.
@@ -23,6 +25,8 @@ public class ArchiveTodayArchiver implements URLArchiver {
     private final String serviceUrl = "https://archive.today";
     private final String hostName = "archive.today";
 
+    private final int timeout = 300;
+
     /**
      * Archives the given URL using the Archive.today service.
      *
@@ -30,15 +34,14 @@ public class ArchiveTodayArchiver implements URLArchiver {
      * @return A string representing the archived URL, or null if the service is not available.
      */
     @Override
-    public String archiveURL(String url) {
-        // Instantiate a ChromeDriver class
-        ChromeOptions chromeOptions = new ChromeOptions();
-        // EAGER = DOM access is ready, but other resources like images may still be loading
-        chromeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        WebDriver driver = new ChromeDriver();
+    public String archiveURL(String url) throws ArchiverException {
+        if (url == null || url.isEmpty()) {
+            throw new IllegalArgumentException("URL cannot be null or empty");
+        }
 
+        WebDriver driver = getWebDriver();
         String archivedUrl = null;
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(300));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
 
         try {
             // Launch Website
@@ -55,11 +58,11 @@ public class ArchiveTodayArchiver implements URLArchiver {
             // Wait for the CAPTCHA to be present
             WebElement captcha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("g-recaptcha")));
             // Inform the user that they need to solve the CAPTCHA manually
+            // TODO - How to notify user?
             System.out.println("Please solve the CAPTCHA in the browser.");
             wait
                     .pollingEvery(Duration.ofMillis(300))
                     .until(ExpectedConditions.invisibilityOf(captcha));
-            System.out.println("CAPTCHA solved.");
 
             // Check if the "DIVALREADY" element is present which means the site was already archived
             List<WebElement> divAlreadyList = driver.findElements(By.id("DIVALREADY"));
@@ -70,17 +73,17 @@ public class ArchiveTodayArchiver implements URLArchiver {
                 saveButton.click();
             }
 
-            System.out.println("Wait for the 'DIVSHARE'");
             // Wait for the 'DIVSHARE' element to be present
             wait
                     .pollingEvery(Duration.ofMillis(500))
                     .until(ExpectedConditions.presenceOfElementLocated(By.id("DIVSHARE")));
 
+            // Get archived site URL
             archivedUrl = driver.getCurrentUrl();
-            System.out.println("Archived URL: " + archivedUrl);
-
-        } catch (org.openqa.selenium.TimeoutException e) {
-            System.out.println("Error:" + e);
+        } catch (TimeoutException e) {
+           throw new ArchiverException("The URL could not be archived in less than five minutes!");
+        } catch (ConnectionFailedException e){
+           throw new ArchiverException("The browser was closed or the network connection was closed!");
         }
         finally {
             // Close the Browser
