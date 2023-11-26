@@ -92,11 +92,13 @@ public class WaybackMachineArchiver implements URLArchiver{
     @Override
     public boolean isAvailable() {
         try {
-
+            // The API key for authorization
+            String apiKey = "LOW " + this.accessKey + ":" + this.secretKey;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
-                            URI.create(apiUrl + "/status/system"))
+                            URI.create(apiUrl + "status/system"))
                     .header("accept", "application/json")
+                    .header("Authorization", apiKey)
                     .GET()
                     .build();
 
