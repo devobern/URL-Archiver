@@ -1,9 +1,11 @@
 package ch.bfh.archiver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -30,6 +32,9 @@ public class ArchiveTodayArchiver implements URLArchiver {
     @Override
     public String archiveURL(String url) {
         // Instantiate a ChromeDriver class
+        ChromeOptions chromeOptions = new ChromeOptions();
+        // EAGER = DOM access is ready, but other resources like images may still be loading
+        chromeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
         WebDriver driver = new ChromeDriver();
 
         String archivedUrl = null;
@@ -44,14 +49,16 @@ public class ArchiveTodayArchiver implements URLArchiver {
             inputField.sendKeys(url);
 
             // Find and click the archive button
-            WebElement archiveButton = driver.findElement(By.xpath("//input[@type='submit'][@value='speichern']"));
+            WebElement archiveButton = driver.findElement(By.xpath("//form[@id='submiturl']//input[@type='submit']"));
             archiveButton.click();
 
             // Wait for the CAPTCHA to be present
             WebElement captcha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("g-recaptcha")));
             // Inform the user that they need to solve the CAPTCHA manually
             System.out.println("Please solve the CAPTCHA in the browser.");
-            wait.until(ExpectedConditions.invisibilityOf(captcha));
+            wait
+                    .pollingEvery(Duration.ofMillis(300))
+                    .until(ExpectedConditions.invisibilityOf(captcha));
             System.out.println("CAPTCHA solved.");
 
             // Check if the "DIVALREADY" element is present which means the site was already archived
@@ -65,12 +72,14 @@ public class ArchiveTodayArchiver implements URLArchiver {
 
             System.out.println("Wait for the 'DIVSHARE'");
             // Wait for the 'DIVSHARE' element to be present
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("DIVSHARE")));
+            wait
+                    .pollingEvery(Duration.ofMillis(500))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.id("DIVSHARE")));
 
             archivedUrl = driver.getCurrentUrl();
             System.out.println("Archived URL: " + archivedUrl);
 
-        } catch (Exception e) {
+        } catch (org.openqa.selenium.TimeoutException e) {
             System.out.println("Error:" + e);
         }
         finally {
