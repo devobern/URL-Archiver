@@ -9,7 +9,8 @@ import org.openqa.selenium.remote.http.ConnectionFailedException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.time.Duration;
 import java.util.List;
 
@@ -93,19 +94,22 @@ public class ArchiveTodayArchiver implements URLArchiver {
     }
 
     /**
-     * Checks whether the Archive.today service is available for use.
+     * Checks if the host is reachable within a 5-second timeout.
+     * This method establishes a TCP connection on a known open port to determine reachability,
+     * offering more reliable results than standard ICMP methods, especially on Unix systems.
      *
-     * @return true if the service is available, false otherwise.
+     * @return true if reachable, false otherwise.
      */
-    @Override
     public boolean isAvailable() {
-        try {
-            InetAddress address = InetAddress.getByName(hostName);
-            return address.isReachable(5000);
+        try (Socket socket = new Socket()) {
+            int port = 80;
+            socket.connect(new InetSocketAddress(hostName, port), 5000);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
+
 
     /**
      * Returns the name of the archiving service.
