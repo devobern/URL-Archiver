@@ -14,7 +14,6 @@ import ch.bfh.model.FolderModel;
 import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
