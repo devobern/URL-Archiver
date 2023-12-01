@@ -14,16 +14,14 @@ import ch.bfh.model.FolderModel;
 import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -351,11 +349,16 @@ public class CLIController {
     private void handleFolder(String folderPath) throws IOException {
         folderModel = new FolderModel(folderPath);
         extractFilesFromFolder();
+        for(int i = 0; i < folderModel.getFiles().size(); i++){
+            FileModel tempFileModel = folderModel.getFiles().get(i);
+            // Delete file if it has no urls
+            if(!processFileModel(tempFileModel)){
+                folderModel.removeFile(i);
+                i--;
+            }
+        }
         // Assume that folderModel.getFiles() is never null and has at least one file
         this.fileModel = folderModel.getFiles().get(0);
-        for (FileModel file : folderModel.getFiles()) {
-            processFileModel(file);
-        }
     }
 
     /**
@@ -370,19 +373,26 @@ public class CLIController {
         String mimeType = FileValidator.validate(filePath);
         fileModel = new FileModel(validatedPath, mimeType);
         view.printFormattedMessage("file.validated.info", fileModel.getFileName());
-        processFileModel(fileModel);
+        if(!processFileModel(fileModel)){
+            handleQuit();
+        }
     }
 
     /**
-     * Reads the content from the file model's path and extracts URLs to add to the model.
-     *
-     * @param fileModel the file model to process
-     * @throws IOException if an I/O error occurs when reading the file's content
+     * Processes the specified file model by reading its content, extracting URLs, and updating the model with these URLs.
+     * @param fileModel The file model representing the file to be processed. It contains the file's path and MIME type.
+     * @return true if URLs are successfully extracted and added to the file model, false if no URLs are found in the file.
+     * @throws IOException If an error occurs during reading of the file's content, indicating an I/O problem.
      */
-    private void processFileModel(FileModel fileModel) throws IOException {
+    private boolean processFileModel(FileModel fileModel) throws IOException {
         FileReaderInterface fileReader = FileReaderFactory.getFileReader(fileModel.getMimeType());
         String fileContent = fileReader.readFile(fileModel.getFilePath());
-        fileModel.addExtractedURLs(URLExtractor.extractURLs(fileContent));
+        Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
+        if(extractedURLs.isEmpty()){
+            return false;
+        }
+        fileModel.addExtractedURLs(extractedURLs);
+        return true;
     }
 
     /**
