@@ -79,4 +79,7 @@ public class FolderModel {
         return files;
     }
 
+    public void removeFile(int i) {
+        this.files.remove(i);
+    }
 }
