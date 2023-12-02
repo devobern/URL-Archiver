@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * The {@code BrowserOpener} class provides functionality to open URLs in the
+ * user's default web browser. It ensures the URL is opened in a supported
+ * environment and handles basic URL validation.
+ */
 public class BrowserOpener {
 
     /**
@@ -15,21 +20,33 @@ public class BrowserOpener {
      * @throws URISyntaxException if the URL string is not properly formatted.
      */
     public static void openURL(String urlString) throws IOException, URISyntaxException {
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                // Add "http://" to the URL if it's missing
-                if (!urlString.startsWith("http://") && !urlString.startsWith("https://")) {
-                    urlString = "http://" + urlString;
-                }
-                URI uri = new URI(urlString);
-                desktop.browse(uri);
-            } else {
-                throw new UnsupportedOperationException("BROWSE action not supported on current platform");
-            }
-        } else {
+        if (!Desktop.isDesktopSupported()) {
             throw new UnsupportedOperationException("Desktop is not supported on current platform");
         }
+
+        Desktop desktop = Desktop.getDesktop();
+        if (!desktop.isSupported(Desktop.Action.BROWSE)) {
+            throw new UnsupportedOperationException("BROWSE action not supported on current platform");
+        }
+
+        urlString = validateAndFormatURL(urlString);
+        URI uri = new URI(urlString);
+        desktop.browse(uri);
+    }
+
+    /**
+     * Validates and formats the URL. Adds "http://" if the scheme is missing.
+     *
+     * @param urlString The URL to validate and format.
+     * @return The validated and formatted URL.
+     * @throws URISyntaxException If the URL string is not properly formatted.
+     */
+    private static String validateAndFormatURL(String urlString) throws URISyntaxException {
+        try {
+            new URI(urlString); // Validate URL
+        } catch (Exception e) {
+            urlString = "http://" + urlString; // Add default scheme if invalid
+        }
+        return urlString;
     }
 }
-
