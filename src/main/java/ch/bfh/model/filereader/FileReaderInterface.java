@@ -1,4 +1,4 @@
-package ch.bfh.model;
+package ch.bfh.model.filereader;
 
 import java.io.IOException;
 import java.nio.file.Path;

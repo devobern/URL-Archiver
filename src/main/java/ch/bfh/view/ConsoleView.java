@@ -37,6 +37,18 @@ public class ConsoleView {
     }
 
     /**
+     * Prints the message of the provided exception to the console.
+     * This method is used to display the message of an exception to the user,
+     * which can be useful for debugging or informing the user of the nature of an error.
+     *
+     * @param exception the exception whose message is to be printed.
+     */
+    public void printMessage(Exception exception){
+        System.out.println(exception.getMessage());
+    }
+
+
+    /**
      * Prints a formatted message to the console using the provided key and arguments.
      *
      * @param key  the key used to retrieve the message from the resource bundle.

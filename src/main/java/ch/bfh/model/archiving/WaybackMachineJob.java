@@ -1,4 +1,4 @@
-package ch.bfh.model;
+package ch.bfh.model.archiving;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

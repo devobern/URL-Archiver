@@ -8,8 +8,8 @@ import ch.bfh.helper.BrowserOpener;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
 import ch.bfh.model.FileModel;
-import ch.bfh.model.FileReaderFactory;
-import ch.bfh.model.FileReaderInterface;
+import ch.bfh.model.filereader.FileReaderFactory;
+import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.model.FolderModel;
 import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
@@ -114,7 +114,6 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
-            // todo: New switch pattern matching
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN -> handleOpen();
@@ -239,7 +238,7 @@ public class CLIController {
                 view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
             }
         } catch (ArchiverException e) {
-            view.printFormattedMessage("action.archiving.error.archiver_error", e.getMessage());
+            view.printMessage(e);
         }
 
 
@@ -315,7 +314,7 @@ public class CLIController {
                 view.printFormattedMessage("file.validated.info", filePath.getFileName().toString());
                 folderModel.addFile(new FileModel(filePath, mimeType));
             } catch (FileModelException e) {
-                view.printFormattedMessage("folder.skipFile.info", filePath.getFileName().toString());
+                view.printMessage(e);
             }
         }
     }
@@ -337,7 +336,7 @@ public class CLIController {
         } catch (IOException e) {
             view.printMessage("file.read.error");
         } catch (FileModelException e) {
-            view.printMessage("file.notSupported.error");
+            view.printMessage(e);
         }
     }
 

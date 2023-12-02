@@ -1,4 +1,4 @@
-package ch.bfh.model;
+package ch.bfh.model.filereader;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
