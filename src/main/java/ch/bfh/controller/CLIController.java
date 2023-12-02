@@ -2,16 +2,14 @@ package ch.bfh.controller;
 
 import ch.bfh.archiver.*;
 import ch.bfh.exceptions.ArchiverException;
+import ch.bfh.exceptions.ConfigFileException;
 import ch.bfh.exceptions.FileModelException;
 import ch.bfh.exceptions.PathValidationException;
 import ch.bfh.helper.BrowserOpener;
+import ch.bfh.helper.ConfigFileHelper;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
-import ch.bfh.model.FileModel;
-import ch.bfh.model.FileReaderFactory;
-import ch.bfh.model.FileReaderInterface;
-import ch.bfh.model.FolderModel;
-import ch.bfh.model.UserChoice;
+import ch.bfh.model.*;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
@@ -38,6 +36,7 @@ public class CLIController {
     private final Scanner scanner;
     private boolean running = true;
     private final ArchiverManager archiverManager;
+    private ConfigModel config;
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -62,6 +61,15 @@ public class CLIController {
         // TODO: get Credentials from a config file
         archiverManager.addArchiver(new WaybackMachineArchiver("X6QRIuGNnxs0UJt8", "vNzfdLDbrdxUXpIX"));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
+
+        try {
+            this.config = ConfigFileHelper.read();
+        } catch (ConfigFileException e) {
+            this.config = new ConfigModel();
+            view.printFormattedMessage("config.read.error", e.getMessage());
+        }
+
+
     }
 
     /**
