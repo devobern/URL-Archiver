@@ -16,8 +16,6 @@ import java.util.List;
 
 import static ch.bfh.helper.WebDriverFactory.getWebDriver;
 
-// Todo: If the browser gets manually closed by the user, there is a big nasty error. Can we catch this case?
-
 /**
  * Implementation of the URLArchiver interface for the Archive.today service.
  * This class provides the mechanism to archive URLs using Archive.today's archiving capabilities.
@@ -38,7 +36,6 @@ public class ArchiveTodayArchiver implements URLArchiver {
      */
     @Override
     public String archiveURL(String url) throws ArchiverException {
-        // Todo: The url cannot be null or empty at this point. But double check is also ok.
         if (url == null || url.isEmpty()) {
             throw new IllegalArgumentException("URL cannot be null or empty");
         }
