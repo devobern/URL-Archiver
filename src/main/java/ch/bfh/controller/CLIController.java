@@ -83,6 +83,7 @@ public class CLIController {
                 isValid = true;
             } catch (PathValidationException e) {
                 view.printFormattedMessage("error.retry");
+                view.printMessage(e);
             }
         }
         // Calls url extractor and saves hurl's to model
@@ -224,17 +225,17 @@ public class CLIController {
         try {
             ArchiverResult result = archiverManager.archive(url, selectedArchivers);
 
-            if (result.getArchivedUrls().isEmpty()) {
+            if (result.archivedUrls().isEmpty()) {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
             } else {
                 // You may want to handle multiple URLs here if "Both" was selected
-                String archivedURL = String.join("; ", result.getArchivedUrls()); // todo: List of archived urls
+                String archivedURL = String.join("; ", result.archivedUrls()); // todo: List of archived urls
                 fileModel.setArchivedURL(url, archivedURL);
                 view.printFormattedMessage("info.archived_url", archivedURL);
             }
 
             // Inform the user about each unavailable archiver
-            for (String archiverName : result.getUnavailableArchivers()) {
+            for (String archiverName : result.unavailableArchivers()) {
                 view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
             }
         } catch (ArchiverException e) {
@@ -335,8 +336,6 @@ public class CLIController {
             }
         } catch (IOException e) {
             view.printMessage("file.read.error");
-        } catch (PathValidationException e) {
-            view.printMessage("path.invalid.error");
         } catch (FileModelException e) {
             view.printMessage("file.notSupported.error");
         }
