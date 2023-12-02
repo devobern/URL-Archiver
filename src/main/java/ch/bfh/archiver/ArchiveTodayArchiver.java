@@ -58,9 +58,6 @@ public class ArchiveTodayArchiver implements URLArchiver {
 
             // Wait for the CAPTCHA to be present
             WebElement captcha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("g-recaptcha")));
-            // Inform the user that they need to solve the CAPTCHA manually
-            // TODO - How to notify user?
-            System.out.println("Please solve the CAPTCHA in the browser.");
             wait
                     .pollingEvery(Duration.ofMillis(300))
                     .until(ExpectedConditions.invisibilityOf(captcha));

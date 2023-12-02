@@ -209,7 +209,10 @@ public class CLIController {
 
         switch (serviceChoice) {
             case "1" -> selectedArchivers.add(archiverManager.getArchiver("WaybackMachine"));
-            case "2" -> selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
+            case "2" -> {
+                view.printMessage("action.archiving.solve_captchas");
+                selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
+            }
             case "3" -> selectedArchivers.addAll(archiverManager.getAllArchivers());
             default -> {
                 view.printFormattedMessage("action.invalid");
