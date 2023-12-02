@@ -39,9 +39,8 @@ public class BrowserOpener {
      *
      * @param urlString The URL to validate and format.
      * @return The validated and formatted URL.
-     * @throws URISyntaxException If the URL string is not properly formatted.
      */
-    private static String validateAndFormatURL(String urlString) throws URISyntaxException {
+    private static String validateAndFormatURL(String urlString) {
         try {
             new URI(urlString); // Validate URL
         } catch (Exception e) {
