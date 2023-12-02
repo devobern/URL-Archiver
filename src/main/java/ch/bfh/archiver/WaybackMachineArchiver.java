@@ -1,8 +1,8 @@
 package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
-import ch.bfh.model.WaybackMachineArchiveResponse;
-import ch.bfh.model.WaybackMachineJob;
+import ch.bfh.model.archiving.WaybackMachineArchiveResponse;
+import ch.bfh.model.archiving.WaybackMachineJob;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
