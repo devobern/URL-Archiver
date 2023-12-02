@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ConsoleView {
     private final ResourceBundle messages;
 
-    private final String OPTIONS = "(o/a/n/q/h)";
+    private static final String OPTIONS = "(o/a/n/q/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -91,7 +91,7 @@ public class ConsoleView {
      */
     public void printWelcomeMessage() {
         System.out.println("""
-                ██╗   ██╗██████╗ ██╗       █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗██████╗ 
+                ██╗   ██╗██████╗ ██╗       █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗██████╗
                 ██║   ██║██╔══██╗██║      ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝██╔══██╗
                 ██║   ██║██████╔╝██║█████╗███████║██████╔╝██║     ███████║██║██║   ██║█████╗  ██████╔╝
                 ██║   ██║██╔══██╗██║╚════╝██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
