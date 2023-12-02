@@ -23,10 +23,6 @@ public class ConsoleView {
         this.messages = I18n.getResourceBundle(locale);
     }
 
-    public void printMessage(Exception exception) {
-        System.out.println(exception.getMessage());
-    }
-
     /**
      * Prints a message to the console using the provided key.
      *
