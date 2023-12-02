@@ -1,8 +1,11 @@
 package ch.bfh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * data class for objectmapping the response of save website request (wayback machine)
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WaybackMachineArchiveResponse {
     private String url;
     private String job_id;
