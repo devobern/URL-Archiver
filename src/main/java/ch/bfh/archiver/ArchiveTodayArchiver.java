@@ -44,7 +44,7 @@ public class ArchiveTodayArchiver implements URLArchiver {
         }
 
         WebDriver driver = getWebDriver();
-        String archivedUrl = null;
+        String archivedUrl;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT_SECONDS));
 
         try {
