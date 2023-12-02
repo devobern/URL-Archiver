@@ -113,7 +113,6 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
-            // todo: New switch pattern matching
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN -> handleOpen();
