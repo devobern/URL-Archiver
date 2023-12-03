@@ -36,7 +36,7 @@ public class FileValidator {
         if (mimeType != null && (mimeType.contains("text/") || mimeType.equals("application/pdf"))) {
             return mimeType;
         } else {
-            throw new FileModelException(I18n.getString("file.notSupported.error"));
+            throw new FileModelException(I18n.getString("folder.skipFile.info") + path.getFileName().toString());
         }
     }
 
