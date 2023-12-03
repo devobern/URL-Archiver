@@ -10,6 +10,8 @@ import ch.bfh.helper.ConfigFileHelper;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
 import ch.bfh.model.*;
+import ch.bfh.model.filereader.FileReaderFactory;
+import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
 
 import java.io.IOException;
@@ -143,7 +145,7 @@ public class CLIController {
     private void handleConfig() {
         view.printFormattedMessage("config.modify.print", this.config.getAccessKey(), this.config.getSecretKey(), this.config.getBrowser().name());
         String input = scanner.nextLine();
-        if (input.toLowerCase().equals("y")) {
+        if (input.equalsIgnoreCase("y")) {
             handleModifyConfig();
         }
     }
@@ -151,13 +153,13 @@ public class CLIController {
     private void handleModifyConfig() {
         view.printFormattedMessage("config.modify.accessKey", this.config.getAccessKey());
         String inputAccessKey = scanner.nextLine();
-        if (!inputAccessKey.equals("")) {
+        if (!inputAccessKey.isEmpty() && !inputAccessKey.isBlank()) {
             this.config.setAccessKey(inputAccessKey);
         }
 
         view.printFormattedMessage("config.modify.secretKey", this.config.getSecretKey());
         String inputSecretKey = scanner.nextLine();
-        if (!inputSecretKey.equals("")) {
+        if (!inputSecretKey.isEmpty() && !inputSecretKey.isBlank()) {
             this.config.setSecretKey(inputSecretKey);
         }
 
@@ -180,8 +182,11 @@ public class CLIController {
                 this.config.setBrowser(SupportedBrowsers.CHROME);
                 supportedBrowser = true;
                 break;
-            case "DEFAULT", "":
+            case "DEFAULT":
                 this.config.setBrowser(SupportedBrowsers.DEFAULT);
+                supportedBrowser = true;
+                break;
+            case "":
                 supportedBrowser = true;
                 break;
             default:
@@ -203,8 +208,11 @@ public class CLIController {
                     this.config.setBrowser(SupportedBrowsers.CHROME);
                     supportedBrowser = true;
                     break;
-                case "DEFAULT", "":
+                case "DEFAULT":
                     this.config.setBrowser(SupportedBrowsers.DEFAULT);
+                    supportedBrowser = true;
+                    break;
+                case "":
                     supportedBrowser = true;
                     break;
                 default:
@@ -213,8 +221,10 @@ public class CLIController {
 
         try {
             ConfigFileHelper.save(this.config);
+            view.printMessage("config.save.success");
+            view.printSeparator();
         } catch (ConfigFileException e) {
-            
+            view.printMessage(e);
         }
 
 
@@ -297,7 +307,21 @@ public class CLIController {
         List<URLArchiver> selectedArchivers = new ArrayList<>();
 
         switch (serviceChoice) {
-            case "1" -> selectedArchivers.add(archiverManager.getArchiver("WaybackMachine"));
+            case "1" -> {
+                if (this.config.getAccessKey().isEmpty() || this.config.getSecretKey().isEmpty()) {
+                    view.printMessage("action.archiving.warning.noCredentials");
+                    String choice = scanner.nextLine();
+                    if (choice.equalsIgnoreCase("y")) {
+                        handleConfig();
+                        if (!this.config.getAccessKey().isEmpty() && !this.config.getSecretKey().isEmpty()) {
+                            selectedArchivers.add(archiverManager.getArchiver("WaybackMachine"));
+                        }
+                    }
+                } else {
+                    selectedArchivers.add(archiverManager.getArchiver("WaybackMachine"));
+                }
+
+            }
             case "2" -> {
                 view.printMessage("action.archiving.solve_captchas");
                 selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
@@ -311,6 +335,7 @@ public class CLIController {
 
         // Perform archiving with the selected archivers
         try {
+            view.printMessage("action.archiving.start");
             ArchiverResult result = archiverManager.archive(url, selectedArchivers);
 
             if (result.archivedUrls().isEmpty()) {
