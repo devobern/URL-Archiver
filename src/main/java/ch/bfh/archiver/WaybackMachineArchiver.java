@@ -1,6 +1,7 @@
 package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
+import ch.bfh.model.ConfigModel;
 import ch.bfh.model.WaybackMachineArchiveResponse;
 import ch.bfh.model.WaybackMachineJob;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +21,10 @@ import java.net.http.HttpResponse;
 public class WaybackMachineArchiver implements URLArchiver{
     private final String serviceName = "WaybackMachine";
     private final String apiUrl = "https://web.archive.org/save/";
-    private String accessKey;
-    private String secretKey;
+    private ConfigModel config;
 
-    public WaybackMachineArchiver(String accessKey, String secretKey) {
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
+    public WaybackMachineArchiver(ConfigModel config) {
+        this.config = config;
     }
 
     /**
@@ -41,7 +40,7 @@ public class WaybackMachineArchiver implements URLArchiver{
             String postData = "url=" + url + "&capture_all=1";
 
             // The API key for authorization
-            String apiKey = "LOW " + this.accessKey + ":" + this.secretKey;
+            String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
 
             // Create an HttpClient
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -93,7 +92,7 @@ public class WaybackMachineArchiver implements URLArchiver{
     public boolean isAvailable() {
         try {
             // The API key for authorization
-            String apiKey = "LOW " + this.accessKey + ":" + this.secretKey;
+            String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(
                             URI.create(apiUrl + "status/system"))
@@ -139,7 +138,7 @@ public class WaybackMachineArchiver implements URLArchiver{
     private WaybackMachineJob waitForJob(WaybackMachineArchiveResponse archiveResponse) throws IOException, InterruptedException {
 
         // The API key for authorization
-        String apiKey = "LOW " + this.accessKey + ":" + this.secretKey;
+        String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
 
         // Create an HttpClient
         HttpClient httpClient = HttpClient.newHttpClient();
