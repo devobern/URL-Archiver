@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ConsoleView {
     private final ResourceBundle messages;
 
-    private final String OPTIONS = "(o/a/n/q/h)";
+    private final String OPTIONS = "(o/a/n/q/c/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -52,6 +52,7 @@ public class ConsoleView {
         System.out.println("[a]\t" + messages.getString("option.archive"));
         System.out.println("[n]\t" + messages.getString("option.next"));
         System.out.println("[q]\t" + messages.getString("option.quit"));
+        System.out.println("[c]\t" + messages.getString("option.config"));
         System.out.println("[h]\t" + messages.getString("option.help"));
         System.out.println();
     }
