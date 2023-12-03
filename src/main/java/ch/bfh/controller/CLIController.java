@@ -353,6 +353,7 @@ public class CLIController {
             }
         } catch (ArchiverException e) {
             view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
         }
 
 
