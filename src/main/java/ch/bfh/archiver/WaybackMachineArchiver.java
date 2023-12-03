@@ -43,6 +43,7 @@ public class WaybackMachineArchiver implements URLArchiver{
             String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
 
             // Create an HttpClient
+            // Todo: Implement IDE hint
             HttpClient httpClient = HttpClient.newHttpClient();
 
             // Create a HttpRequest with the necessary headers and data
@@ -69,18 +70,22 @@ public class WaybackMachineArchiver implements URLArchiver{
                 throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
             }
 
+            // Todo: Implement IDE hint
             String archivedUrl = "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
 
             return archivedUrl;
 
 
+            // ToDo: Do not System.out here
         } catch (IOException e) {
-            System.out.println(e);
+            //System.out.println(e);
+            throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
         } catch (InterruptedException e) {
-            System.out.println(e);
+            //System.out.println(e);
+            // Restore the interrupted status
+            Thread.currentThread().interrupt();
+            throw new ArchiverException("The archiving operation was interrupted", e);
         }
-
-        return null;
     }
 
     /**
@@ -101,6 +106,7 @@ public class WaybackMachineArchiver implements URLArchiver{
                     .GET()
                     .build();
 
+            // Todo: Implement IDE Hints
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() < 300) {
@@ -114,6 +120,8 @@ public class WaybackMachineArchiver implements URLArchiver{
         } catch (InterruptedException e) {
             return false;
         }
+
+        // todo: Implement IDE hints
 
         return false;
     }
@@ -141,6 +149,7 @@ public class WaybackMachineArchiver implements URLArchiver{
         String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
 
         // Create an HttpClient
+        // todo: Implement IDE hint
         HttpClient httpClient = HttpClient.newHttpClient();
 
         // Create a HttpRequest with the necessary headers and data
@@ -164,7 +173,7 @@ public class WaybackMachineArchiver implements URLArchiver{
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
-
+            // todo: Could be necessary, but needs to be checked
             Thread.sleep(200);
         }
 

@@ -13,7 +13,7 @@ class ArchiverResultTest {
 
         ArchiverResult result = new ArchiverResult(archivedUrls, unavailableArchivers);
 
-        assertEquals(archivedUrls, result.getArchivedUrls());
-        assertEquals(unavailableArchivers, result.getUnavailableArchivers());
+        assertEquals(archivedUrls, result.archivedUrls());
+        assertEquals(unavailableArchivers, result.unavailableArchivers());
     }
 }

@@ -43,10 +43,10 @@ class URLExtractorTest {
 
     @Test
     void extractURLsWithNullInput() {
-        // Test to verify that the method throws a NullPointerException when null is passed as input.
-        assertThrows(NullPointerException.class,
+        // Test to verify that the method throws a IllegalArgumentException when null is passed as input.
+        assertThrows(IllegalArgumentException.class,
                 () -> URLExtractor.extractURLs(null),
-                "Extracting URLs from null should throw NullPointerException");
+                "Extracting URLs from null should throw IllegalArgumentException");
     }
 
     @Test
