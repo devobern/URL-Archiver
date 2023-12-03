@@ -44,3 +44,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /report/svg-inkscape/process_model-detailed_curved_svg-tex.pdf_tex
+src/main/resources/config.json
