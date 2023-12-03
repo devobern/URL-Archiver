@@ -30,7 +30,7 @@ public class ConfigFileHelper {
         config.setAccessKey(configMapper.getAccessKey());
         config.setSecretKey(new String(Base64.getDecoder().decode(configMapper.getSecretKey())));
 
-        switch(configMapper.getBrowser()) {
+        switch(configMapper.getBrowser().toUpperCase()) {
             case "FIREFOX":
                 config.setBrowser(SupportedBrowsers.FIREFOX);
                 break;
