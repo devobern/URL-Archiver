@@ -55,13 +55,7 @@ public class CLIController {
         this.folderModel = null;
         this.currentFileIndex = 0;
 
-        // Create a Archiver Manager
-        this.archiverManager = new ArchiverManager();
-        // Initialize all possible archivers once
-        // TODO: get Credentials from a config file
-        archiverManager.addArchiver(new WaybackMachineArchiver("X6QRIuGNnxs0UJt8", "vNzfdLDbrdxUXpIX"));
-        archiverManager.addArchiver(new ArchiveTodayArchiver());
-
+        // read config file
         try {
             this.config = ConfigFileHelper.read();
         } catch (ConfigFileException e) {
@@ -69,6 +63,12 @@ public class CLIController {
             view.printFormattedMessage("config.read.error", e.getMessage());
         }
 
+        // Create a Archiver Manager
+        this.archiverManager = new ArchiverManager();
+        // Initialize all possible archivers once
+
+        archiverManager.addArchiver(new WaybackMachineArchiver(this.config));
+        archiverManager.addArchiver(new ArchiveTodayArchiver());
 
     }
 
@@ -128,6 +128,7 @@ public class CLIController {
                     case ARCHIVE -> handleArchive(extractedURL);
                     case NEXT -> handleNext();
                     case HELP -> view.printOptions();
+                    case CONFIG -> handleConfig();
                     case QUIT -> {
                         handleQuit();
                         running = false;
@@ -137,6 +138,86 @@ public class CLIController {
                 view.printFormattedMessage("action.invalid");
             }
         }
+    }
+
+    private void handleConfig() {
+        view.printFormattedMessage("config.modify.print", this.config.getAccessKey(), this.config.getSecretKey(), this.config.getBrowser().name());
+        String input = scanner.nextLine();
+        if (input.toLowerCase().equals("y")) {
+            handleModifyConfig();
+        }
+    }
+
+    private void handleModifyConfig() {
+        view.printFormattedMessage("config.modify.accessKey", this.config.getAccessKey());
+        String inputAccessKey = scanner.nextLine();
+        if (!inputAccessKey.equals("")) {
+            this.config.setAccessKey(inputAccessKey);
+        }
+
+        view.printFormattedMessage("config.modify.secretKey", this.config.getSecretKey());
+        String inputSecretKey = scanner.nextLine();
+        if (!inputSecretKey.equals("")) {
+            this.config.setSecretKey(inputSecretKey);
+        }
+
+        boolean supportedBrowser = false;
+
+
+        view.printFormattedMessage("config.modify.browser", this.config.getBrowser().name());
+        String inputBrowser = scanner.nextLine();
+
+        switch (inputBrowser.toUpperCase()) {
+            case "FIREFOX":
+                this.config.setBrowser(SupportedBrowsers.FIREFOX);
+                supportedBrowser = true;
+                break;
+            case "EDGE":
+                this.config.setBrowser(SupportedBrowsers.EDGE);
+                supportedBrowser = true;
+                break;
+            case "CHROME":
+                this.config.setBrowser(SupportedBrowsers.CHROME);
+                supportedBrowser = true;
+                break;
+            case "DEFAULT", "":
+                this.config.setBrowser(SupportedBrowsers.DEFAULT);
+                supportedBrowser = true;
+                break;
+            default:
+        }
+        while (!supportedBrowser) {
+            view.printFormattedMessage("config.modify.invalidBrowser", inputBrowser);
+            inputBrowser = scanner.nextLine();
+
+            switch (inputBrowser.toUpperCase()) {
+                case "FIREFOX":
+                    this.config.setBrowser(SupportedBrowsers.FIREFOX);
+                    supportedBrowser = true;
+                    break;
+                case "EDGE":
+                    this.config.setBrowser(SupportedBrowsers.EDGE);
+                    supportedBrowser = true;
+                    break;
+                case "CHROME":
+                    this.config.setBrowser(SupportedBrowsers.CHROME);
+                    supportedBrowser = true;
+                    break;
+                case "DEFAULT", "":
+                    this.config.setBrowser(SupportedBrowsers.DEFAULT);
+                    supportedBrowser = true;
+                    break;
+                default:
+            }
+        }
+
+        try {
+            ConfigFileHelper.save(this.config);
+        } catch (ConfigFileException e) {
+            
+        }
+
+
     }
 
     /**
