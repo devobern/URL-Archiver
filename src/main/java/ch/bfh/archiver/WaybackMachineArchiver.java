@@ -2,8 +2,7 @@ package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.model.ConfigModel;
-import ch.bfh.model.WaybackMachineArchiveResponse;
-import ch.bfh.model.WaybackMachineJob;
+import ch.bfh.model.archiving.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ import java.net.http.HttpResponse;
 public class WaybackMachineArchiver implements URLArchiver{
     private final String serviceName = "WaybackMachine";
     private final String apiUrl = "https://web.archive.org/save/";
-    private ConfigModel config;
+    private final ConfigModel config;
 
     public WaybackMachineArchiver(ConfigModel config) {
         this.config = config;
