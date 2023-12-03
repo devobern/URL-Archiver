@@ -64,4 +64,32 @@ public class ConfigFileHelper {
         }
     }
 
+    public static SupportedBrowsers getBrowser() throws ConfigFileException {
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        File configFile = new File(configFilePath);
+        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
+
+        if (configFile.exists() && !configFile.isDirectory()) {
+            try {
+                configMapper = objectMapper.readValue(configFile, ConfigFileMapperModel.class);
+            } catch (IOException e) {
+                throw(new ConfigFileException(e.getMessage()));
+            }
+        }
+
+        switch(configMapper.getBrowser().toUpperCase()) {
+            case "FIREFOX":
+                return SupportedBrowsers.FIREFOX;
+            case "EDGE":
+                return SupportedBrowsers.EDGE;
+            case "CHROME":
+                return SupportedBrowsers.CHROME;
+            case "", "DEFAULT":
+                return SupportedBrowsers.DEFAULT;
+            default:
+                return SupportedBrowsers.UNSUPPORTED;
+        }
+
+    }
+
 }
