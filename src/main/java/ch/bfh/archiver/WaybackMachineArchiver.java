@@ -6,7 +6,6 @@ import ch.bfh.model.archiving.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -36,7 +35,7 @@ public class WaybackMachineArchiver implements URLArchiver{
     public String archiveURL(String url) throws ArchiverException {
         try {
             // The data to be sent in the request body
-            String postData = "url=" + url + "&capture_all=1";
+            String postData = "url=" + url + "&capture_all=1&skip_first_archive=1";
 
             // The API key for authorization
             String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
@@ -61,6 +60,10 @@ public class WaybackMachineArchiver implements URLArchiver{
             int statusCode = response.statusCode();
             String responseBody = response.body();
 
+            if (statusCode > 299) {
+                throw new ArchiverException("Wayback Machine Response is not good: " + responseBody);
+            }
+
             WaybackMachineArchiveResponse archiveResponse = new ObjectMapper().readValue(responseBody, WaybackMachineArchiveResponse.class);
 
             WaybackMachineJob job = waitForJob(archiveResponse);
@@ -69,19 +72,12 @@ public class WaybackMachineArchiver implements URLArchiver{
                 throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
             }
 
-            // Todo: Implement IDE hint
-            String archivedUrl = "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
-
-            return archivedUrl;
+            return "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
 
 
-            // ToDo: Do not System.out here
         } catch (IOException e) {
-            //System.out.println(e);
             throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
         } catch (InterruptedException e) {
-            //System.out.println(e);
-            // Restore the interrupted status
             Thread.currentThread().interrupt();
             throw new ArchiverException("The archiving operation was interrupted", e);
         }
@@ -106,21 +102,17 @@ public class WaybackMachineArchiver implements URLArchiver{
                     .build();
 
             // Todo: Implement IDE Hints
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // TODO: use archiving over 12h if SNP-Servers are overloaded
 
             if (response.statusCode() < 300) {
                 return true;
             }
 
-        } catch (MalformedURLException e) {
-            return false;
-        } catch (IOException e) {
-            return false;
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             return false;
         }
-
-        // todo: Implement IDE hints
 
         return false;
     }
@@ -173,7 +165,7 @@ public class WaybackMachineArchiver implements URLArchiver{
 
             job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
             // todo: Could be necessary, but needs to be checked
-            Thread.sleep(200);
+            Thread.sleep(1000);
         }
 
         return job;
