@@ -102,7 +102,6 @@ public class ConsoleView {
                     Thread.currentThread().interrupt();
                 }
             }
-            System.out.print("\rArchiving Complete\n");  // Clear the indicator
         }).start();
     }
 
@@ -113,6 +112,7 @@ public class ConsoleView {
      */
     public void stopArchivingIndicator() {
         isArchiving = false;
+        System.out.println("\nArchiving complete");
     }
 
     /**
