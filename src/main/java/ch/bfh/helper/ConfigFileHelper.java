@@ -28,7 +28,7 @@ public class ConfigFileHelper {
         }
 
         config.setAccessKey(configMapper.getAccessKey());
-        config.setSecretKey(new String(Base64.getDecoder().decode(configMapper.getSecretKey())));
+        config.setSecretKey(configMapper.getSecretKey());
 
         switch(configMapper.getBrowser().toUpperCase()) {
             case "FIREFOX":
@@ -54,7 +54,7 @@ public class ConfigFileHelper {
         ObjectMapper objectMapper = new ObjectMapper();
         ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
         configMapper.setAccessKey(config.getAccessKey());
-        configMapper.setSecretKey(Base64.getEncoder().encodeToString(config.getSecretKey().getBytes()));
+        configMapper.setSecretKey(config.getSecretKey());
         configMapper.setBrowser(config.getBrowser().name());
 
         try {
