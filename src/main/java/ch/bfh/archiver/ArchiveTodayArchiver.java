@@ -79,21 +79,11 @@ public class ArchiveTodayArchiver implements URLArchiver {
             // Get archived site URL
             archivedUrl = driver.getCurrentUrl();
         } catch (TimeoutException e) {
-           throw new ArchiverException("The URL could not be archived in less than five minutes!");
-        } catch (ConnectionFailedException e){
-           throw new ArchiverException("The browser was closed or the network connection was closed!");
-        }
-        finally {
-            // Close the browser with different methods based on the OS due to observed behavior discrepancies.
-            // On Windows and macOS, `driver.quit()` is used for proper cleanup and ending the WebDriver session.
-            // On Linux systems, `driver.quit()` sometimes causes exceptions, so `driver.close()` is used instead
-            // to avoid these issues. Note that `driver.close()` only affects the current window, which is adequate
-            // for single-window applications.
-            if(System.getProperty("os.name").toLowerCase().contains("win") || System.getProperty("os.name").toLowerCase().contains("mac")){
-                driver.quit();
-            }else {
-                driver.close();
-            }
+            throw new ArchiverException("The URL could not be archived in less than five minutes!");
+        } catch (ConnectionFailedException e) {
+            throw new ArchiverException("The browser was closed or the network connection was closed!");
+        } finally {
+            driver.quit();
         }
         return archivedUrl;
     }
