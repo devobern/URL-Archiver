@@ -1,6 +1,7 @@
 package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
+import com.titusfortner.logging.SeleniumLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +14,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.time.Duration;
 import java.util.List;
+import java.util.logging.Level;
+
 
 import static ch.bfh.helper.WebDriverFactory.getWebDriver;
 
@@ -27,6 +30,17 @@ public class ArchiveTodayArchiver implements URLArchiver {
     private final String hostName = "archive.today";
 
     private final int timeout = 300;
+
+    /*
+     * Static initializer for setting the logging level of SeleniumLogger.
+     *
+     * Sets the logging level to SEVERE, limiting logs to only severe error messages.
+     * This reduces the verbosity of Selenium logging output.
+     */
+    static {
+        SeleniumLogger logger = new SeleniumLogger();
+        logger.setLevel(Level.SEVERE);
+    }
 
     /**
      * Archives the given URL using the Archive.today service.
