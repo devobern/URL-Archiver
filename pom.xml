@@ -29,7 +29,12 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.10.0</version>
+            <version>4.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.titusfortner</groupId>
+            <artifactId>selenium-logger</artifactId>
+            <version>2.3.0</version>
         </dependency>
         <!-- Mockito Core for mocking -->
         <dependency>
