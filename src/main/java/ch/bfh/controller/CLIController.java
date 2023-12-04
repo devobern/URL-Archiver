@@ -8,8 +8,8 @@ import ch.bfh.helper.BrowserOpener;
 import ch.bfh.helper.FileValidator;
 import ch.bfh.helper.PathValidator;
 import ch.bfh.model.FileModel;
-import ch.bfh.model.FileReaderFactory;
-import ch.bfh.model.FileReaderInterface;
+import ch.bfh.model.filereader.FileReaderFactory;
+import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.model.FolderModel;
 import ch.bfh.model.UserChoice;
 import ch.bfh.view.ConsoleView;
@@ -83,6 +83,7 @@ public class CLIController {
                 isValid = true;
             } catch (PathValidationException e) {
                 view.printFormattedMessage("error.retry");
+                view.printMessage(e);
             }
         }
         // Calls url extractor and saves hurl's to model
@@ -113,7 +114,6 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
-            // todo: New switch pattern matching
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN -> handleOpen();
@@ -224,21 +224,21 @@ public class CLIController {
         try {
             ArchiverResult result = archiverManager.archive(url, selectedArchivers);
 
-            if (result.getArchivedUrls().isEmpty()) {
+            if (result.archivedUrls().isEmpty()) {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
             } else {
                 // You may want to handle multiple URLs here if "Both" was selected
-                String archivedURL = String.join("; ", result.getArchivedUrls()); // todo: List of archived urls
+                String archivedURL = String.join("; ", result.archivedUrls()); // todo: List of archived urls
                 fileModel.setArchivedURL(url, archivedURL);
                 view.printFormattedMessage("info.archived_url", archivedURL);
             }
 
             // Inform the user about each unavailable archiver
-            for (String archiverName : result.getUnavailableArchivers()) {
+            for (String archiverName : result.unavailableArchivers()) {
                 view.printFormattedMessage("action.archiving.error.archiver_unavailable", archiverName);
             }
         } catch (ArchiverException e) {
-            view.printFormattedMessage("action.archiving.error.archiver_error", e.getMessage());
+            view.printMessage(e);
         }
 
 
@@ -314,7 +314,7 @@ public class CLIController {
                 view.printFormattedMessage("file.validated.info", filePath.getFileName().toString());
                 folderModel.addFile(new FileModel(filePath, mimeType));
             } catch (FileModelException e) {
-                view.printFormattedMessage("folder.skipFile.info", filePath.getFileName().toString());
+                view.printMessage(e);
             }
         }
     }
@@ -335,10 +335,8 @@ public class CLIController {
             }
         } catch (IOException e) {
             view.printMessage("file.read.error");
-        } catch (PathValidationException e) {
-            view.printMessage("path.invalid.error");
         } catch (FileModelException e) {
-            view.printMessage("file.notSupported.error");
+            view.printMessage(e);
         }
     }
 

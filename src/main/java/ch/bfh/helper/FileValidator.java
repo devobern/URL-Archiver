@@ -1,7 +1,6 @@
 package ch.bfh.helper;
 
-import java.io.*;
-
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,47 +8,44 @@ import java.nio.file.Paths;
 import ch.bfh.exceptions.FileModelException;
 
 /**
- * Validator for file path
- * determines the type of the file and if its supported
+ * Validator for file paths that determines the type of the file and if it's supported.
  */
 public class FileValidator {
 
-
     /**
-     * method for validating if a file is unicode encrypted or is a pdf file
+     * Validates if a file is a PDF or a Unicode encoded text file.
      *
-     * @param stringPath -> path to the file for validation
-     * @return -> returns "PDF" if the file is a PDF or the used UTF-Encryption
-     * @throws FileModelException -> throws UnicodeFileFormat Exception if file is not a pdf or unicode encrypted
+     * @param stringPath Path to the file for validation.
+     * @return Returns "application/pdf" if the file is a PDF or "text/*" if it's a text file.
+     * @throws FileModelException if the file is not a PDF or Unicode encoded text file.
+     * @throws IOException if an I/O error occurs.
      */
     public static String validate(String stringPath) throws FileModelException, IOException {
-
         Path path = Paths.get(stringPath.trim());
 
-        // check if the path is a file
         if (!Files.isRegularFile(path)) {
             throw new FileModelException(I18n.getString("file.isNotFile.error"));
         }
 
-
         String mimeType = Files.probeContentType(path);
 
-        // probeContentType doesn't discover .bib files so it's checked with the file extension
         if (mimeType == null) {
-            String fileName = path.getFileName().toString();
-            int index = fileName.lastIndexOf(".");
-            if (fileName.substring(index + 1).equals("bib")) {
-                mimeType = "text/bib";
-            }
+            mimeType = inferMimeTypeFromExtension(path);
         }
-
 
         if (mimeType != null && (mimeType.contains("text/") || mimeType.equals("application/pdf"))) {
             return mimeType;
         } else {
             throw new FileModelException(I18n.getString("file.notSupported.error"));
         }
-
     }
 
+    private static String inferMimeTypeFromExtension(Path path) {
+        String fileName = path.getFileName().toString();
+        int index = fileName.lastIndexOf(".");
+        if (index > 0 && fileName.substring(index + 1).equalsIgnoreCase("bib")) {
+            return "text/bib";
+        }
+        return null;
+    }
 }

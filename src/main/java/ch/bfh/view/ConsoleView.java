@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ConsoleView {
     private final ResourceBundle messages;
 
-    private final String OPTIONS = "(o/a/n/q/h)";
+    private static final String OPTIONS = "(o/a/n/q/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -31,6 +31,18 @@ public class ConsoleView {
     public void printMessage(String key) {
         System.out.print(messages.getString(key));
     }
+
+    /**
+     * Prints the message of the provided exception to the console.
+     * This method is used to display the message of an exception to the user,
+     * which can be useful for debugging or informing the user of the nature of an error.
+     *
+     * @param exception the exception whose message is to be printed.
+     */
+    public void printMessage(Exception exception){
+        System.out.println(exception.getMessage());
+    }
+
 
     /**
      * Prints a formatted message to the console using the provided key and arguments.
@@ -87,7 +99,7 @@ public class ConsoleView {
      */
     public void printWelcomeMessage() {
         System.out.println("""
-                ██╗   ██╗██████╗ ██╗       █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗██████╗ 
+                ██╗   ██╗██████╗ ██╗       █████╗ ██████╗  ██████╗██╗  ██╗██╗██╗   ██╗███████╗██████╗
                 ██║   ██║██╔══██╗██║      ██╔══██╗██╔══██╗██╔════╝██║  ██║██║██║   ██║██╔════╝██╔══██╗
                 ██║   ██║██████╔╝██║█████╗███████║██████╔╝██║     ███████║██║██║   ██║█████╗  ██████╔╝
                 ██║   ██║██╔══██╗██║╚════╝██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ██╔══██╗

@@ -9,8 +9,7 @@ import org.openqa.selenium.remote.http.ConnectionFailedException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import java.net.*;
 import java.time.Duration;
 import java.util.List;
 
@@ -21,12 +20,13 @@ import static ch.bfh.helper.WebDriverFactory.getWebDriver;
  * This class provides the mechanism to archive URLs using Archive.today's archiving capabilities.
  */
 public class ArchiveTodayArchiver implements URLArchiver {
-
-    private final String serviceName = "ArchiveToday";
-    private final String serviceUrl = "https://archive.today";
-    private final String hostName = "archive.today";
-
-    private final int timeout = 300;
+    private static final String SERVICE_NAME = "ArchiveToday";
+    private static final String SERVICE_URL = "https://archive.today";
+    private static final int TIMEOUT_SECONDS = 300;
+    private static final int POLLING_INTERVAL_MS = 300;
+    private static final String HOST_NAME = "archive.today";
+    private static final int PORT = 80;
+    private static final int SOCKET_TIMEOUT_MS = 5000;
 
     /**
      * Archives the given URL using the Archive.today service.
@@ -41,12 +41,12 @@ public class ArchiveTodayArchiver implements URLArchiver {
         }
 
         WebDriver driver = getWebDriver();
-        String archivedUrl = null;
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        String archivedUrl;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT_SECONDS));
 
         try {
             // Launch Website
-            driver.navigate().to(serviceUrl);
+            driver.navigate().to(SERVICE_URL);
 
             // Wait for the input field to be visible and enter the URL
             WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("url")));
@@ -59,7 +59,7 @@ public class ArchiveTodayArchiver implements URLArchiver {
             // Wait for the CAPTCHA to be present
             WebElement captcha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("g-recaptcha")));
             wait
-                    .pollingEvery(Duration.ofMillis(300))
+                    .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MS))
                     .until(ExpectedConditions.invisibilityOf(captcha));
 
             // Check if the "DIVALREADY" element is present which means the site was already archived
@@ -73,7 +73,7 @@ public class ArchiveTodayArchiver implements URLArchiver {
 
             // Wait for the 'DIVSHARE' element to be present
             wait
-                    .pollingEvery(Duration.ofMillis(500))
+                    .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MS))
                     .until(ExpectedConditions.presenceOfElementLocated(By.id("DIVSHARE")));
 
             // Get archived site URL
@@ -99,8 +99,7 @@ public class ArchiveTodayArchiver implements URLArchiver {
      */
     public boolean isAvailable() {
         try (Socket socket = new Socket()) {
-            int port = 80;
-            socket.connect(new InetSocketAddress(hostName, port), 5000);
+            socket.connect(new InetSocketAddress(HOST_NAME, PORT), SOCKET_TIMEOUT_MS);
             return true;
         } catch (Exception e) {
             return false;
@@ -115,6 +114,6 @@ public class ArchiveTodayArchiver implements URLArchiver {
      */
     @Override
     public String getServiceName() {
-        return serviceName;
+        return SERVICE_NAME;
     }
 }

@@ -49,10 +49,10 @@ public class ArchiverManagerTest {
         ArchiverResult result = manager.archive(testUrl, List.of(waybackArchiver, archiveTodayArchiver));
 
         // Assert that the archived URLs list contains the expected URLs.
-        assertTrue(result.getArchivedUrls().contains("http://archived.example.com/wayback"));
-        assertTrue(result.getArchivedUrls().contains("http://archived.example.com/archivetoday"));
+        assertTrue(result.archivedUrls().contains("http://archived.example.com/wayback"));
+        assertTrue(result.archivedUrls().contains("http://archived.example.com/archivetoday"));
         // Assert that no services are reported as unavailable.
-        assertTrue(result.getUnavailableArchivers().isEmpty());
+        assertTrue(result.unavailableArchivers().isEmpty());
     }
 
     // Test archiving when both services are unavailable.
@@ -68,10 +68,10 @@ public class ArchiverManagerTest {
         ArchiverResult result = manager.archive(testUrl, List.of(waybackArchiver, archiveTodayArchiver));
 
         // Assert that the archived URLs list is empty.
-        assertTrue(result.getArchivedUrls().isEmpty());
+        assertTrue(result.archivedUrls().isEmpty());
         // Assert that both services are reported as unavailable.
-        assertTrue(result.getUnavailableArchivers().contains("WaybackMachine"));
-        assertTrue(result.getUnavailableArchivers().contains("ArchiveToday"));
+        assertTrue(result.unavailableArchivers().contains("WaybackMachine"));
+        assertTrue(result.unavailableArchivers().contains("ArchiveToday"));
     }
 
     // Test archiving when one service is available and the other is not.
@@ -89,13 +89,13 @@ public class ArchiverManagerTest {
         ArchiverResult result = manager.archive(testUrl, List.of(waybackArchiver, archiveTodayArchiver));
 
         // Assert that there is one archived URL in the list.
-        assertEquals(1, result.getArchivedUrls().size());
+        assertEquals(1, result.archivedUrls().size());
         // Assert that the archived URL is the one returned by the available service.
-        assertTrue(result.getArchivedUrls().contains("http://archived.example.com/archivetoday"));
+        assertTrue(result.archivedUrls().contains("http://archived.example.com/archivetoday"));
         // Assert that the unavailable service is reported as such.
-        assertTrue(result.getUnavailableArchivers().contains("WaybackMachine"));
+        assertTrue(result.unavailableArchivers().contains("WaybackMachine"));
         // Assert that the available service is not reported as unavailable.
-        assertFalse(result.getUnavailableArchivers().contains("ArchiveToday"));
+        assertFalse(result.unavailableArchivers().contains("ArchiveToday"));
     }
 
 }

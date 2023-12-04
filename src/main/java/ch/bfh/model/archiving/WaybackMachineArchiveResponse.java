@@ -1,4 +1,4 @@
-package ch.bfh.model;
+package ch.bfh.model.archiving;
 
 /**
  * data class for objectmapping the response of save website request (wayback machine)

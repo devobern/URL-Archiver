@@ -1,15 +1,14 @@
 package ch.bfh.archiver;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Encapsulates the result of an archiving operation, containing the archived URLs
  * and a list of archivers that were unavailable during the operation.
  */
-public class ArchiverResult {
-    private final List<String> archivedUrls;
-    private final List<String> unavailableArchivers;
-
+public record ArchiverResult(List<String> archivedUrls, List<String> unavailableArchivers) {
     /**
      * Constructs an ArchiverResult with the given lists of archived URLs and unavailable archivers.
      *
@@ -17,8 +16,8 @@ public class ArchiverResult {
      * @param unavailableArchivers A list of strings representing the names of unavailable archivers.
      */
     public ArchiverResult(List<String> archivedUrls, List<String> unavailableArchivers) {
-        this.archivedUrls = archivedUrls;
-        this.unavailableArchivers = unavailableArchivers;
+        this.archivedUrls = Collections.unmodifiableList(Objects.requireNonNull(archivedUrls, "archivedUrls must not be null"));
+        this.unavailableArchivers = Collections.unmodifiableList(Objects.requireNonNull(unavailableArchivers, "unavailableArchivers must not be null"));
     }
 
     /**
@@ -26,7 +25,8 @@ public class ArchiverResult {
      *
      * @return A list of strings representing the archived URLs.
      */
-    public List<String> getArchivedUrls() {
+    @Override
+    public List<String> archivedUrls() {
         return archivedUrls;
     }
 
@@ -35,7 +35,8 @@ public class ArchiverResult {
      *
      * @return A list of strings representing the names of unavailable archivers.
      */
-    public List<String> getUnavailableArchivers() {
+    @Override
+    public List<String> unavailableArchivers() {
         return unavailableArchivers;
     }
 }
