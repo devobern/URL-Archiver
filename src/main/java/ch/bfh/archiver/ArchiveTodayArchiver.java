@@ -1,6 +1,7 @@
 package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
+import com.titusfortner.logging.SeleniumLogger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.*;
 import java.time.Duration;
 import java.util.List;
+import java.util.logging.Level;
+
 
 import static ch.bfh.helper.WebDriverFactory.getWebDriver;
 
@@ -27,6 +30,17 @@ public class ArchiveTodayArchiver implements URLArchiver {
     private static final String HOST_NAME = "archive.today";
     private static final int PORT = 80;
     private static final int SOCKET_TIMEOUT_MS = 5000;
+
+    /*
+     * Static initializer for setting the logging level of SeleniumLogger.
+     *
+     * Sets the logging level to SEVERE, limiting logs to only severe error messages.
+     * This reduces the verbosity of Selenium logging output.
+     */
+    static {
+        SeleniumLogger logger = new SeleniumLogger();
+        logger.setLevel(Level.SEVERE);
+    }
 
     /**
      * Archives the given URL using the Archive.today service.
@@ -79,12 +93,10 @@ public class ArchiveTodayArchiver implements URLArchiver {
             // Get archived site URL
             archivedUrl = driver.getCurrentUrl();
         } catch (TimeoutException e) {
-           throw new ArchiverException("The URL could not be archived in less than five minutes!");
-        } catch (ConnectionFailedException e){
-           throw new ArchiverException("The browser was closed or the network connection was closed!");
-        }
-        finally {
-            // Close the Browser
+            throw new ArchiverException("The URL could not be archived in less than five minutes!");
+        } catch (ConnectionFailedException e) {
+            throw new ArchiverException("The browser was closed or the network connection was closed!");
+        } finally {
             driver.quit();
         }
         return archivedUrl;
