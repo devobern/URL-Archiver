@@ -13,6 +13,7 @@ public class ConsoleView {
     private final ResourceBundle messages;
 
     private static final String OPTIONS = "(o/a/n/q/h)";
+    private boolean isArchiving = false;
 
     /**
      * Initializes the console view with the specified locale.
@@ -91,6 +92,38 @@ public class ConsoleView {
         System.out.print(messages.getString("path.prompt"));
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    /**
+     * Starts the archiving indicator in a separate thread.
+     * Displays a rotating symbol in the console to indicate that
+     * the archiving process is ongoing. This method should be called
+     * at the beginning of the archiving process.
+     */
+    public void startArchivingIndicator() {
+        isArchiving = true;
+        new Thread(() -> {
+            String[] states = {"|", "/", "-", "\\"};
+            int i = 0;
+            while (isArchiving) {
+                System.out.print("\rArchiving " + states[i++ % states.length]);
+                try {
+                    Thread.sleep(200);  // Update interval
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Stops the archiving indicator.
+     * This method sets the flag to stop the rotating symbol in the console
+     * and should be called when the archiving process is complete.
+     */
+    public void stopArchivingIndicator() {
+        isArchiving = false;
+        System.out.println("\nArchiving complete");
     }
 
     /**
