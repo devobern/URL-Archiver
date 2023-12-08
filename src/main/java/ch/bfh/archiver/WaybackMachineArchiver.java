@@ -165,7 +165,7 @@ public class WaybackMachineArchiver implements URLArchiver{
 
             job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
             // todo: Could be necessary, but needs to be checked
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         }
 
         return job;
