@@ -1,25 +1,22 @@
 package ch.bfh.controller;
 
 import ch.bfh.archiver.*;
-import ch.bfh.exceptions.ArchiverException;
-import ch.bfh.exceptions.ConfigFileException;
-import ch.bfh.exceptions.FileModelException;
-import ch.bfh.exceptions.PathValidationException;
-import ch.bfh.helper.BrowserOpener;
-import ch.bfh.helper.ConfigFileHelper;
-import ch.bfh.helper.FileValidator;
-import ch.bfh.helper.PathValidator;
+import ch.bfh.exceptions.*;
+import ch.bfh.helper.*;
 import ch.bfh.model.*;
 import ch.bfh.model.filereader.FileReaderFactory;
 import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -392,9 +389,63 @@ public class CLIController {
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
+        view.printMessage("action.export");
+        String userInput = scanner.nextLine();
+        if(userInput.equalsIgnoreCase("y")) {
+            handleExport();
+        }
+
         view.printMessage("action.quit");
         this.running = false;
         shutdown();
+    }
+
+    private void handleExport() {
+        String path = "";
+        // Check if the path is valid
+        boolean isValid = false;
+        while (!isValid) {
+            try {
+                view.printMessage("action.export.path");
+                path = scanner.nextLine();
+                PathValidator.validate(path);
+                isValid = true;
+            } catch (PathValidationException e) {
+                if(!e.getMessage().equals(I18n.getString("path.notExist.error"))) {
+                    view.printFormattedMessage("error.retry");
+                    view.printMessage(e);
+                } else {
+                    isValid = true;
+                }
+            }
+        }
+
+        if (PathValidator.isFolder(path)) {
+            if (!path.endsWith(File.separator)) {
+                path = path + File.separator;
+            }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            path = path + "archiveURLs_" + simpleDateFormat.format(new Date(System.currentTimeMillis())) + ".csv";
+        }
+
+        // "overwrite" all file extensions with .csv
+        if (!path.endsWith(".csv")) {
+            path = path + ".csv";
+        }
+
+        if (this.folderModel == null) {
+            try {
+                URLExporter.exportUrlsToCSV(this.fileModel, path);
+            } catch (FileNotFoundException | URLExporterException e) {
+                view.printMessage(e);
+            }
+        } else {
+            try {
+                URLExporter.exportUrlsToCSV(this.folderModel, path);
+            } catch (FileNotFoundException | URLExporterException e) {
+                view.printMessage(e);
+            }
+        }
     }
 
     /**
