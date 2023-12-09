@@ -113,7 +113,8 @@ public class ConsoleView {
                     Thread.currentThread().interrupt();
                 }
             }
-            System.out.print("\rArchiving Complete\n");  // Clear the indicator
+            // options dont show with this
+            //System.out.print("\rArchiving Complete\n");  // Clear the indicator
         }).start();
     }
 
