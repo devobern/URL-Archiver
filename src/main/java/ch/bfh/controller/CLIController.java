@@ -71,7 +71,6 @@ public class CLIController {
 
         archiverManager.addArchiver(new WaybackMachineArchiver(this.config));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
-
     }
 
     /**
@@ -124,6 +123,7 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
+            // todo: New switch pattern matching
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN -> handleOpen();
@@ -335,8 +335,9 @@ public class CLIController {
 
         // Perform archiving with the selected archivers
         try {
-            view.printMessage("action.archiving.start");
+            startArchiving();
             ArchiverResult result = archiverManager.archive(url, selectedArchivers);
+            finishArchiving();
 
             if (result.archivedUrls().isEmpty()) {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
@@ -522,6 +523,26 @@ public class CLIController {
             return true;
         }
         return false; // Return false to indicate it's the last URLPair.
+    }
+
+    /**
+     * Initiates the start of the archiving process.
+     * This private method is used internally to signal the start of
+     * archiving, triggering the view to display the archiving indicator.
+     */
+    private void startArchiving() {
+        view.startArchivingIndicator();
+        // Start the archiving process
+    }
+
+    /**
+     * Concludes the archiving process.
+     * This private method is used internally to signal the end of
+     * archiving, instructing the view to stop displaying the archiving indicator.
+     */
+    private void finishArchiving() {
+        // End the archiving process
+        view.stopArchivingIndicator();
     }
 
     /**
