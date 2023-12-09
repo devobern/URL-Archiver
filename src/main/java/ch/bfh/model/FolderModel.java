@@ -3,6 +3,7 @@ package ch.bfh.model;
 import ch.bfh.exceptions.FolderModelException;
 import ch.bfh.helper.I18n;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +22,8 @@ public class FolderModel {
      */
     public FolderModel(String inputPath) {
 
-        if (!inputPath.endsWith("/")) {
-            inputPath = inputPath + "/";
+        if (!inputPath.endsWith(File.separator)) {
+            inputPath = inputPath + File.separator;
         }
         this.basePath = inputPath;
 
