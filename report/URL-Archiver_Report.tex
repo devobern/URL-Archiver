@@ -3,7 +3,7 @@
 \PassOptionsToPackage{table}{xcolor}
 \documentclass[
   a4paper,
-  BCOR=15mm,            % Binding correction
+%  BCOR=15mm,            % Binding correction
   twoside=false,
 % openright,
 %  headings=openright,
@@ -14,7 +14,7 @@
   invert-title,
 ]{bfhthesis}
 
-\LoadBFHModule{listings,terminal,boxes}
+\LoadBFHModule{listings,terminal,boxes, tabular}
 %---------------------------------------------------------------------------
 % Documents paths
 %---------------------------------------------------------------------------
@@ -209,7 +209,7 @@
 %------------ Appendix ----------------	
 \appendix
 \includepdf[scale=0.9, pages=1, offset=0in -1.5in, pagecommand=\chapter{Original Project Description}]{content/kms4-03_URL-Archiver.pdf}
-
+\include{content/libraries_and_licenses}
 
 %------------ Authorship declaration translated to main language ------------
 \declarationOfAuthorship
