@@ -113,9 +113,7 @@ public class CLIController {
 
             view.printSeparator();
             view.printFormattedMessage("info.extracted_url", extractedURL);
-            if (archivedURL != null) {
-                view.printFormattedMessage("info.archived_url", archivedURL);
-            }
+
             view.promptUserForOption();
             String choice = scanner.nextLine();
 
@@ -266,15 +264,11 @@ public class CLIController {
      * additional options are provided for opening either the original or the archived URL.
      */
     private void handleOpen() {
-        if (fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs() != null) {
-            handleOpenArchived();
-        } else {
-            String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
-            view.printFormattedMessage("action.opening", extractedURL);
+        String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
+        view.printFormattedMessage("action.opening", extractedURL);
 
-            // Open the URL in the users default browser
-            openURL(extractedURL);
-        }
+        // Open the URL in the users default browser
+        openURL(extractedURL);
     }
 
     /**
@@ -294,31 +288,6 @@ public class CLIController {
             view.printFormattedMessage(e.getMessage().contains("BROWSE action not supported") ? "error.browsenotsupported" : "error.desktopnotsupported");
         } catch (Exception e) {
             view.printFormattedMessage("error.genericexception", e.getMessage());
-        }
-    }
-
-
-    /**
-     * Prompts for and processes the user's choice to open either the original or archived URL
-     * from the current URLPair.
-     */
-    private void handleOpenArchived() {
-        view.printMessage("action.open_archived");
-        String choice = scanner.nextLine();
-        List<String> targetUrl = new ArrayList<>();
-        switch (choice) {
-            case "1" -> targetUrl.add(fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL());
-            case "2" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs();
-            default -> {
-                view.printFormattedMessage("action.invalid");
-                return;
-            }
-        }
-        view.printFormattedMessage("action.opening", targetUrl);
-
-        // Open the URL in the users default browser
-        for(String url : targetUrl){
-            openURL(url);
         }
     }
 
@@ -376,10 +345,9 @@ public class CLIController {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
             } else {
                 List<String> archivedUrls = result.archivedUrls();
-                for(String archivedUrl : archivedUrls){
+                for (String archivedUrl : archivedUrls) {
                     fileModel.addArchivedURL(url, archivedUrl);
                 }
-                view.printFormattedMessage("info.archived_url", archivedUrls);
             }
 
             // Inform the user about each unavailable archiver
@@ -390,7 +358,6 @@ public class CLIController {
             view.printMessage(e);
             finishArchiving();
         }
-
 
 
     }
@@ -428,7 +395,7 @@ public class CLIController {
     private void handleQuit() {
         view.printMessage("action.export");
         String userInput = scanner.nextLine();
-        if(userInput.equalsIgnoreCase("y")) {
+        if (userInput.equalsIgnoreCase("y")) {
             handleExport();
         }
 
@@ -448,7 +415,7 @@ public class CLIController {
                 PathValidator.validate(path);
                 isValid = true;
             } catch (PathValidationException e) {
-                if(!e.getMessage().equals(I18n.getString("path.notExist.error"))) {
+                if (!e.getMessage().equals(I18n.getString("path.notExist.error"))) {
                     view.printFormattedMessage("error.retry");
                     view.printMessage(e);
                 } else {
@@ -553,16 +520,16 @@ public class CLIController {
     private void handleFolder(String folderPath) throws IOException {
         folderModel = new FolderModel(folderPath);
         extractFilesFromFolder();
-        for(int i = 0; i < folderModel.getFiles().size(); i++){
+        for (int i = 0; i < folderModel.getFiles().size(); i++) {
             FileModel tempFileModel = folderModel.getFiles().get(i);
             // Delete file if it has no urls
-            if(!processFileModel(tempFileModel)){
+            if (!processFileModel(tempFileModel)) {
                 folderModel.removeFile(i);
                 i--;
             }
         }
         // Assume that folderModel.getFiles() is never null and has at least one file
-        this.fileModel = folderModel.getFiles().get(0);
+        this.fileModel = folderModel.getFiles().getFirst();
     }
 
     /**
@@ -577,13 +544,14 @@ public class CLIController {
         String mimeType = FileValidator.validate(filePath);
         fileModel = new FileModel(validatedPath, mimeType);
         view.printFormattedMessage("file.validated.info", fileModel.getFileName());
-        if(!processFileModel(fileModel)){
+        if (!processFileModel(fileModel)) {
             handleQuit();
         }
     }
 
     /**
      * Processes the specified file model by reading its content, extracting URLs, and updating the model with these URLs.
+     *
      * @param fileModel The file model representing the file to be processed. It contains the file's path and MIME type.
      * @return true if URLs are successfully extracted and added to the file model, false if no URLs are found in the file.
      * @throws IOException If an error occurs during reading of the file's content, indicating an I/O problem.
@@ -592,7 +560,7 @@ public class CLIController {
         FileReaderInterface fileReader = FileReaderFactory.getFileReader(fileModel.getMimeType());
         String fileContent = fileReader.readFile(fileModel.getFilePath());
         Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
-        if(extractedURLs.isEmpty()){
+        if (extractedURLs.isEmpty()) {
             return false;
         }
         fileModel.addExtractedURLs(extractedURLs);
