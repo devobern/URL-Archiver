@@ -2,8 +2,10 @@ package ch.bfh.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the {@link URLPair} class.
@@ -21,24 +23,26 @@ public class URLPairTest {
     }
 
     /**
-     * Test method for {@link URLPair#getArchivedURL()}.
+     * Test method for {@link URLPair#getArchivedURLs()}.
      * Validates that the archived URL is initially null.
      */
     @Test
     public void testGetArchivedURL_InitiallyNull() {
         URLPair pair = new URLPair("http://example.com");
-        assertNull(pair.getArchivedURL());
+        assertTrue(pair.getArchivedURLs().isEmpty());
     }
 
     /**
-     * Test methods for {@link URLPair#setArchivedURL(String)} and {@link URLPair#getArchivedURL()}.
+     * Test methods for {@link URLPair#setArchivedURLs(List<String>)} and {@link URLPair#getArchivedURLs()}.
      * Validates that an archived URL can be set and subsequently retrieved.
      */
     @Test
     public void testGetAndSetArchivedURL() {
         URLPair pair = new URLPair("http://example.com");
-        pair.setArchivedURL("http://archive.org/example");
-        assertEquals("http://archive.org/example", pair.getArchivedURL());
+        List<String> archivedURLs = new ArrayList<>();
+        archivedURLs.add("http://archive.org/example");
+        pair.setArchivedURLs(archivedURLs);
+        assertEquals("http://archive.org/example", pair.getArchivedURLs().getFirst());
     }
 
     /**
@@ -48,7 +52,7 @@ public class URLPairTest {
     @Test
     public void testGetLineNumber() {
         URLPair pair = new URLPair("http://example.com");
-        assertEquals(5, pair.getLineNumber());
+        assertEquals(0, pair.getLineNumber());
     }
 
     /**
@@ -58,8 +62,10 @@ public class URLPairTest {
     @Test
     public void testToString() {
         URLPair pair = new URLPair("http://example.com");
-        pair.setArchivedURL("http://archive.org/example");
-        String expectedString = "URLPair { Extracted URL: http://example.com, Archived URL: http://archive.org/example, Line: 5 }";
+        List<String> archivedURLs = new ArrayList<>();
+        archivedURLs.add("http://archive.org/example");
+        pair.setArchivedURLs(archivedURLs);
+        String expectedString = "URLPair { Extracted URL: http://example.com, Archived URL: [http://archive.org/example], Line: 0 }";
         assertEquals(expectedString, pair.toString());
     }
 }

@@ -109,7 +109,7 @@ public class CLIController {
 
         while (running) {
             String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
-            String archivedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL();
+            List<String> archivedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs();
 
             view.printSeparator();
             view.printFormattedMessage("info.extracted_url", extractedURL);
@@ -148,14 +148,19 @@ public class CLIController {
                 .collect(Collectors.toMap(
                         FileModel::getFileName,
                         fm -> fm.getUrlPairs().stream()
-                                .filter(urlPair -> urlPair.getArchivedURL() != null && !urlPair.getArchivedURL().isEmpty())
+                                .filter(urlPair -> urlPair.getArchivedURLs() != null && !urlPair.getArchivedURLs().isEmpty())
                                 .collect(Collectors.toList())
                 ));
 
         // Print map
         fileUrlMap.forEach((fileName, urlPairs) -> {
             view.printFormattedMessage("info.file_name", fileName);
-            urlPairs.forEach(urlPair -> view.printFormattedMessage("info.extracted_archived_url", urlPair.getExtractedURL(), urlPair.getArchivedURL()));
+            urlPairs.forEach(urlPair -> {
+                String extractedUrl = urlPair.getExtractedURL();
+                urlPair.getArchivedURLs().forEach(archivedUrl ->
+                        view.printFormattedMessage("info.extracted_archived_url", extractedUrl, archivedUrl)
+                );
+            });
         });
 
         // Ask user if they want to open the archived URLs
@@ -163,7 +168,7 @@ public class CLIController {
         if (scanner.nextLine().equalsIgnoreCase("y")) {
             fileUrlMap.values().stream()
                     .flatMap(List::stream)
-                    .map(URLPair::getArchivedURL)
+                    .flatMap(urlPair -> urlPair.getArchivedURLs().stream())
                     .forEach(this::openURL);
         }
     }
@@ -261,7 +266,7 @@ public class CLIController {
      * additional options are provided for opening either the original or the archived URL.
      */
     private void handleOpen() {
-        if (fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL() != null) {
+        if (fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs() != null) {
             handleOpenArchived();
         } else {
             String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
@@ -300,10 +305,10 @@ public class CLIController {
     private void handleOpenArchived() {
         view.printMessage("action.open_archived");
         String choice = scanner.nextLine();
-        String targetUrl;
+        List<String> targetUrl = new ArrayList<>();
         switch (choice) {
-            case "1" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
-            case "2" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURL();
+            case "1" -> targetUrl.add(fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL());
+            case "2" -> targetUrl = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs();
             default -> {
                 view.printFormattedMessage("action.invalid");
                 return;
@@ -312,7 +317,9 @@ public class CLIController {
         view.printFormattedMessage("action.opening", targetUrl);
 
         // Open the URL in the users default browser
-        openURL(targetUrl);
+        for(String url : targetUrl){
+            openURL(url);
+        }
     }
 
     /**
@@ -369,9 +376,9 @@ public class CLIController {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
             } else {
                 // You may want to handle multiple URLs here if "Both" was selected
-                String archivedURL = String.join("; ", result.archivedUrls()); // todo: List of archived urls
-                fileModel.setArchivedURL(url, archivedURL);
-                view.printFormattedMessage("info.archived_url", archivedURL);
+                List<String> archivedUrls = result.archivedUrls();
+                fileModel.setArchivedURL(url, archivedUrls);
+                view.printFormattedMessage("info.archived_url", archivedUrls);
             }
 
             // Inform the user about each unavailable archiver

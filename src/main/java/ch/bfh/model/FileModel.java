@@ -87,10 +87,10 @@ public class FileModel {
      * @param extractedURL the URL that was extracted from the file content
      * @param archivedURL  the URL that was archived
      */
-    public void setArchivedURL(String extractedURL, String archivedURL) {
+    public void setArchivedURL(String extractedURL, List<String> archivedURL) {
         for (URLPair pair : urlPairs) {
             if (pair.getExtractedURL().equals(extractedURL)) {
-                pair.setArchivedURL(archivedURL);
+                pair.setArchivedURLs(archivedURL);
                 break;
             }
         }

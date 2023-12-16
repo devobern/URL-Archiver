@@ -27,8 +27,9 @@ public class URLExporter {
         archivedUrls.add(new String[] {"extracted url", "archived url"});
 
         for (URLPair url : file.getUrlPairs()) {
-            if(url.getArchivedURL() != null) {
-                archivedUrls.add(new String[] {url.getExtractedURL(), url.getArchivedURL()});
+            if(url.getArchivedURLs() != null && !url.getArchivedURLs().isEmpty()) {
+                String archivedUrlsString = String.join(", ", url.getArchivedURLs());
+                archivedUrls.add(new String[] {url.getExtractedURL(), archivedUrlsString});
             }
         }
 
@@ -39,7 +40,7 @@ public class URLExporter {
                     .forEach(pw::println);
         }
         if (!csvOutputFile.exists()) {
-            throw(new URLExporterException(I18n.getString("error.exporter")));
+            throw new URLExporterException(I18n.getString("error.exporter"));
         }
     }
 
@@ -55,8 +56,9 @@ public class URLExporter {
 
         for (FileModel file : folder.getFiles()) {
             for (URLPair url : file.getUrlPairs()) {
-                if(url.getArchivedURL() != null) {
-                    archivedUrls.add(new String[] {url.getExtractedURL(), url.getArchivedURL()});
+                if(url.getArchivedURLs() != null && !url.getArchivedURLs().isEmpty()) {
+                    String archivedUrlsString = String.join(", ", url.getArchivedURLs());
+                    archivedUrls.add(new String[] {url.getExtractedURL(), archivedUrlsString});
                 }
             }
         }

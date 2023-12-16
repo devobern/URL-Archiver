@@ -1,12 +1,16 @@
 package ch.bfh.model;
 
 // todo: We need something to store the context, where the url is in the file. Important for the .bib file processing!
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a pair of URLs: one extracted from a source and its corresponding archived version.
  */
 public class URLPair {
     private String extractedURL;
-    private String archivedURL;
+    private List<String> archivedURLs;
     private final int lineNumber;
 
     /**
@@ -16,7 +20,7 @@ public class URLPair {
      */
     public URLPair(String extractedURL) {
         this.extractedURL = extractedURL;
-        this.archivedURL = null;
+        this.archivedURLs = new ArrayList<>();
         this.lineNumber = 0;
     }
 
@@ -34,8 +38,8 @@ public class URLPair {
      *
      * @return the archived URL or null if not set
      */
-    public String getArchivedURL() {
-        return archivedURL;
+    public List<String> getArchivedURLs() {
+        return archivedURLs;
     }
 
     /**
@@ -50,10 +54,10 @@ public class URLPair {
     /**
      * Sets the archived URL.
      *
-     * @param archivedURL the archived URL to be set
+     * @param archivedURLs the archived URL to be set
      */
-    public void setArchivedURL(String archivedURL) {
-        this.archivedURL = archivedURL;
+    public void setArchivedURLs(List<String> archivedURLs) {
+        this.archivedURLs = archivedURLs;
     }
 
 
@@ -64,6 +68,6 @@ public class URLPair {
      */
     @Override
     public String toString() {
-        return "URLPair { Extracted URL: " + extractedURL + ", Archived URL: " + archivedURL + ", Line: " + lineNumber + " }";
+        return "URLPair { Extracted URL: " + extractedURL + ", Archived URL: " + archivedURLs + ", Line: " + lineNumber + " }";
     }
 }
