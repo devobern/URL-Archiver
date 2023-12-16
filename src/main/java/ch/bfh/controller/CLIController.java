@@ -375,9 +375,10 @@ public class CLIController {
             if (result.archivedUrls().isEmpty()) {
                 view.printFormattedMessage("action.archiving.error.no_archivers_available");
             } else {
-                // You may want to handle multiple URLs here if "Both" was selected
                 List<String> archivedUrls = result.archivedUrls();
-                fileModel.setArchivedURL(url, archivedUrls);
+                for(String archivedUrl : archivedUrls){
+                    fileModel.addArchivedURL(url, archivedUrl);
+                }
                 view.printFormattedMessage("info.archived_url", archivedUrls);
             }
 
