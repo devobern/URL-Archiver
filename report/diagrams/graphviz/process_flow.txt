@@ -1,0 +1,71 @@
+digraph URLArchiverDetailedProcess {
+    // Starting Point and URL Extraction
+    Enter_Path -> Is_File_Or_Folder;
+    Is_File_Or_Folder -> Extract_URLs_From_File [label = "File"];
+    Is_File_Or_Folder -> Extract_URLs_From_Folder [label = "Folder"];
+    Extract_URLs_From_File -> Show_URL;
+    Extract_URLs_From_Folder -> Show_URL;
+
+    // Main Interaction Loop
+    Show_URL -> User_Decision;
+    User_Decision -> Open_URL [label = "o: Open"];
+    User_Decision -> Archive_URL [label = "a: Archive"];
+    User_Decision -> Next_URL [label = "n: Next"];
+    User_Decision -> Help [label = "h: Help"];
+    User_Decision -> Show_Archived_URLs [label = "u: Show Archived"];
+    User_Decision -> Quit [label = "q: Quit"];
+
+    // Detailed Archiving Process
+    Archive_URL -> Select_Archiving_Service;
+    Select_Archiving_Service -> Wayback_Machine [label = "Wayback Machine"];
+    Select_Archiving_Service -> ArchiveToday [label = "Archive.Today"];
+    Select_Archiving_Service -> Both_Services [label = "Both"];
+    Wayback_Machine -> Check_API_Key;
+    Check_API_Key -> Enter_API_Key [label = "No Key"];
+    Check_API_Key -> Archive_Wayback [label = "Key Exists"];
+    Enter_API_Key -> Archive_Wayback;
+    Both_Services -> Check_API_Key;
+    Both_Services -> ArchiveToday_Automated;
+    ArchiveToday -> ArchiveToday_Automated;
+    ArchiveToday_Automated -> Status_Update;
+    Archive_Wayback -> Status_Update;
+
+    // User Options
+    Open_URL -> Status_Update;
+    Next_URL -> Status_Update;
+    Help -> Status_Update;
+    Show_Archived_URLs -> View_Archived_URL;
+    View_Archived_URL -> Status_Update;
+    Quit -> Check_Ongoing_Jobs;
+
+    // Termination and Status Checks
+    Check_Ongoing_Jobs -> Shutdown [label = "No Jobs"];
+    Check_Ongoing_Jobs -> Continue_Operation [label = "Jobs Ongoing"];
+    Status_Update -> Show_URL;
+    Continue_Operation -> Show_URL;
+
+    // Expanded Job Checking and Shutdown Process
+    Quit -> Check_Ongoing_Jobs;
+    Check_Ongoing_Jobs -> Jobs_In_Progress [label = "Jobs Ongoing"];
+    Jobs_In_Progress -> User_Choice_For_Jobs;
+    User_Choice_For_Jobs -> Continue_Operation [label = "Wait"];
+    User_Choice_For_Jobs -> Cancel_Jobs_And_Quit [label = "Cancel Jobs"];
+    Check_Ongoing_Jobs -> Shutdown [label = "No Jobs"];
+    Cancel_Jobs_And_Quit -> Shutdown;
+
+    // Expanded Status Update Process
+    Status_Update -> Display_Current_Job_Status;
+    Display_Current_Job_Status -> Check_For_Completion;
+    Check_For_Completion -> Jobs_Completed [label = "All Jobs Complete"];
+    Check_For_Completion -> Jobs_Pending [label = "Jobs Pending"];
+    Jobs_Completed -> Show_URL;
+    Jobs_Pending -> Show_URL;
+
+    // Attributes
+    {Jobs_In_Progress User_Choice_For_Jobs Cancel_Jobs_And_Quit Display_Current_Job_Status Check_For_Completion Jobs_Completed Jobs_Pending} [shape = ellipse, style = filled, color = lightgrey];
+    Enter_Path [shape = box3d];
+    Is_File_Or_Folder [shape = diamond, style = filled, color = lightblue];
+    {Extract_URLs_From_File Extract_URLs_From_Folder Show_URL User_Decision Select_Archiving_Service Check_API_Key Enter_API_Key ArchiveToday_Automated View_Archived_URL Status_Update} [shape = ellipse];
+    {Open_URL Archive_URL Next_URL Help Show_Archived_URLs Quit Wayback_Machine ArchiveToday Both_Services Archive_Wayback Check_Ongoing_Jobs Continue_Operation} [shape = box];
+    Shutdown [shape = Msquare];
+}
