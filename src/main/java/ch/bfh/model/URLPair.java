@@ -60,6 +60,14 @@ public class URLPair {
         this.archivedURLs = archivedURLs;
     }
 
+    /**
+     * Sets the archived URL.
+     *
+     * @param archivedURLs the archived URL to be set
+     */
+    public void addArchivedURL(String archivedURLs) {
+        this.archivedURLs.add(archivedURLs);
+    }
 
     /**
      * Returns a string representation of the URL pair.
