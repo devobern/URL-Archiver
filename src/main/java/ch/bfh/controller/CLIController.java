@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -120,7 +121,6 @@ public class CLIController {
 
             UserChoice userChoice = UserChoice.fromCommand(choice.toLowerCase());
 
-            // todo: New switch pattern matching
             if (userChoice != null) {
                 switch (userChoice) {
                     case OPEN -> handleOpen();
@@ -128,6 +128,7 @@ public class CLIController {
                     case NEXT -> handleNext();
                     case HELP -> view.printOptions();
                     case CONFIG -> handleConfig();
+                    case SHOW_ARCHIVED -> handleShowArchived();
                     case QUIT -> {
                         handleQuit();
                         running = false;
@@ -136,6 +137,34 @@ public class CLIController {
             } else {
                 view.printFormattedMessage("action.invalid");
             }
+        }
+    }
+
+    private void handleShowArchived() {
+        view.printFormattedMessage("info.show_archived");
+
+        // Create and populate a map of file names to lists of URLPairs with non-null archived URLs
+        Map<String, List<URLPair>> fileUrlMap = (folderModel != null ? folderModel.getFiles() : Collections.singletonList(fileModel)).stream()
+                .collect(Collectors.toMap(
+                        FileModel::getFileName,
+                        fm -> fm.getUrlPairs().stream()
+                                .filter(urlPair -> urlPair.getArchivedURL() != null && !urlPair.getArchivedURL().isEmpty())
+                                .collect(Collectors.toList())
+                ));
+
+        // Print map
+        fileUrlMap.forEach((fileName, urlPairs) -> {
+            view.printFormattedMessage("info.file_name", fileName);
+            urlPairs.forEach(urlPair -> view.printFormattedMessage("info.extracted_archived_url", urlPair.getExtractedURL(), urlPair.getArchivedURL()));
+        });
+
+        // Ask user if they want to open the archived URLs
+        view.printFormattedMessage("info.open_archived");
+        if (scanner.nextLine().equalsIgnoreCase("y")) {
+            fileUrlMap.values().stream()
+                    .flatMap(List::stream)
+                    .map(URLPair::getArchivedURL)
+                    .forEach(this::openURL);
         }
     }
 
