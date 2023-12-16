@@ -10,6 +10,7 @@ public enum UserChoice {
     NEXT("n"),
     HELP("h"),
     CONFIG("c"),
+    SHOW_ARCHIVED("s"),
     QUIT("q");
 
     private final String command;
