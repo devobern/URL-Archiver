@@ -109,7 +109,6 @@ public class CLIController {
 
         while (running) {
             String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
-            List<String> archivedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getArchivedURLs();
 
             view.printSeparator();
             view.printFormattedMessage("info.extracted_url", extractedURL);
