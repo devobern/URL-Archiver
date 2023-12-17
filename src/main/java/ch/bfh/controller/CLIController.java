@@ -392,10 +392,41 @@ public class CLIController {
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
+        // CSV export
         view.printMessage("action.export");
         String userInput = scanner.nextLine();
         if (userInput.equalsIgnoreCase("y")) {
             handleExport();
+        }
+
+        // BIB export
+        if (folderModel != null) {
+            for (FileModel fm : folderModel.getFiles()) {
+                if (Objects.equals(fm.getMimeType(), "text/bib") || Objects.equals(fm.getMimeType(), "text/x-bibtex")) {
+                    view.printFormattedMessage("action.export.bib", fm.getFileName());
+                    userInput = scanner.nextLine();
+                    if (userInput.equalsIgnoreCase("y")) {
+                        try {
+                            BibExporter.exportToBib(fm);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        } else {
+            FileModel fm = fileModel;
+            if (Objects.equals(fm.getMimeType(), "text/bib") || Objects.equals(fm.getMimeType(), "text/x-bibtex")) {
+                view.printFormattedMessage("action.export.bib", fm.getFileName());
+                userInput = scanner.nextLine();
+                if (userInput.equalsIgnoreCase("y")) {
+                    try {
+                        BibExporter.exportToBib(fm);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
 
         view.printMessage("action.quit");
