@@ -527,10 +527,13 @@ public class CLIController {
                 i--;
             }
         }
-        // Assume that folderModel.getFiles() is never null and has at least one file
-        this.fileModel = folderModel.getFiles().getFirst();
-    }
 
+        if (folderModel.getFiles().isEmpty()) {
+            handleQuit();
+        } else {
+            this.fileModel = folderModel.getFiles().getFirst();
+        }
+    }
     /**
      * Processes a single file path, validates it, and initializes the file model.
      *
