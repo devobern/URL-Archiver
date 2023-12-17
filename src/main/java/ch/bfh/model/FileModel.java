@@ -14,7 +14,7 @@ public class FileModel {
     private final String mimeType;
     private final String fileName;
     private final Path filePath;
-    private List<URLPair> urlPairs;
+    private final List<URLPair> urlPairs;
 
 
     /**
@@ -29,6 +29,7 @@ public class FileModel {
         this.fileName = filePath.getFileName().toString();
         this.urlPairs = new ArrayList<>();
     }
+
 
     /**
      * Returns the file name.
