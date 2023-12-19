@@ -4,6 +4,7 @@ import ch.bfh.archiver.*;
 import ch.bfh.exceptions.*;
 import ch.bfh.helper.*;
 import ch.bfh.model.*;
+import ch.bfh.model.export.ExporterFactory;
 import ch.bfh.model.filereader.FileReaderFactory;
 import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
@@ -392,49 +393,69 @@ public class CLIController {
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
-        // CSV export
-        view.printMessage("action.export");
-        String userInput = scanner.nextLine();
-        if (userInput.equalsIgnoreCase("y")) {
-            handleExport();
-        }
+        // Handle export
+        handleExport();
 
-        // BIB export
-        if (folderModel != null) {
-            for (FileModel fm : folderModel.getFiles()) {
-                if (Objects.equals(fm.getMimeType(), "text/bib") || Objects.equals(fm.getMimeType(), "text/x-bibtex")) {
-                    view.printFormattedMessage("action.export.bib", fm.getFileName());
-                    userInput = scanner.nextLine();
-                    if (userInput.equalsIgnoreCase("y")) {
-                        try {
-                            BibExporter.exportToBib(fm);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-        } else {
-            FileModel fm = fileModel;
-            if (Objects.equals(fm.getMimeType(), "text/bib") || Objects.equals(fm.getMimeType(), "text/x-bibtex")) {
-                view.printFormattedMessage("action.export.bib", fm.getFileName());
-                userInput = scanner.nextLine();
-                if (userInput.equalsIgnoreCase("y")) {
-                    try {
-                        BibExporter.exportToBib(fm);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
-
+        // Quit the application
         view.printMessage("action.quit");
         this.running = false;
         shutdown();
     }
 
+    /**
+     * Exports the URLs of the given file to a BIB file.
+     * @param fm the file to export the URLs from
+     */
+    private void exportBib(FileModel fm){
+        if (yesNoPromt("action.export.bib", fm.getFileName())) {
+            try {
+                ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Checks if the given file is a BIB file.
+     * @param fileModel the file to check
+     * @return true if the file is a BIB file, false otherwise
+     */
+    private boolean isBibFile(FileModel fileModel){
+        return Objects.equals(fileModel.getMimeType(), "text/bib") || Objects.equals(fileModel.getMimeType(), "text/x-bibtex");
+    }
+
+    /**
+     * Prompts the user for a yes/no answer to the given message.
+     * @param message the message to display
+     * @param args the arguments to format the message with
+     * @return true if the user answered yes, false otherwise
+     */
+    private boolean yesNoPromt(String message, Object... args) {
+        view.printFormattedMessage(message, args);
+        String userInput = scanner.nextLine();
+        return userInput.equalsIgnoreCase("y");
+    }
+
     private void handleExport() {
+        // BIB Export
+        if (folderModel != null) {
+            for (FileModel fm : folderModel.getFiles()) {
+                if (isBibFile(fm)) {
+                    exportBib(fm);
+                }
+            }
+        } else {
+            if (isBibFile(fileModel)) {
+                exportBib(fileModel);
+            }
+        }
+
+        //CSV Export
+        if (!yesNoPromt("action.export.csv")) {
+            return;
+        }
+
         String path = "";
         // Check if the path is valid
         boolean isValid = false;
@@ -519,7 +540,6 @@ public class CLIController {
             }
         }
     }
-
 
     /**
      * Processes the given path by determining if it's a file or a folder and
