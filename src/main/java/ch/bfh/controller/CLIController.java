@@ -413,6 +413,8 @@ public class CLIController {
                 ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
             } catch (IOException e) {
                 view.printMessage(e.getMessage());
+            } catch (URLExporterException e) {
+                view.printMessage(e);
             }
         }
     }
@@ -491,15 +493,17 @@ public class CLIController {
 
         if (this.folderModel == null) {
             try {
-                URLExporter.exportUrlsToCSV(this.fileModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
+                ExporterFactory.getExporter("csv").exportURLs(this.fileModel, path);
+            } catch (IOException | URLExporterException e) {
                 view.printMessage(e);
             }
         } else {
-            try {
-                URLExporter.exportUrlsToCSV(this.folderModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
-                view.printMessage(e);
+            for(FileModel fm : this.folderModel.getFiles()){
+                try {
+                    ExporterFactory.getExporter("csv").exportURLs(fm, path);
+                } catch (IOException | URLExporterException e) {
+                    view.printMessage(e);
+                }
             }
         }
     }
