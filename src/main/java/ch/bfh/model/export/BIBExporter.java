@@ -29,8 +29,11 @@ public class BIBExporter implements Exporter {
                 updateBibEntriesWithArchivedUrls(lines, pair.getExtractedURL(), archivedUrls);
             }
         }
-
-        Files.write(Paths.get(destinationPath), lines);
+        try {
+            Files.write(Paths.get(destinationPath), lines);
+        } catch (IOException e) {
+            throw new IOException("Could not write to file: " + destinationPath, e);
+        }
     }
 
     /**

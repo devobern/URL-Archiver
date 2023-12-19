@@ -411,7 +411,7 @@ public class CLIController {
             try {
                 ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                view.printMessage(e.getMessage());
             }
         }
     }
