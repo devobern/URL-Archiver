@@ -167,6 +167,7 @@ public class CLIController {
             fileUrlMap.values().stream()
                     .flatMap(List::stream)
                     .flatMap(urlPair -> urlPair.getArchivedURLs().stream())
+                    .filter(url -> !url.equalsIgnoreCase("pending"))
                     .forEach(this::openURL);
         }
     }
