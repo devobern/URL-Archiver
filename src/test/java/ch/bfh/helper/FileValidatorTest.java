@@ -62,7 +62,7 @@ class FileValidatorTest {
         createFileWithContent(tempDir, fileName, "Mock image content");
         FileModelException exception = assertThrows(FileModelException.class,
                 () -> FileValidator.validate(tempDir.resolve(fileName).toString()));
-        assertEquals(I18n.getString("file.notSupported.error"), exception.getMessage());
+        assertEquals(I18n.getString("folder.skipFile.info") + fileName, exception.getMessage());
     }
 
     @Test
