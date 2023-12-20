@@ -9,87 +9,56 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
 public class ConfigFileHelper {
-    private static final String configFilePath = "src/main/resources/config.json";
-    public static ConfigModel read() throws ConfigFileException {
+    private static final String CONFIG_FILE_PATH = "src/main/resources/config.json";
+
+    private static ConfigFileMapperModel getConfigMapper() throws ConfigFileException {
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        File configFile = new File(configFilePath);
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-        ConfigModel config = new ConfigModel();
+        File configFile = new File(CONFIG_FILE_PATH);
 
         if (configFile.exists() && !configFile.isDirectory()) {
             try {
-                configMapper = objectMapper.readValue(configFile, ConfigFileMapperModel.class);
+                return objectMapper.readValue(configFile, ConfigFileMapperModel.class);
             } catch (IOException e) {
-                throw(new ConfigFileException(e.getMessage()));
+                throw new ConfigFileException("Error reading configuration: " + e.getMessage());
             }
         }
+        return new ConfigFileMapperModel();
+    }
 
+    public static ConfigModel read() throws ConfigFileException {
+        ConfigFileMapperModel configMapper = getConfigMapper();
+        ConfigModel config = new ConfigModel();
         config.setAccessKey(configMapper.getAccessKey());
         config.setSecretKey(configMapper.getSecretKey());
-
-        switch(configMapper.getBrowser().toUpperCase()) {
-            case "FIREFOX":
-                config.setBrowser(SupportedBrowsers.FIREFOX);
-                break;
-            case "EDGE":
-                config.setBrowser(SupportedBrowsers.EDGE);
-                break;
-            case "CHROME":
-                config.setBrowser(SupportedBrowsers.CHROME);
-                break;
-            case "", "DEFAULT":
-                config.setBrowser(SupportedBrowsers.DEFAULT);
-                break;
-            default:
-                config.setBrowser(SupportedBrowsers.UNSUPPORTED);
-        }
-
+        config.setBrowser(getSupportedBrowser(configMapper.getBrowser()));
         return config;
     }
 
     public static void save(ConfigModel config) throws ConfigFileException {
         ObjectMapper objectMapper = new ObjectMapper();
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-        configMapper.setAccessKey(config.getAccessKey());
-        configMapper.setSecretKey(config.getSecretKey());
-        configMapper.setBrowser(config.getBrowser().name());
+        ConfigFileMapperModel configMapper = new ConfigFileMapperModel(config.getAccessKey(), config.getSecretKey(), config.getBrowser().name());
 
         try {
-            objectMapper.writeValue(new File(configFilePath), configMapper);
+            objectMapper.writeValue(new File(CONFIG_FILE_PATH), configMapper);
         } catch (IOException e) {
-            throw(new ConfigFileException(e.getMessage()));
+            throw new ConfigFileException("Error writing configuration: " + e.getMessage());
         }
     }
 
     public static SupportedBrowsers getBrowser() throws ConfigFileException {
-        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        File configFile = new File(configFilePath);
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-
-        if (configFile.exists() && !configFile.isDirectory()) {
-            try {
-                configMapper = objectMapper.readValue(configFile, ConfigFileMapperModel.class);
-            } catch (IOException e) {
-                throw(new ConfigFileException(e.getMessage()));
-            }
-        }
-
-        switch(configMapper.getBrowser().toUpperCase()) {
-            case "FIREFOX":
-                return SupportedBrowsers.FIREFOX;
-            case "EDGE":
-                return SupportedBrowsers.EDGE;
-            case "CHROME":
-                return SupportedBrowsers.CHROME;
-            case "", "DEFAULT":
-                return SupportedBrowsers.DEFAULT;
-            default:
-                return SupportedBrowsers.UNSUPPORTED;
-        }
-
+        ConfigFileMapperModel configMapper = getConfigMapper();
+        return getSupportedBrowser(configMapper.getBrowser());
     }
 
+    private static SupportedBrowsers getSupportedBrowser(String browserName) {
+        return switch (browserName.toUpperCase()) {
+            case "FIREFOX" -> SupportedBrowsers.FIREFOX;
+            case "EDGE" -> SupportedBrowsers.EDGE;
+            case "CHROME" -> SupportedBrowsers.CHROME;
+            case "", "DEFAULT" -> SupportedBrowsers.DEFAULT;
+            default -> SupportedBrowsers.UNSUPPORTED;
+        };
+    }
 }
