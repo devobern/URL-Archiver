@@ -18,9 +18,6 @@ public class URLExtractor {
             Pattern.CASE_INSENSITIVE
     );
 
-    public URLExtractor() {
-    }
-
     /**
      * Extracts a set of unique URLs from the provided text string using a default pattern.
      * The method uses a predefined regular expression to match HTTP and HTTPS URLs within the text
