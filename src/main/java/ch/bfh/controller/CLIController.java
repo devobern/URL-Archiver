@@ -395,7 +395,9 @@ public class CLIController {
      */
     private void handleQuit() {
         // Handle export
-        handleExport();
+        if(fileModel != null) {
+            handleExport();
+        }
 
         // Quit the application
         view.printMessage("action.quit");
