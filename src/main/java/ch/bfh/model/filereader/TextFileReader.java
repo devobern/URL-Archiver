@@ -1,5 +1,7 @@
 package ch.bfh.model.filereader;
 
+import ch.bfh.helper.I18n;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,8 +17,11 @@ public class TextFileReader implements FileReaderInterface{
      * @return the content of the file as a String.
      * @throws IOException if the file cannot be read.
      */
-    @Override
     public String readFile(Path filePath) throws IOException {
-        return Files.readString(filePath);
+        try {
+            return Files.readString(filePath);
+        } catch (IOException e) {
+            throw new IOException(I18n.getString("error.reading_file") + " " + filePath, e);
+        }
     }
 }
