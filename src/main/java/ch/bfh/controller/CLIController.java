@@ -583,6 +583,10 @@ public class CLIController {
             try {
                 processFileModel(tempFileModel);
             } catch (FileModelException e) {
+                view.printMessage(e);
+                iterator.remove();
+            } catch(IOException e) {
+                view.printMessage(e);
                 iterator.remove();
             }
         }
