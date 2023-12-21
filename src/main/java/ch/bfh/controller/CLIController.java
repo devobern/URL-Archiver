@@ -631,8 +631,7 @@ public class CLIController {
         String fileContent = fileReader.readFile(fileModel.getFilePath());
         Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
         if (extractedURLs.isEmpty()) {
-            view.printMessage("file.noUrls.error");
-            throw new FileModelException("No URLs found");
+            throw new FileModelException(I18n.getString("file.noUrls.error") + " " + fileModel.getFilePath());
         }
         fileModel.addExtractedURLs(extractedURLs);
     }
