@@ -561,13 +561,12 @@ public class CLIController {
             }
         } catch (IOException e) {
             view.printMessage("file.read.error");
-        } catch (FileModelException e) {
-            view.printMessage(e);
         }
     }
 
     /**
      * Processes the contents of a folder path and initializes the folder model with the contents.
+     * Deletes any file from the folder model that fails to process due to a FileModelException.
      *
      * @param folderPath the directory path to process
      * @throws IOException if an I/O error occurs when opening the directory
@@ -575,18 +574,23 @@ public class CLIController {
     private void handleFolder(String folderPath) throws IOException {
         folderModel = new FolderModel(folderPath);
         extractFilesFromFolder();
-        for (int i = 0; i < folderModel.getFiles().size(); i++) {
-            FileModel tempFileModel = folderModel.getFiles().get(i);
-            // Delete file if it has no urls
-            if (!processFileModel(tempFileModel)) {
-                folderModel.removeFile(i);
-                i--;
+
+        Iterator<FileModel> iterator = folderModel.getFiles().iterator();
+        while (iterator.hasNext()) {
+            FileModel tempFileModel = iterator.next();
+            try {
+                processFileModel(tempFileModel);
+            } catch (FileModelException e) {
+                iterator.remove();
             }
         }
-        // Assume that folderModel.getFiles() is never null and has at least one file
-        this.fileModel = folderModel.getFiles().getFirst();
-    }
 
+        if (folderModel.getFiles().isEmpty()) {
+            handleQuit();
+        } else {
+            this.fileModel = folderModel.getFiles().getFirst();
+        }
+    }
     /**
      * Processes a single file path, validates it, and initializes the file model.
      *
@@ -594,32 +598,37 @@ public class CLIController {
      * @throws IOException        if an I/O error occurs when reading the file
      * @throws FileModelException if the file model cannot be initialized
      */
-    private void handleSingleFile(String filePath) throws IOException, FileModelException {
+    private void handleSingleFile(String filePath) throws IOException {
         Path validatedPath = Paths.get(filePath);
-        String mimeType = FileValidator.validate(filePath);
-        fileModel = new FileModel(validatedPath, mimeType);
-        view.printFormattedMessage("file.validated.info", fileModel.getFileName());
-        if (!processFileModel(fileModel)) {
+        String mimeType = null;
+        try {
+            mimeType = FileValidator.validate(filePath);
+            fileModel = new FileModel(validatedPath, mimeType);
+            view.printFormattedMessage("file.validated.info", fileModel.getFileName());
+            processFileModel(fileModel);
+        } catch (FileModelException e) {
+            view.printMessage(e);
             handleQuit();
         }
     }
 
     /**
      * Processes the specified file model by reading its content, extracting URLs, and updating the model with these URLs.
+     * Throws FileModelException if no URLs are found in the file.
      *
      * @param fileModel The file model representing the file to be processed. It contains the file's path and MIME type.
-     * @return true if URLs are successfully extracted and added to the file model, false if no URLs are found in the file.
      * @throws IOException If an error occurs during reading of the file's content, indicating an I/O problem.
+     * @throws FileModelException If no URLs are found in the file.
      */
-    private boolean processFileModel(FileModel fileModel) throws IOException {
+    private void processFileModel(FileModel fileModel) throws IOException, FileModelException {
         FileReaderInterface fileReader = FileReaderFactory.getFileReader(fileModel.getMimeType());
         String fileContent = fileReader.readFile(fileModel.getFilePath());
         Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
         if (extractedURLs.isEmpty()) {
-            return false;
+            view.printMessage("file.noUrls.error");
+            throw new FileModelException("No URLs found");
         }
         fileModel.addExtractedURLs(extractedURLs);
-        return true;
     }
 
     /**
