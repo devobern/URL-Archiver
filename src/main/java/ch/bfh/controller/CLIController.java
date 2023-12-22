@@ -5,6 +5,7 @@ import ch.bfh.exceptions.*;
 import ch.bfh.helper.*;
 import ch.bfh.model.*;
 import ch.bfh.model.archiving.PendingWaybackMachineJob;
+import ch.bfh.model.export.ExporterFactory;
 import ch.bfh.model.filereader.FileReaderFactory;
 import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
@@ -189,6 +190,7 @@ public class CLIController {
             fileUrlMap.values().stream()
                     .flatMap(List::stream)
                     .flatMap(urlPair -> urlPair.getArchivedURLs().stream())
+                    .filter(url -> !url.equalsIgnoreCase("pending"))
                     .forEach(this::openURL);
         }
     }
@@ -419,18 +421,73 @@ public class CLIController {
      */
     private void handleQuit() {
         statusUpdate();
-        view.printMessage("action.export");
-        String userInput = scanner.nextLine();
-        if (userInput.equalsIgnoreCase("y")) {
+        // Handle export
+        if(fileModel != null) {
             handleExport();
         }
 
+        // Quit the application
         view.printMessage("action.quit");
         this.running = false;
         shutdown();
     }
 
+    /**
+     * Exports the URLs of the given file to a BIB file.
+     * @param fm the file to export the URLs from
+     */
+    private void exportBib(FileModel fm){
+        if (yesNoPromt("action.export.bib", fm.getFileName())) {
+            try {
+                ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
+            } catch (IOException e) {
+                view.printMessage(e.getMessage());
+            } catch (URLExporterException e) {
+                view.printMessage(e);
+            }
+        }
+    }
+
+    /**
+     * Checks if the given file is a BIB file.
+     * @param fileModel the file to check
+     * @return true if the file is a BIB file, false otherwise
+     */
+    private boolean isBibFile(FileModel fileModel){
+        return Objects.equals(fileModel.getMimeType(), "text/bib") || Objects.equals(fileModel.getMimeType(), "text/x-bibtex");
+    }
+
+    /**
+     * Prompts the user for a yes/no answer to the given message.
+     * @param message the message to display
+     * @param args the arguments to format the message with
+     * @return true if the user answered yes, false otherwise
+     */
+    private boolean yesNoPromt(String message, Object... args) {
+        view.printFormattedMessage(message, args);
+        String userInput = scanner.nextLine();
+        return userInput.equalsIgnoreCase("y");
+    }
+
     private void handleExport() {
+        // BIB Export
+        if (folderModel != null) {
+            for (FileModel fm : folderModel.getFiles()) {
+                if (isBibFile(fm)) {
+                    exportBib(fm);
+                }
+            }
+        } else {
+            if (isBibFile(fileModel)) {
+                exportBib(fileModel);
+            }
+        }
+
+        //CSV Export
+        if (!yesNoPromt("action.export.csv")) {
+            return;
+        }
+
         String path = "";
         // Check if the path is valid
         boolean isValid = false;
@@ -465,14 +522,14 @@ public class CLIController {
 
         if (this.folderModel == null) {
             try {
-                URLExporter.exportUrlsToCSV(this.fileModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
+                ExporterFactory.getExporter("csv").exportURLs(this.fileModel, path);
+            } catch (IOException | URLExporterException e) {
                 view.printMessage(e);
             }
         } else {
             try {
-                URLExporter.exportUrlsToCSV(this.folderModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
+                ExporterFactory.getExporter("csv").exportURLs(this.folderModel, path);
+            } catch (IOException | URLExporterException e) {
                 view.printMessage(e);
             }
         }
@@ -552,7 +609,6 @@ public class CLIController {
         }
     }
 
-
     /**
      * Processes the given path by determining if it's a file or a folder and
      * populating the appropriate model with URL data extracted from the contents.
@@ -588,6 +644,10 @@ public class CLIController {
             try {
                 processFileModel(tempFileModel);
             } catch (FileModelException e) {
+                view.printMessage(e);
+                iterator.remove();
+            } catch(IOException e) {
+                view.printMessage(e);
                 iterator.remove();
             }
         }
@@ -632,8 +692,7 @@ public class CLIController {
         String fileContent = fileReader.readFile(fileModel.getFilePath());
         Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
         if (extractedURLs.isEmpty()) {
-            view.printMessage("file.noUrls.error");
-            throw new FileModelException("No URLs found");
+            throw new FileModelException(I18n.getString("file.noUrls.error") + " " + fileModel.getFilePath());
         }
         fileModel.addExtractedURLs(extractedURLs);
     }
