@@ -1,8 +1,8 @@
 package ch.bfh.archiver;
 
+import ch.bfh.controller.CLIController;
 import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.model.ConfigModel;
-import ch.bfh.model.FileModel;
 import ch.bfh.model.archiving.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,7 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
+
 
 
 /**
@@ -22,15 +22,12 @@ public class WaybackMachineArchiver implements URLArchiver{
     private final String serviceName = "WaybackMachine";
     private final String apiUrl = "https://web.archive.org/save/";
     private final ConfigModel config;
-    private final ArrayList<PendingWaybackMachineJob> pendingJobs;
-    private FileModel file;
-    private final ArrayList<Object> sharedObjects;
+    private final CLIController controller;
 
-    public WaybackMachineArchiver(ConfigModel config, ArrayList<Object> sharedObjects) {
+
+    public WaybackMachineArchiver(ConfigModel config, CLIController controller) {
         this.config = config;
-        this.pendingJobs = (ArrayList<PendingWaybackMachineJob>) sharedObjects.get(0);
-        this.file = (FileModel) sharedObjects.get(1);
-        this.sharedObjects = sharedObjects;
+        this.controller = controller;
     }
 
     /**
@@ -42,7 +39,6 @@ public class WaybackMachineArchiver implements URLArchiver{
     @Override
     public String archiveURL(String url) throws ArchiverException {
         try {
-            updateFileFromShared();
             // The data to be sent in the request body
             String postData = "url=" + url + "&capture_all=1&skip_first_archive=1";
 
@@ -80,7 +76,7 @@ public class WaybackMachineArchiver implements URLArchiver{
                 throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
             }
 
-            this.pendingJobs.add(new PendingWaybackMachineJob(url, job, this.file));
+            this.controller.addPendingJob(new PendingWaybackMachineJob(url, job, this.controller.getFileModel()));
 
             return "pending";
 
@@ -169,7 +165,7 @@ public class WaybackMachineArchiver implements URLArchiver{
      */
     public void updatePendingJobs() throws ArchiverException {
 
-        for (PendingWaybackMachineJob job : this.pendingJobs) {
+        for (PendingWaybackMachineJob job : this.controller.getPendingJobs()) {
             if (job.getJob().getStatus().equalsIgnoreCase("pending")) {
                 try {
                     job.setJob(getWaybackMachineJob(job.getJob().getJob_id()));
@@ -184,9 +180,6 @@ public class WaybackMachineArchiver implements URLArchiver{
         }
     }
 
-    private void updateFileFromShared() {
-        this.file = (FileModel) this.sharedObjects.get(1);
-    }
 
 }
 

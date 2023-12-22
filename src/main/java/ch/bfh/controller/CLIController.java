@@ -39,7 +39,19 @@ public class CLIController {
     private final ArchiverManager archiverManager;
     private ConfigModel config;
     private final ArrayList<PendingWaybackMachineJob> pendingJobs;
-    private final ArrayList<Object> sharedObjects = new ArrayList<>();
+
+
+    public FileModel getFileModel() {
+        return fileModel;
+    }
+
+    public ArrayList<PendingWaybackMachineJob> getPendingJobs() {
+        return pendingJobs;
+    }
+
+    public void addPendingJob(PendingWaybackMachineJob job) {
+        this.pendingJobs.add(job);
+    }
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -58,8 +70,6 @@ public class CLIController {
         this.folderModel = null;
         this.currentFileIndex = 0;
         this.pendingJobs = new ArrayList<>();
-        this.sharedObjects.add(this.pendingJobs);
-        this.sharedObjects.add(null);
 
         // read config file
         try {
@@ -73,7 +83,7 @@ public class CLIController {
         this.archiverManager = new ArchiverManager();
         // Initialize all possible archivers once
 
-        archiverManager.addArchiver(new WaybackMachineArchiver(this.config, this.sharedObjects));
+        archiverManager.addArchiver(new WaybackMachineArchiver(this.config, this));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
     }
 
@@ -369,6 +379,7 @@ public class CLIController {
             }
         } catch (ArchiverException e) {
             view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
             finishArchiving();
         }
         statusUpdate();
@@ -388,7 +399,6 @@ public class CLIController {
                 currentFileIndex++; // Move to the next file in the folder.
                 currentURLPairIndex = 0; // Reset the URLPair index for the new file.
                 fileModel = folderModel.getFiles().get(currentFileIndex); // Set the new fileModel.
-                this.sharedObjects.set(1, fileModel);
                 view.printFormattedMessage("action.next_file", fileModel.getFileName());
                 // Process the new fileModel here or prompt user to continue with the new file.
             } else {
@@ -476,6 +486,7 @@ public class CLIController {
             ((WaybackMachineArchiver) this.archiverManager.getArchiver("WaybackMachine")).updatePendingJobs();
         } catch (ArchiverException e) {
             view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
         }
 
         Iterator<PendingWaybackMachineJob> iterator = this.pendingJobs.iterator();
@@ -581,7 +592,6 @@ public class CLIController {
         }
         // Assume that folderModel.getFiles() is never null and has at least one file
         this.fileModel = folderModel.getFiles().getFirst();
-        this.sharedObjects.set(1, this.fileModel);
     }
 
     /**
@@ -595,7 +605,6 @@ public class CLIController {
         Path validatedPath = Paths.get(filePath);
         String mimeType = FileValidator.validate(filePath);
         fileModel = new FileModel(validatedPath, mimeType);
-        this.sharedObjects.set(1, fileModel);
         view.printFormattedMessage("file.validated.info", fileModel.getFileName());
         if (!processFileModel(fileModel)) {
             handleQuit();
