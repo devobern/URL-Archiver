@@ -33,6 +33,15 @@ public class CSVExporter implements Exporter {
         writeCSV(dataRows, destinationPath);
     }
 
+    /**
+     * Exports the URLs from all files within the given folder to a single CSV file.
+     * Iterates through each file contained in the folder model, aggregating and exporting their URLs.
+     *
+     * @param folderModel      the folder containing files from which to export the URLs
+     * @param destinationPath  the path where the CSV file will be saved
+     * @throws IOException            if there is an input/output issue during file creation or writing
+     * @throws URLExporterException   if there's an issue specific to URL exporting process
+     */
     public void exportURLs(FolderModel folderModel, String destinationPath) throws IOException, URLExporterException {
         int maxArchivedUrls = getMaxArchivedUrls(folderModel.getFiles().stream());
         List<String[]> dataRows = createDataRows(folderModel.getFiles().stream(), maxArchivedUrls);
