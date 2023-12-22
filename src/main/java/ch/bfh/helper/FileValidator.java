@@ -27,19 +27,38 @@ public class FileValidator {
             throw new FileModelException(I18n.getString("file.isNotFile.error"));
         }
 
-        String mimeType = Files.probeContentType(path);
+        String mimeType = determineMimeType(path);
 
-        if (mimeType == null) {
-            mimeType = inferMimeTypeFromExtension(path);
-        }
-
-        if (mimeType != null && (mimeType.contains("text/") || mimeType.equals("application/pdf"))) {
+        if (mimeType != null && (mimeType.startsWith("text/") || mimeType.equals("application/pdf"))) {
             return mimeType;
         } else {
             throw new FileModelException(I18n.getString("folder.skipFile.info") + path.getFileName().toString());
         }
     }
 
+    /**
+     * Determines the MIME type of a file using content type probing or file extension inference.
+     *
+     * @param path The path to the file.
+     * @return The MIME type of the file, or null if it cannot be determined.
+     * @throws IOException if an I/O error occurs while probing the content type.
+     */
+    private static String determineMimeType(Path path) throws IOException {
+        String mimeType = Files.probeContentType(path);
+
+        if (mimeType == null) {
+            mimeType = inferMimeTypeFromExtension(path);
+        }
+
+        return mimeType;
+    }
+
+    /**
+     * Infers the MIME type of a file based on its file extension.
+     *
+     * @param path The path to the file.
+     * @return The inferred MIME type, or null if it cannot be inferred.
+     */
     private static String inferMimeTypeFromExtension(Path path) {
         String fileName = path.getFileName().toString();
         int index = fileName.lastIndexOf(".");
