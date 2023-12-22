@@ -4,6 +4,7 @@ import ch.bfh.archiver.*;
 import ch.bfh.exceptions.*;
 import ch.bfh.helper.*;
 import ch.bfh.model.*;
+import ch.bfh.model.archiving.PendingWaybackMachineJob;
 import ch.bfh.model.filereader.FileReaderFactory;
 import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
@@ -37,6 +38,20 @@ public class CLIController {
     private boolean running = true;
     private final ArchiverManager archiverManager;
     private ConfigModel config;
+    private final ArrayList<PendingWaybackMachineJob> pendingJobs;
+
+
+    public FileModel getFileModel() {
+        return fileModel;
+    }
+
+    public ArrayList<PendingWaybackMachineJob> getPendingJobs() {
+        return pendingJobs;
+    }
+
+    public void addPendingJob(PendingWaybackMachineJob job) {
+        this.pendingJobs.add(job);
+    }
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -54,6 +69,7 @@ public class CLIController {
         this.currentURLPairIndex = 0;
         this.folderModel = null;
         this.currentFileIndex = 0;
+        this.pendingJobs = new ArrayList<>();
 
         // read config file
         try {
@@ -67,7 +83,7 @@ public class CLIController {
         this.archiverManager = new ArchiverManager();
         // Initialize all possible archivers once
 
-        archiverManager.addArchiver(new WaybackMachineArchiver(this.config));
+        archiverManager.addArchiver(new WaybackMachineArchiver(this.config, this));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
     }
 
@@ -126,6 +142,7 @@ public class CLIController {
                     case HELP -> view.printOptions();
                     case CONFIG -> handleConfig();
                     case SHOW_ARCHIVED -> handleShowArchived();
+                    case UPDATE_JOBS -> handleUpdateJobs();
                     case QUIT -> {
                         handleQuit();
                         running = false;
@@ -137,7 +154,13 @@ public class CLIController {
         }
     }
 
+    private void handleUpdateJobs() {
+        statusUpdate();
+        showPendingJobs();
+    }
+
     private void handleShowArchived() {
+        statusUpdate();
         view.printFormattedMessage("info.show_archived");
 
         // Create and populate a map of file names to lists of URLPairs with non-null archived URLs
@@ -268,6 +291,7 @@ public class CLIController {
 
         // Open the URL in the users default browser
         openURL(extractedURL);
+        statusUpdate();
     }
 
     /**
@@ -355,9 +379,10 @@ public class CLIController {
             }
         } catch (ArchiverException e) {
             view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
             finishArchiving();
         }
-
+        statusUpdate();
 
     }
 
@@ -385,6 +410,7 @@ public class CLIController {
             // Moved to next URL pair within the same file.
             view.printFormattedMessage("action.next_url");
         }
+        statusUpdate();
     }
 
 
@@ -392,6 +418,7 @@ public class CLIController {
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
+        statusUpdate();
         view.printMessage("action.export");
         String userInput = scanner.nextLine();
         if (userInput.equalsIgnoreCase("y")) {
@@ -449,6 +476,42 @@ public class CLIController {
                 view.printMessage(e);
             }
         }
+    }
+
+    /**
+     * updates the status of the pending jobs
+     */
+    private void statusUpdate() {
+        try {
+            ((WaybackMachineArchiver) this.archiverManager.getArchiver("WaybackMachine")).updatePendingJobs();
+        } catch (ArchiverException e) {
+            view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
+        }
+
+        Iterator<PendingWaybackMachineJob> iterator = this.pendingJobs.iterator();
+
+        while (iterator.hasNext()) {
+            PendingWaybackMachineJob pendingJob = iterator.next();
+
+            if (pendingJob.getJob().getStatus().equalsIgnoreCase("success")) {
+                pendingJob.getFile().addArchivedURL(pendingJob.getExtractedUrl(), "https://web.archive.org/web/" + pendingJob.getJob().getTimestamp() + "/" + pendingJob.getJob().getOriginal_url());
+                iterator.remove(); // Safely remove the current element using iterator
+            }
+        }
+
+    }
+
+    /**
+     * prints the pending jobs
+     */
+    private void showPendingJobs() {
+        view.printFormattedMessage("jobs.showPending.info", this.pendingJobs.size());
+
+        for (PendingWaybackMachineJob job : this.pendingJobs) {
+            view.printFormattedMessage("jobs.showPending.job", job.getExtractedUrl(), job.getJob().getStatus());
+        }
+
     }
 
     /**

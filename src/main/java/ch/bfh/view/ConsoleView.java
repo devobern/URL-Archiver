@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ConsoleView {
     private final ResourceBundle messages;
     private boolean isArchiving = false;
-    private final String OPTIONS = "(o/a/s/n/q/c/h)";
+    private final String OPTIONS = "(o/a/s/u/n/q/c/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -64,6 +64,7 @@ public class ConsoleView {
         System.out.println("[o]\t" + messages.getString("option.open"));
         System.out.println("[a]\t" + messages.getString("option.archive"));
         System.out.println("[s]\t" + messages.getString("option.show_archived"));
+        System.out.println("[u]\t" + messages.getString("option.update_jobs"));
         System.out.println("[n]\t" + messages.getString("option.next"));
         System.out.println("[q]\t" + messages.getString("option.quit"));
         System.out.println("[c]\t" + messages.getString("option.config"));
