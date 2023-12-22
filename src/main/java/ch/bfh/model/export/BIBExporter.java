@@ -1,6 +1,8 @@
 package ch.bfh.model.export;
 
+import ch.bfh.exceptions.URLExporterException;
 import ch.bfh.model.FileModel;
+import ch.bfh.model.FolderModel;
 import ch.bfh.model.URLPair;
 
 import java.io.IOException;
@@ -34,6 +36,11 @@ public class BIBExporter implements Exporter {
         } catch (IOException e) {
             throw new IOException("Could not write to file: " + destinationPath, e);
         }
+    }
+
+    @Override
+    public void exportURLs(FolderModel folderModel, String destinationPath) throws URLExporterException {
+        throw new URLExporterException("BIB export is not supported for folders.");
     }
 
     /**

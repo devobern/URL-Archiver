@@ -500,12 +500,10 @@ public class CLIController {
                 view.printMessage(e);
             }
         } else {
-            for(FileModel fm : this.folderModel.getFiles()){
-                try {
-                    ExporterFactory.getExporter("csv").exportURLs(fm, path);
-                } catch (IOException | URLExporterException e) {
-                    view.printMessage(e);
-                }
+            try {
+                ExporterFactory.getExporter("csv").exportURLs(this.folderModel, path);
+            } catch (IOException | URLExporterException e) {
+                view.printMessage(e);
             }
         }
     }

@@ -3,6 +3,7 @@ package ch.bfh.model.export;
 import ch.bfh.exceptions.URLExporterException;
 import ch.bfh.helper.I18n;
 import ch.bfh.model.FileModel;
+import ch.bfh.model.FolderModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +30,12 @@ public class CSVExporter implements Exporter {
     public void exportURLs(FileModel fileModel, String destinationPath) throws IOException, URLExporterException {
         int maxArchivedUrls = getMaxArchivedUrls(Stream.of(fileModel));
         List<String[]> dataRows = createDataRows(Stream.of(fileModel), maxArchivedUrls);
+        writeCSV(dataRows, destinationPath);
+    }
+
+    public void exportURLs(FolderModel folderModel, String destinationPath) throws IOException, URLExporterException {
+        int maxArchivedUrls = getMaxArchivedUrls(folderModel.getFiles().stream());
+        List<String[]> dataRows = createDataRows(folderModel.getFiles().stream(), maxArchivedUrls);
         writeCSV(dataRows, destinationPath);
     }
 
