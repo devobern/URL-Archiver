@@ -109,6 +109,7 @@ public class ConfigFileHelper {
             case "FIREFOX" -> SupportedBrowsers.FIREFOX;
             case "EDGE" -> SupportedBrowsers.EDGE;
             case "CHROME" -> SupportedBrowsers.CHROME;
+            case "DEFAULT" -> SupportedBrowsers.DEFAULT;
             default -> SupportedBrowsers.UNSUPPORTED;
         };
     }
