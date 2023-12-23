@@ -1,12 +1,13 @@
-package ch.bfh.helper;
+package ch.bfh.model.export;
 
 import ch.bfh.exceptions.URLExporterException;
+import ch.bfh.helper.I18n;
 import ch.bfh.model.FileModel;
 import ch.bfh.model.FolderModel;
-import ch.bfh.model.URLPair;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,34 +15,36 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class URLExporter {
-    static final String delimiter = ";";
+public class CSVExporter implements Exporter {
+    final String delimiter = ";";
 
     /**
      * Exports the URLs of the given file to a CSV file.
      *
-     * @param file            the file to export the URLs from
+     * @param fileModel            the file to export the URLs from
      * @param destinationPath the path to the CSV file
      * @throws FileNotFoundException if the file could not be created
      * @throws URLExporterException   if the file could not be created
      */
-    public static void exportUrlsToCSV(FileModel file, String destinationPath) throws FileNotFoundException, URLExporterException {
-        int maxArchivedUrls = getMaxArchivedUrls(Stream.of(file));
-        List<String[]> dataRows = createDataRows(Stream.of(file), maxArchivedUrls);
+    @Override
+    public void exportURLs(FileModel fileModel, String destinationPath) throws IOException, URLExporterException {
+        int maxArchivedUrls = getMaxArchivedUrls(Stream.of(fileModel));
+        List<String[]> dataRows = createDataRows(Stream.of(fileModel), maxArchivedUrls);
         writeCSV(dataRows, destinationPath);
     }
 
     /**
-     * Exports the URLs of the given folder to a CSV file.
+     * Exports the URLs from all files within the given folder to a single CSV file.
+     * Iterates through each file contained in the folder model, aggregating and exporting their URLs.
      *
-     * @param folder          the folder to export the URLs from
-     * @param destinationPath the path to the CSV file
-     * @throws FileNotFoundException if the file could not be created
-     * @throws URLExporterException   if the file could not be created
+     * @param folderModel      the folder containing files from which to export the URLs
+     * @param destinationPath  the path where the CSV file will be saved
+     * @throws IOException            if there is an input/output issue during file creation or writing
+     * @throws URLExporterException   if there's an issue specific to URL exporting process
      */
-    public static void exportUrlsToCSV(FolderModel folder, String destinationPath) throws FileNotFoundException, URLExporterException {
-        int maxArchivedUrls = getMaxArchivedUrls(folder.getFiles().stream());
-        List<String[]> dataRows = createDataRows(folder.getFiles().stream(), maxArchivedUrls);
+    public void exportURLs(FolderModel folderModel, String destinationPath) throws IOException, URLExporterException {
+        int maxArchivedUrls = getMaxArchivedUrls(folderModel.getFiles().stream());
+        List<String[]> dataRows = createDataRows(folderModel.getFiles().stream(), maxArchivedUrls);
         writeCSV(dataRows, destinationPath);
     }
 
@@ -51,7 +54,7 @@ public class URLExporter {
      * @param fileModelStream The stream of FileModel objects to be processed.
      * @return The maximum count of archived URLs found in any single URLPair.
      */
-    private static int getMaxArchivedUrls(Stream<FileModel> fileModelStream) {
+    private int getMaxArchivedUrls(Stream<FileModel> fileModelStream) {
         return fileModelStream
                 .flatMap(file -> file.getUrlPairs().stream())
                 .mapToInt(urlPair -> urlPair.getArchivedURLs() != null ? urlPair.getArchivedURLs().size() : 0)
@@ -67,7 +70,7 @@ public class URLExporter {
      * @param maxArchivedUrls The maximum number of archived URLs for any URLPair, used to determine the number of columns.
      * @return A list of string arrays, where each array represents a row in the CSV output.
      */
-    private static List<String[]> createDataRows(Stream<FileModel> fileModelStream, int maxArchivedUrls) {
+    private List<String[]> createDataRows(Stream<FileModel> fileModelStream, int maxArchivedUrls) {
         ArrayList<String[]> dataRows = new ArrayList<>();
         // Header
         List<String> headers = new ArrayList<>(Collections.singletonList("extracted url"));
@@ -96,7 +99,6 @@ public class URLExporter {
         return dataRows;
     }
 
-
     /**
      * Writes the provided data rows to a CSV file at the specified destination path.
      *
@@ -105,11 +107,11 @@ public class URLExporter {
      * @throws FileNotFoundException if the file cannot be created.
      * @throws URLExporterException if there is an error during the writing process.
      */
-    private static void writeCSV(List<String[]> data, String destinationPath) throws FileNotFoundException, URLExporterException {
+    private void writeCSV(List<String[]> data, String destinationPath) throws FileNotFoundException, URLExporterException {
         File csvOutputFile = new File(destinationPath);
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             data.stream()
-                    .map(URLExporter::convertToCSV)
+                    .map(this::convertToCSV)
                     .forEach(pw::println);
         }
         if (!csvOutputFile.exists()) {
@@ -123,9 +125,9 @@ public class URLExporter {
      * @param data The array of strings to be joined into a CSV row.
      * @return A string representing a row in CSV format.
      */
-    private static String convertToCSV(String[] data) {
+    private String convertToCSV(String[] data) {
         return Stream.of(data)
-                .map(URLExporter::escapeSpecialCharacters)
+                .map(this::escapeSpecialCharacters)
                 .collect(Collectors.joining(delimiter));
     }
 
@@ -137,7 +139,7 @@ public class URLExporter {
      * @return The escaped string, suitable for inclusion in a CSV file.
      * @throws IllegalArgumentException if the input data is null.
      */
-    private static String escapeSpecialCharacters(String data) {
+    private String escapeSpecialCharacters(String data) {
         if (data == null) {
             throw new IllegalArgumentException("Input data cannot be null");
         }

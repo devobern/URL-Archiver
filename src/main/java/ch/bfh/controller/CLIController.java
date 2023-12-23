@@ -4,6 +4,8 @@ import ch.bfh.archiver.*;
 import ch.bfh.exceptions.*;
 import ch.bfh.helper.*;
 import ch.bfh.model.*;
+import ch.bfh.model.archiving.PendingWaybackMachineJob;
+import ch.bfh.model.export.ExporterFactory;
 import ch.bfh.model.filereader.FileReaderFactory;
 import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
@@ -37,6 +39,20 @@ public class CLIController {
     private boolean running = true;
     private final ArchiverManager archiverManager;
     private ConfigModel config;
+    private final ArrayList<PendingWaybackMachineJob> pendingJobs;
+
+
+    public FileModel getFileModel() {
+        return fileModel;
+    }
+
+    public ArrayList<PendingWaybackMachineJob> getPendingJobs() {
+        return pendingJobs;
+    }
+
+    public void addPendingJob(PendingWaybackMachineJob job) {
+        this.pendingJobs.add(job);
+    }
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -54,6 +70,7 @@ public class CLIController {
         this.currentURLPairIndex = 0;
         this.folderModel = null;
         this.currentFileIndex = 0;
+        this.pendingJobs = new ArrayList<>();
 
         // read config file
         try {
@@ -67,7 +84,7 @@ public class CLIController {
         this.archiverManager = new ArchiverManager();
         // Initialize all possible archivers once
 
-        archiverManager.addArchiver(new WaybackMachineArchiver(this.config));
+        archiverManager.addArchiver(new WaybackMachineArchiver(this.config, this));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
     }
 
@@ -126,6 +143,7 @@ public class CLIController {
                     case HELP -> view.printOptions();
                     case CONFIG -> handleConfig();
                     case SHOW_ARCHIVED -> handleShowArchived();
+                    case UPDATE_JOBS -> handleUpdateJobs();
                     case QUIT -> {
                         handleQuit();
                         running = false;
@@ -137,7 +155,13 @@ public class CLIController {
         }
     }
 
+    private void handleUpdateJobs() {
+        statusUpdate();
+        showPendingJobs();
+    }
+
     private void handleShowArchived() {
+        statusUpdate();
         view.printFormattedMessage("info.show_archived");
 
         // Create and populate a map of file names to lists of URLPairs with non-null archived URLs
@@ -166,6 +190,7 @@ public class CLIController {
             fileUrlMap.values().stream()
                     .flatMap(List::stream)
                     .flatMap(urlPair -> urlPair.getArchivedURLs().stream())
+                    .filter(url -> !url.equalsIgnoreCase("pending"))
                     .forEach(this::openURL);
         }
     }
@@ -268,6 +293,7 @@ public class CLIController {
 
         // Open the URL in the users default browser
         openURL(extractedURL);
+        statusUpdate();
     }
 
     /**
@@ -355,9 +381,10 @@ public class CLIController {
             }
         } catch (ArchiverException e) {
             view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
             finishArchiving();
         }
-
+        statusUpdate();
 
     }
 
@@ -385,6 +412,7 @@ public class CLIController {
             // Moved to next URL pair within the same file.
             view.printFormattedMessage("action.next_url");
         }
+        statusUpdate();
     }
 
 
@@ -392,18 +420,74 @@ public class CLIController {
      * Notifies the user that the application is quitting.
      */
     private void handleQuit() {
-        view.printMessage("action.export");
-        String userInput = scanner.nextLine();
-        if (userInput.equalsIgnoreCase("y")) {
+        statusUpdate();
+        // Handle export
+        if(fileModel != null) {
             handleExport();
         }
 
+        // Quit the application
         view.printMessage("action.quit");
         this.running = false;
         shutdown();
     }
 
+    /**
+     * Exports the URLs of the given file to a BIB file.
+     * @param fm the file to export the URLs from
+     */
+    private void exportBib(FileModel fm){
+        if (yesNoPromt("action.export.bib", fm.getFileName())) {
+            try {
+                ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
+            } catch (IOException e) {
+                view.printMessage(e.getMessage());
+            } catch (URLExporterException e) {
+                view.printMessage(e);
+            }
+        }
+    }
+
+    /**
+     * Checks if the given file is a BIB file.
+     * @param fileModel the file to check
+     * @return true if the file is a BIB file, false otherwise
+     */
+    private boolean isBibFile(FileModel fileModel){
+        return Objects.equals(fileModel.getMimeType(), "text/bib") || Objects.equals(fileModel.getMimeType(), "text/x-bibtex");
+    }
+
+    /**
+     * Prompts the user for a yes/no answer to the given message.
+     * @param message the message to display
+     * @param args the arguments to format the message with
+     * @return true if the user answered yes, false otherwise
+     */
+    private boolean yesNoPromt(String message, Object... args) {
+        view.printFormattedMessage(message, args);
+        String userInput = scanner.nextLine();
+        return userInput.equalsIgnoreCase("y");
+    }
+
     private void handleExport() {
+        // BIB Export
+        if (folderModel != null) {
+            for (FileModel fm : folderModel.getFiles()) {
+                if (isBibFile(fm)) {
+                    exportBib(fm);
+                }
+            }
+        } else {
+            if (isBibFile(fileModel)) {
+                exportBib(fileModel);
+            }
+        }
+
+        //CSV Export
+        if (!yesNoPromt("action.export.csv")) {
+            return;
+        }
+
         String path = "";
         // Check if the path is valid
         boolean isValid = false;
@@ -438,17 +522,53 @@ public class CLIController {
 
         if (this.folderModel == null) {
             try {
-                URLExporter.exportUrlsToCSV(this.fileModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
+                ExporterFactory.getExporter("csv").exportURLs(this.fileModel, path);
+            } catch (IOException | URLExporterException e) {
                 view.printMessage(e);
             }
         } else {
             try {
-                URLExporter.exportUrlsToCSV(this.folderModel, path);
-            } catch (FileNotFoundException | URLExporterException e) {
+                ExporterFactory.getExporter("csv").exportURLs(this.folderModel, path);
+            } catch (IOException | URLExporterException e) {
                 view.printMessage(e);
             }
         }
+    }
+
+    /**
+     * updates the status of the pending jobs
+     */
+    private void statusUpdate() {
+        try {
+            ((WaybackMachineArchiver) this.archiverManager.getArchiver("WaybackMachine")).updatePendingJobs();
+        } catch (ArchiverException e) {
+            view.printMessage(e);
+            System.out.println(e.getCause().getMessage());
+        }
+
+        Iterator<PendingWaybackMachineJob> iterator = this.pendingJobs.iterator();
+
+        while (iterator.hasNext()) {
+            PendingWaybackMachineJob pendingJob = iterator.next();
+
+            if (pendingJob.getJob().getStatus().equalsIgnoreCase("success")) {
+                pendingJob.getFile().addArchivedURL(pendingJob.getExtractedUrl(), "https://web.archive.org/web/" + pendingJob.getJob().getTimestamp() + "/" + pendingJob.getJob().getOriginal_url());
+                iterator.remove(); // Safely remove the current element using iterator
+            }
+        }
+
+    }
+
+    /**
+     * prints the pending jobs
+     */
+    private void showPendingJobs() {
+        view.printFormattedMessage("jobs.showPending.info", this.pendingJobs.size());
+
+        for (PendingWaybackMachineJob job : this.pendingJobs) {
+            view.printFormattedMessage("jobs.showPending.job", job.getExtractedUrl(), job.getJob().getStatus());
+        }
+
     }
 
     /**
@@ -489,7 +609,6 @@ public class CLIController {
         }
     }
 
-
     /**
      * Processes the given path by determining if it's a file or a folder and
      * populating the appropriate model with URL data extracted from the contents.
@@ -525,6 +644,10 @@ public class CLIController {
             try {
                 processFileModel(tempFileModel);
             } catch (FileModelException e) {
+                view.printMessage(e);
+                iterator.remove();
+            } catch(IOException e) {
+                view.printMessage(e);
                 iterator.remove();
             }
         }
@@ -569,8 +692,7 @@ public class CLIController {
         String fileContent = fileReader.readFile(fileModel.getFilePath());
         Set<String> extractedURLs = URLExtractor.extractURLs(fileContent);
         if (extractedURLs.isEmpty()) {
-            view.printMessage("file.noUrls.error");
-            throw new FileModelException("No URLs found");
+            throw new FileModelException(I18n.getString("file.noUrls.error") + " " + fileModel.getFilePath());
         }
         fileModel.addExtractedURLs(extractedURLs);
     }

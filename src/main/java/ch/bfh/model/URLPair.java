@@ -66,6 +66,15 @@ public class URLPair {
      * @param archivedURLs the archived URL to be set
      */
     public void addArchivedURL(String archivedURLs) {
+        if(archivedURLs.startsWith("https://web.archive.org")) {
+
+            for (int i = 0; i < this.archivedURLs.size(); i++) {
+                if (this.archivedURLs.get(i).equalsIgnoreCase("pending")) {
+                    this.archivedURLs.set(i, archivedURLs);
+                    return;
+                }
+            }
+        }
         this.archivedURLs.add(archivedURLs);
     }
 

@@ -11,6 +11,7 @@ public enum UserChoice {
     HELP("h"),
     CONFIG("c"),
     SHOW_ARCHIVED("s"),
+    UPDATE_JOBS("u"),
     QUIT("q");
 
     private final String command;

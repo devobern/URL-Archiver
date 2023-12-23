@@ -1,5 +1,6 @@
 package ch.bfh.archiver;
 
+import ch.bfh.controller.CLIController;
 import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.model.ConfigModel;
 import ch.bfh.model.archiving.*;
@@ -12,6 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
+
 /**
  * An implementation of the URLArchiver interface for archiving URLs using the Wayback Machine service.
  * This class encapsulates the functionality specific to the Wayback Machine for archiving purposes.
@@ -20,9 +22,12 @@ public class WaybackMachineArchiver implements URLArchiver{
     private final String serviceName = "WaybackMachine";
     private final String apiUrl = "https://web.archive.org/save/";
     private final ConfigModel config;
+    private final CLIController controller;
 
-    public WaybackMachineArchiver(ConfigModel config) {
+
+    public WaybackMachineArchiver(ConfigModel config, CLIController controller) {
         this.config = config;
+        this.controller = controller;
     }
 
     /**
@@ -41,7 +46,6 @@ public class WaybackMachineArchiver implements URLArchiver{
             String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
 
             // Create an HttpClient
-            // Todo: Implement IDE hint
             HttpClient httpClient = HttpClient.newHttpClient();
 
             // Create a HttpRequest with the necessary headers and data
@@ -66,14 +70,15 @@ public class WaybackMachineArchiver implements URLArchiver{
 
             WaybackMachineArchiveResponse archiveResponse = new ObjectMapper().readValue(responseBody, WaybackMachineArchiveResponse.class);
 
-            WaybackMachineJob job = waitForJob(archiveResponse);
+            WaybackMachineJob job = getWaybackMachineJob(archiveResponse.getJob_id());
 
             if (job.getStatus().contains("error")) {
                 throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
             }
 
-            return "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
+            this.controller.addPendingJob(new PendingWaybackMachineJob(url, job, this.controller.getFileModel()));
 
+            return "pending";
 
         } catch (IOException e) {
             throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
@@ -101,10 +106,7 @@ public class WaybackMachineArchiver implements URLArchiver{
                     .GET()
                     .build();
 
-            // Todo: Implement IDE Hints
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // TODO: use archiving over 12h if SNP-Servers are overloaded
 
             if (response.statusCode() < 300) {
                 return true;
@@ -127,14 +129,13 @@ public class WaybackMachineArchiver implements URLArchiver{
         return serviceName;
     }
 
+
     /**
-     * method for waiting till the archiving job is finished
-     * @param archiveResponse the response from the archiving request --> contains the job id
-     * @return returns the successful job --> contains the information to the archived urlAutomated URL Submission Wayback Machine
-     * @throws IOException
-     * @throws InterruptedException
+     * get the job from the wayback machine
+     * @param jobId identifier for a wayback machine job (received from the  wayback machine save response body)
+     * @return a WaybackMachineJobe
      */
-    private WaybackMachineJob waitForJob(WaybackMachineArchiveResponse archiveResponse) throws IOException, InterruptedException {
+    private WaybackMachineJob getWaybackMachineJob(String jobId) throws IOException, InterruptedException {
 
         // The API key for authorization
         String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
@@ -145,7 +146,7 @@ public class WaybackMachineArchiver implements URLArchiver{
 
         // Create a HttpRequest with the necessary headers and data
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(apiUrl + "status/" + archiveResponse.getJob_id()))
+                .uri(URI.create(apiUrl + "status/" + jobId))
                 .header("Accept", "application/json")
                 .header("Authorization", apiKey)
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -155,19 +156,30 @@ public class WaybackMachineArchiver implements URLArchiver{
         // Send the request and retrieve the response
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        WaybackMachineJob job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
-
-
-        while (job.getStatus().equals("pending")) {
-
-            // Send the request and retrieve the response
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
-            // todo: Could be necessary, but needs to be checked
-            Thread.sleep(3000);
-        }
-
-        return job;
+        return new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
     }
+
+    /**
+     * checks the status of each pending job with the wayback machine and updates the status
+     * @throws ArchiverException
+     */
+    public void updatePendingJobs() throws ArchiverException {
+
+        for (PendingWaybackMachineJob job : this.controller.getPendingJobs()) {
+            if (job.getJob().getStatus().equalsIgnoreCase("pending")) {
+                try {
+                    job.setJob(getWaybackMachineJob(job.getJob().getJob_id()));
+                } catch (IOException e) {
+                    throw new ArchiverException("IO error occurred while getting Job: " + job.getJob().getJob_id(), e);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new ArchiverException("The archiving operation was interrupted", e);
+                }
+
+            }
+        }
+    }
+
+
 }
+
