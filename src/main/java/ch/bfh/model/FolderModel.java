@@ -5,6 +5,7 @@ import ch.bfh.helper.I18n;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a folder containing multiple file models.
@@ -12,21 +13,16 @@ import java.util.ArrayList;
 public class FolderModel {
     private int index = 0;
     private final String basePath;
-    private final ArrayList<FileModel> files = new ArrayList<>();
-
+    private final List<FileModel> files = new ArrayList<>();
 
     /**
      * Constructs a FolderModel with the specified directory path.
+     * Ensures the path ends with a file separator.
      *
      * @param inputPath The path to the directory.
      */
     public FolderModel(String inputPath) {
-
-        if (!inputPath.endsWith(File.separator)) {
-            inputPath = inputPath + File.separator;
-        }
-        this.basePath = inputPath;
-
+        this.basePath = ensureEndsWithSeparator(inputPath);
     }
 
     /**
@@ -48,9 +44,7 @@ public class FolderModel {
         if (wasLastFile()) {
             throw new FolderModelException(I18n.getString("folder.outOfRange.error"));
         }
-        FileModel file = this.files.get(index);
-        this.index = this.index + 1;
-        return file;
+        return this.files.get(index++);
     }
 
     /**
@@ -76,11 +70,26 @@ public class FolderModel {
      *
      * @return A list of FileModel objects.
      */
-    public ArrayList<FileModel> getFiles() {
+    public List<FileModel> getFiles() {
         return files;
     }
 
-    public void removeFile(int i) {
-        this.files.remove(i);
+    /**
+     * Removes the file at the specified index from the folder.
+     *
+     * @param index The index of the file to remove.
+     */
+    public void removeFile(int index) {
+        this.files.remove(index);
+    }
+
+    /**
+     * Ensures that the input path ends with a file separator.
+     *
+     * @param path The path to ensure.
+     * @return The path ending with a file separator.
+     */
+    private String ensureEndsWithSeparator(String path) {
+        return path.endsWith(File.separator) ? path : path + File.separator;
     }
 }
