@@ -9,17 +9,17 @@ The stakeholders for this solution include:
 \clearpage
 
 \section{Poduct Goal}
-The product goal is a platform independent Java application called "URL-Archiver".
+The product goal is a platform independent Java application called ``URL-Archiver``.
 The application must be Free/Libre and Open Source Software (FLOSS) licensed and fulfil the following functionalities:
 \begin{enumerate}
     \item The software should be CLI\footnote{Command Line Interface}-based and offer a clear command line.
     \item The software should allow the user to input a path, which can be a folder or any Unicode text file.
     \item The software examines the contents of a file or folder to extract any web URLs using a standard regular expression or similar method.
     \item If desired, URLs can be automatically opened in a web browser.
-    \item The extracted URLs are archived on archive.today and/or web.archive.org as per the user's preference.
+    \item The extracted URLs are archived on archive.today and/or web.archive.org (known as The Wayback Machine) as per the user's preference.
     \item The software outputs the resulting archive URLs to the user.
-    \item The software generates a CSV file containing the content URL \& the archived URL.
-    \item Optionally, the archived URLs are stored in a .bib file.
+    \item The software generates a CSV file containing the original URL and the archived Version of the URL.
+    \item Optionally, the archived Versions are written back into the provided .bib file.
 \end{enumerate}
 The product goal is achieved if the software covers all the functionality listed above.
 Furthermore, the code should be minimalistic, modular, and self-explaining.
@@ -30,16 +30,12 @@ In addition to the code, it is essential that the following documents are provid
     \item Software documentation
 \end{itemize}
 
-\cite{titleimage}
-\cite{knuthwebsite}
-\cite{einstein}
-
-
-%\section{Priorities}
-%\begin{enumerate}
-%    \item \textbf{Functionality}: The primary priority is the accurate extraction and archiving of URLs. The software should reliably identify URLs in varied file types and ensure their successful archiving on \href{https://archive.ph}{https://archive.ph}.
-%    \item \textbf{Usability}: Given the diverse potential user base, the program should be platform-independent and possess a user-friendly interface. While the underlying mechanisms may be complex, the user experience should be seamless and intuitive.
-%    \item \textbf{Code Quality}: Emphasis should be placed on writing clean, minimal, and modular code. This not only aids in potential future enhancements but also in debugging and troubleshooting.
-%    \item \textbf{Documentation}: As with any software project, proper documentation is paramount. The project report should be concise, adhering to the principle of being ``maximally informative, minimally long,`` ensuring clarity of information without overwhelming the reader.
-%    \item \textbf{Integration with Existing File Types}: The ability to seamlessly insert archived URLs into .BIB files is a priority, given the potential academic applications of the software.
-%\end{enumerate}
+\section{Priorities}
+The following priorities are listed in order of importance:
+\begin{enumerate}
+    \item \textbf{Functionality}: The primary priority is the accurate extraction and archiving of URLs. The software should reliably identify URLs in varied file types and ensure their successful archiving on \href{https://archive.ph}{https://archive.ph}.
+    \item \textbf{Usability}: Given the diverse potential user base, the program should be platform-independent and possess a user-friendly interface. While the underlying mechanisms may be complex, the user experience should be seamless and intuitive.
+    \item \textbf{Code Quality}: Emphasis should be placed on writing clean, minimal, and modular code. This not only aids in potential future enhancements but also in debugging and troubleshooting.
+    \item \textbf{Documentation}: As with any software project, proper documentation is paramount. The project report should be concise, adhering to the principle of being ``maximally informative, minimally long,`` ensuring clarity of information without overwhelming the reader.
+    \item \textbf{Integration with Existing File Types}: The ability to seamlessly insert archived URLs into .BIB files is a priority, given the potential academic applications of the software.
+\end{enumerate}
