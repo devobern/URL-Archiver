@@ -1,100 +1,93 @@
 package ch.bfh.model;
 
-import ch.bfh.helper.I18n;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Locale;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test suite for the FileModel class.
+ */
 class FileModelTest {
+
+    private FileModel fileModel;
+    private final Path testPath = Paths.get("test.txt");
+    private final String testMimeType = "text/plain";
 
     @BeforeEach
     void setUp() {
-        I18n.getResourceBundle(Locale.forLanguageTag("en-US"));
-
-        // create a test text file (is supported) for testing
-        try {
-            FileWriter myWriter = new FileWriter("testTextFileModelTest.txt");
-            myWriter.write("This is a test file");
-            myWriter.close();
-            System.out.println("Test Text-File created successfully.");
-
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-        }
-
-        // create a test pdf file (is supported) for testing
-        try {
-            // Create a new PDF document
-            PDDocument document = new PDDocument();
-
-            // Create a new page
-            PDPage page = new PDPage();
-            document.addPage(page);
-
-            // Create a content stream for adding content to the page
-            PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-            // Set the font and font size
-            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
-
-            // Add text to the page
-            contentStream.beginText();
-            contentStream.newLineAtOffset(100, 700);
-            contentStream.showText("This is a pdf test file");
-            contentStream.endText();
-
-            // Close the content stream
-            contentStream.close();
-
-            // Save the PDF to a file
-            document.save("testPDFFileModelTest.pdf");
-
-            // Close the document
-            document.close();
-
-            System.out.println("PDF created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileModel = new FileModel(testPath, testMimeType);
     }
 
-    @AfterEach
-    void tearDown() {
-        // delete test text file
-        File file = new File("testTextFileModelTest.txt");
-        file.delete();
-
-        // delete test pdf file
-        File pdffile = new File("testPDFFileModelTest.pdf");
-        pdffile.delete();
-    }
-
-    // Todo: Extraction does not work like this anymore
     /**
+     * Test if the FileModel object is constructed with correct file name.
+     */
     @Test
-    void fileToString() {
-        FileModel file = new FileModel(Path.of("testTextFileModelTest.txt"), "text/plain");
-        FileModel pdfFile = new FileModel(Path.of("testPDFFileModelTest.pdf"), "application/pdf");
-
-        try {
-            assertEquals("This is a test file", file.fileToString());
-            assertTrue(pdfFile.fileToString().contains("This is a pdf test file"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    void testGetFileName() {
+        assertEquals("test.txt", fileModel.getFileName(), "File name should match the name in the path");
     }
-    **/
+
+    /**
+     * Test if the FileModel object is constructed with correct MIME type.
+     */
+    @Test
+    void testGetMimeType() {
+        assertEquals(testMimeType, fileModel.getMimeType(), "MIME type should match the provided MIME type");
+    }
+
+    /**
+     * Test if the FileModel object is constructed with correct file path.
+     */
+    @Test
+    void testGetFilePath() {
+        assertEquals(testPath, fileModel.getFilePath(), "File path should match the provided file path");
+    }
+
+    /**
+     * Test adding extracted URLs and retrieving them.
+     */
+    @Test
+    void testAddExtractedURLsAndGetUrlPairs() {
+        Set<String> extractedURLs = new HashSet<>(Arrays.asList("https://example.com", "https://test.com"));
+        fileModel.addExtractedURLs(extractedURLs);
+
+        List<URLPair> urlPairs = fileModel.getUrlPairs();
+        assertEquals(2, urlPairs.size(), "Number of URL pairs should be equal to the number of extracted URLs");
+        assertTrue(urlPairs.stream().anyMatch(pair -> pair.getExtractedURL().equals("https://example.com")),
+                "List should contain the URL 'https://example.com'");
+        assertTrue(urlPairs.stream().anyMatch(pair -> Objects.equals(pair.getExtractedURL(), "https://test.com")),
+                "List should contain the URL 'https://test.com'");
+    }
+
+    /**
+     * Test setting archived URLs for a specific extracted URL.
+     */
+    @Test
+    void testSetArchivedURL() {
+        String extractedURL = "https://example.com";
+        List<String> archivedURLs = Arrays.asList("https://archive1.com", "https://archive2.com");
+        fileModel.addExtractedURLs(new HashSet<>(Collections.singletonList(extractedURL)));
+        fileModel.setArchivedURL(extractedURL, archivedURLs);
+
+        URLPair pair = fileModel.getUrlPairs().getFirst();
+        assertEquals(archivedURLs, pair.getArchivedURLs(), "Archived URLs should match the provided archived URLs");
+    }
+
+    /**
+     * Test adding an archived URL to a specific extracted URL.
+     */
+    @Test
+    void testAddArchivedURL() {
+        String extractedURL = "https://example.com";
+        String archivedURL = "https://archive.com";
+        fileModel.addExtractedURLs(new HashSet<>(Collections.singletonList(extractedURL)));
+        fileModel.addArchivedURL(extractedURL, archivedURL);
+
+        URLPair pair = fileModel.getUrlPairs().getFirst();
+        assertTrue(pair.getArchivedURLs().contains(archivedURL), "The archived URL should be added to the URL pair");
+    }
 }
