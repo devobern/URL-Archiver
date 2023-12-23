@@ -2,7 +2,6 @@ package ch.bfh.view;
 
 import ch.bfh.helper.I18n;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -30,7 +29,7 @@ public class ConsoleView {
      * @param key the key used to retrieve the message from the resource bundle.
      */
     public void printMessage(String key) {
-        System.out.print(messages.getString(key));
+        System.out.print(I18n.getString(key));
     }
 
     /**
@@ -52,23 +51,22 @@ public class ConsoleView {
      * @param args arguments to format the message.
      */
     public void printFormattedMessage(String key, Object... args) {
-        System.out.printf(messages.getString(key), args);
-        System.out.println();
+        System.out.println(I18n.getString(key, args));
     }
 
     /**
      * Prints a list of user options to the console.
      */
     public void printOptions() {
-        System.out.println(messages.getString("option.title"));
-        System.out.println("[o]\t" + messages.getString("option.open"));
-        System.out.println("[a]\t" + messages.getString("option.archive"));
-        System.out.println("[s]\t" + messages.getString("option.show_archived"));
-        System.out.println("[u]\t" + messages.getString("option.update_jobs"));
-        System.out.println("[n]\t" + messages.getString("option.next"));
-        System.out.println("[q]\t" + messages.getString("option.quit"));
-        System.out.println("[c]\t" + messages.getString("option.config"));
-        System.out.println("[h]\t" + messages.getString("option.help"));
+        System.out.println(I18n.getString("option.title"));
+        System.out.println("[o]\t" + I18n.getString("option.open"));
+        System.out.println("[a]\t" + I18n.getString("option.archive"));
+        System.out.println("[s]\t" + I18n.getString("option.show_archived"));
+        System.out.println("[u]\t" + I18n.getString("option.update_jobs"));
+        System.out.println("[n]\t" + I18n.getString("option.next"));
+        System.out.println("[q]\t" + I18n.getString("option.quit"));
+        System.out.println("[c]\t" + I18n.getString("option.config"));
+        System.out.println("[h]\t" + I18n.getString("option.help"));
         System.out.println();
     }
 
@@ -76,7 +74,7 @@ public class ConsoleView {
      * Prompts the user to select an option from the given list.
      */
     public void promptUserForOption(){
-        System.out.print(messages.getString("options.prompt") + " " + OPTIONS + ":");
+        System.out.print(I18n.getString("options.prompt") + " " + OPTIONS + ":");
     }
 
     /**
@@ -92,7 +90,7 @@ public class ConsoleView {
      * @return The path entered by the user.
      */
     public String promptUserForPath() {
-        System.out.print(messages.getString("path.prompt"));
+        System.out.print(I18n.getString("path.prompt"));
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -142,9 +140,9 @@ public class ConsoleView {
                 ██║   ██║██╔══██╗██║╚════╝██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
                 ╚██████╔╝██║  ██║███████╗ ██║  ██║██║  ██║╚██████╗██║  ██║██║ ╚████╔╝ ███████╗██║  ██║
                  ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝
-                \t\t\t\t\t\t\t""" + messages.getString("welcome.subtitle"));
+                \t\t\t\t\t\t\t""" + I18n.getString("welcome.subtitle"));
         // Instructions
-        System.out.println(messages.getString("welcome.welcome_text").replace("\\n", "\n"));
+        System.out.println(I18n.getString("welcome.welcome_text").replace("\\n", "\n"));
         System.out.println();
         printOptions();
     }
