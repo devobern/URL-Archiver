@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Represents the model for configuration file mapping.
- * This class is used to map the JSON configuration data to Java objects.
+ * This class is used to map the JSON configuration data details like access keys, secret keys, and browser types to Java objects.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConfigFileMapperModel {
@@ -27,9 +27,9 @@ public class ConfigFileMapperModel {
      * @param browser   the browser type
      */
     public ConfigFileMapperModel(String accessKey, String secretKey, String browser) {
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
-        this.browser = browser;
+        this.accessKey = accessKey == null ? "" : accessKey;
+        this.secretKey = secretKey == null ? "" : secretKey;
+        this.browser = browser == null ? "" : browser;
     }
 
     public String getAccessKey() {
