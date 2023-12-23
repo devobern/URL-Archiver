@@ -1,6 +1,35 @@
 \section{System Delimitation}
 
 \subsection{System Environment (statics)}
+\subsubsection{System Overview}
+The primary purpose of the URL-Archiver is to extract URLs from Unicode text files and PDFs, and archive them on supported platforms: Archive.today and the Wayback Machine. The system provides the archived URL versions to the user via a CSV file. Additionally, when a .bib file is provided by the user, the original bib file is updated with a note field containing these archived URLs for each entry.
+
+\subsubsection{Hardware Specifications}
+The URL-Archiver does not impose any special hardware requirements. However, an internet connection is essential for the archiving process to function.
+
+\subsubsection{Software Components}
+The URL-Archiver is platform-independent, operating on major systems such as Windows (tested on Windows 10 and 11), macOS, and Linux (tested on Ubuntu). The system has varying browser dependencies based on the operating system: Chrome is required for macOS, Edge for Windows, and Firefox for Ubuntu/Linux. Users can modify these settings in a configuration file. Other dependencies are installed with the URL-Archiver and do not require separate installation.
+
+\subsubsection{System Architecture}
+The URL-Archiver employs the Model-View-Controller (MVC) pattern to facilitate future enhancements like adding a GUI interface. The Factory pattern is applied where appropriate to simplify the extension of functionalities. For example, adding additional archiving services can be easily accomplished.
+
+\subsubsection{Data Management}
+Upon completion of its execution, the URL-Archiver stores all URLs in a CSV file. Optionally, it can also write back URLs into a .bib file.
+
+\subsubsection{User Interface}
+Currently, the system uses a command-line interface. The MVC pattern lays the groundwork for potential future implementation of a GUI interface.
+
+\subsubsection{Security and Compliance}
+The URL-Archiver does not have specific security requirements to meet.
+
+\subsubsection{Integration with Other Systems}
+The system integrates with the Wayback Machine via API, with certain limitations detailed in their API documentation (https://archive.org/details/spn-2-public-api-page-docs/mode/2up). For archiving on Archive.today, which lacks an API, Selenium is used to automate the process as much as possible. However, users must manually complete captchas.
+
+\subsubsection{Scalability and Performance}
+There are no specific scalability requirements or performance benchmarks that the URL-Archiver is designed to meet.
+
+\subsubsection{Maintenance and Support}
+Currently, there are no specified maintenance requirements or a support framework for the URL-Archiver.
 
 
 \subsection{Process Environment (dynamics)}
