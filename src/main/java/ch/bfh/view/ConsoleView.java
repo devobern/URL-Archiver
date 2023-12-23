@@ -3,16 +3,14 @@ package ch.bfh.view;
 import ch.bfh.helper.I18n;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /**
  * Console-based view to interact with the user.
  */
 public class ConsoleView {
-    private final ResourceBundle messages;
+    private final static String OPTIONS = "(o/a/s/u/n/q/c/h)";
     private boolean isArchiving = false;
-    private final String OPTIONS = "(o/a/s/u/n/q/c/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -20,7 +18,7 @@ public class ConsoleView {
      * @param locale the locale for internationalization.
      */
     public ConsoleView(Locale locale) {
-        this.messages = I18n.getResourceBundle(locale);
+        I18n.getResourceBundle(locale);
     }
 
     /**
@@ -39,7 +37,7 @@ public class ConsoleView {
      *
      * @param exception the exception whose message is to be printed.
      */
-    public void printMessage(Exception exception){
+    public void printMessage(Exception exception) {
         System.out.println(exception.getMessage());
     }
 
@@ -73,7 +71,7 @@ public class ConsoleView {
     /**
      * Prompts the user to select an option from the given list.
      */
-    public void promptUserForOption(){
+    public void promptUserForOption() {
         System.out.print(I18n.getString("options.prompt") + " " + OPTIONS + ":");
     }
 
@@ -114,8 +112,6 @@ public class ConsoleView {
                     Thread.currentThread().interrupt();
                 }
             }
-            // options dont show with this
-            //System.out.print("\rArchiving Complete\n");  // Clear the indicator
         }).start();
     }
 
