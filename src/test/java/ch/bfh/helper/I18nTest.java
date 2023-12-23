@@ -32,10 +32,6 @@ class I18nTest {
         // Testing for English locale
         Locale locale = Locale.ENGLISH;
         assertEquals(locale, I18n.getResourceBundle(locale).getLocale());
-
-        // Testing for more languages
-        // locale = Locale.FRANCE;
-        // assertEquals(locale, I18n.getResourceBundle(locale).getLocale());
     }
 
     /**
@@ -66,7 +62,7 @@ class I18nTest {
      */
     @Test
     void testGetStringWithParams_ValidKey() {
-        String key = "action.archiving"; // Assuming "greeting" exists in messages.properties with value "Hello, {0}!"
+        String key = "action.archiving";
         String param = "test_url.ch";
         String expectedValue = "Archiving test_url.ch ...";
         assertEquals(expectedValue, I18n.getString(key, param));
