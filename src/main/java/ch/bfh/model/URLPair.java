@@ -1,90 +1,72 @@
 package ch.bfh.model;
 
-// todo: We need something to store the context, where the url is in the file. Important for the .bib file processing!
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a pair of URLs: one extracted from a source and its corresponding archived version.
+ * Represents a pair of URLs: one extracted from a source and its corresponding archived versions.
  */
 public class URLPair {
     private String extractedURL;
     private List<String> archivedURLs;
-    private final int lineNumber;
 
     /**
-     * Constructs a URLPair with the given extracted URL and its line number.
+     * Constructs a URLPair with the specified extracted URL.
      *
      * @param extractedURL the URL extracted from a source
      */
     public URLPair(String extractedURL) {
         this.extractedURL = extractedURL;
         this.archivedURLs = new ArrayList<>();
-        this.lineNumber = 0;
     }
 
-    /**
-     * Retrieves the extracted URL.
-     *
-     * @return the extracted URL
-     */
     public String getExtractedURL() {
         return extractedURL;
     }
 
-    /**
-     * Retrieves the archived URL.
-     *
-     * @return the archived URL or null if not set
-     */
     public List<String> getArchivedURLs() {
         return archivedURLs;
     }
 
     /**
-     * Retrieves the line number where the URL was extracted from.
+     * Sets the list of archived URLs.
      *
-     * @return the line number
-     */
-    public int getLineNumber() {
-        return lineNumber;
-    }
-
-    /**
-     * Sets the archived URL.
-     *
-     * @param archivedURLs the archived URL to be set
+     * @param archivedURLs the list of archived URLs
      */
     public void setArchivedURLs(List<String> archivedURLs) {
-        this.archivedURLs = archivedURLs;
+        this.archivedURLs = new ArrayList<>(archivedURLs);
     }
 
     /**
-     * Sets the archived URL.
+     * Adds an archived URL to the list. Replaces "pending" URLs if the new URL is from the web archive.
      *
-     * @param archivedURLs the archived URL to be set
+     * @param archivedURL the archived URL to add
      */
-    public void addArchivedURL(String archivedURLs) {
-        if(archivedURLs.startsWith("https://web.archive.org")) {
+    public void addArchivedURL(String archivedURL) {
+        if (archivedURL.startsWith("https://web.archive.org")) {
+            replacePendingURLs(archivedURL);
+        } else {
+            this.archivedURLs.add(archivedURL);
+        }
+    }
 
-            for (int i = 0; i < this.archivedURLs.size(); i++) {
-                if (this.archivedURLs.get(i).equalsIgnoreCase("pending")) {
-                    this.archivedURLs.set(i, archivedURLs);
-                    return;
-                }
+    /**
+     * Replaces any "pending" URLs in the archived URLs list with the specified URL.
+     *
+     * @param url the URL to replace "pending" entries
+     */
+    private void replacePendingURLs(String url) {
+        for (int i = 0; i < this.archivedURLs.size(); i++) {
+            if (this.archivedURLs.get(i).equalsIgnoreCase("pending")) {
+                this.archivedURLs.set(i, url);
+                return;
             }
         }
-        this.archivedURLs.add(archivedURLs);
+        this.archivedURLs.add(url);
     }
 
-    /**
-     * Returns a string representation of the URL pair.
-     *
-     * @return a formatted string representing the URL pair
-     */
     @Override
     public String toString() {
-        return "URLPair { Extracted URL: " + extractedURL + ", Archived URL: " + archivedURLs + ", Line: " + lineNumber + " }";
+        return "URLPair { Extracted URL: " + extractedURL + ", Archived URLs: " + archivedURLs + " }";
     }
 }
