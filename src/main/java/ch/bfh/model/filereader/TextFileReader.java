@@ -7,16 +7,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * A concrete implementation of FileReaderInterface for reading plain text files.
+ * Implementation of FileReaderInterface for reading plain text files.
  */
-public class TextFileReader implements FileReaderInterface{
+public class TextFileReader implements FileReaderInterface {
+
     /**
-     * Reads the content from a text file located at the specified path.
+     * Reads and returns the content of a text file at the given path.
      *
-     * @param filePath the path of the file to read.
-     * @return the content of the file as a String.
-     * @throws IOException if the file cannot be read.
+     * @param filePath Path of the text file to be read.
+     * @return String containing the file's content.
+     * @throws IOException if there is an error reading the file.
      */
+    @Override
     public String readFile(Path filePath) throws IOException {
         try {
             return Files.readString(filePath);
