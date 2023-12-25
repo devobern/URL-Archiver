@@ -2,49 +2,56 @@ package ch.bfh.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test suite for the FileModel class.
  */
 class FileModelTest {
 
-    private FileModel fileModel;
-    private final Path testPath = Paths.get("test.txt");
     private final String testMimeType = "text/plain";
+    @TempDir
+    Path tempDir;
+    private FileModel fileModel;
+    private Path testPath;
 
     @BeforeEach
     void setUp() {
+        testPath = tempDir.resolve("test.txt");
         fileModel = new FileModel(testPath, testMimeType);
     }
 
     /**
-     * Test if the FileModel object is constructed with correct file name.
+     * Test if the FileModel object is constructed with the correct file name.
      */
     @Test
     void testGetFileName() {
-        assertEquals("test.txt", fileModel.getFileName(), "File name should match the name in the path");
+        assertEquals("test.txt", fileModel.getFileName(),
+                "File name should match the name in the path");
     }
 
     /**
-     * Test if the FileModel object is constructed with correct MIME type.
+     * Test if the FileModel object is constructed with the correct MIME type.
      */
     @Test
     void testGetMimeType() {
-        assertEquals(testMimeType, fileModel.getMimeType(), "MIME type should match the provided MIME type");
+        assertEquals(testMimeType, fileModel.getMimeType(),
+                "MIME type should match the provided MIME type");
     }
 
     /**
-     * Test if the FileModel object is constructed with correct file path.
+     * Test if the FileModel object is constructed with the correct file path.
      */
     @Test
     void testGetFilePath() {
-        assertEquals(testPath, fileModel.getFilePath(), "File path should match the provided file path");
+        assertEquals(testPath, fileModel.getFilePath(),
+                "File path should match the provided file path");
     }
 
     /**
@@ -56,7 +63,8 @@ class FileModelTest {
         fileModel.addExtractedURLs(extractedURLs);
 
         List<URLPair> urlPairs = fileModel.getUrlPairs();
-        assertEquals(2, urlPairs.size(), "Number of URL pairs should be equal to the number of extracted URLs");
+        assertEquals(2, urlPairs.size(),
+                "Number of URL pairs should be equal to the number of extracted URLs");
         assertTrue(urlPairs.stream().anyMatch(pair -> pair.getExtractedURL().equals("https://example.com")),
                 "List should contain the URL 'https://example.com'");
         assertTrue(urlPairs.stream().anyMatch(pair -> Objects.equals(pair.getExtractedURL(), "https://test.com")),
@@ -74,7 +82,8 @@ class FileModelTest {
         fileModel.setArchivedURL(extractedURL, archivedURLs);
 
         URLPair pair = fileModel.getUrlPairs().getFirst();
-        assertEquals(archivedURLs, pair.getArchivedURLs(), "Archived URLs should match the provided archived URLs");
+        assertEquals(archivedURLs, pair.getArchivedURLs(),
+                "Archived URLs should match the provided archived URLs");
     }
 
     /**
@@ -88,6 +97,7 @@ class FileModelTest {
         fileModel.addArchivedURL(extractedURL, archivedURL);
 
         URLPair pair = fileModel.getUrlPairs().getFirst();
-        assertTrue(pair.getArchivedURLs().contains(archivedURL), "The archived URL should be added to the URL pair");
+        assertTrue(pair.getArchivedURLs().contains(archivedURL),
+                "The archived URL should be added to the URL pair");
     }
 }
