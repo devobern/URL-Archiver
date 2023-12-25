@@ -14,36 +14,6 @@ import java.util.stream.Collectors;
 public class BIBExporter implements Exporter {
 
     /**
-     * Exports the bibliographic data to a BibTeX file, updating entries with archived URLs.
-     *
-     * @param fileModel The FileModel object containing file path and URL pairs.
-     * @param destinationPath The path to the destination file.
-     * @throws IOException If an I/O error occurs.
-     */
-    @Override
-    public void exportURLs(FileModel fileModel, String destinationPath) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(fileModel.getFilePath().toString()));
-        List<URLPair> urlPairs = fileModel.getUrlPairs();
-
-        for (URLPair pair : urlPairs) {
-            String archivedUrls = formatArchivedUrls(pair);
-            if (!archivedUrls.isEmpty()) {
-                updateBibEntriesWithArchivedUrls(lines, pair.getExtractedURL(), archivedUrls);
-            }
-        }
-        try {
-            Files.write(Paths.get(destinationPath), lines);
-        } catch (IOException e) {
-            throw new IOException("Could not write to file: " + destinationPath, e);
-        }
-    }
-
-    @Override
-    public void exportURLs(FolderModel folderModel, String destinationPath) throws URLExporterException {
-        throw new URLExporterException("BIB export is not supported for folders.");
-    }
-
-    /**
      * Formats archived URLs for insertion into the BibTeX file.
      *
      * @param pair The URLPair object containing the list of archived URLs.
@@ -61,9 +31,9 @@ public class BIBExporter implements Exporter {
     /**
      * Updates the BibTeX entries with archived URLs.
      *
-     * @param lines         The list of lines in the BibTeX file.
-     * @param extractedUrl  The URL to match in BibTeX entries.
-     * @param archivedUrls  The formatted string of archived URLs.
+     * @param lines        The list of lines in the BibTeX file.
+     * @param extractedUrl The URL to match in BibTeX entries.
+     * @param archivedUrls The formatted string of archived URLs.
      */
     private static void updateBibEntriesWithArchivedUrls(List<String> lines, String extractedUrl, String archivedUrls) {
         int entryStart = -1;
@@ -91,8 +61,8 @@ public class BIBExporter implements Exporter {
     /**
      * Checks if a line marks the end of a BibTeX entry.
      *
-     * @param line        The line to check.
-     * @param entryStart  The index of the start of the BibTeX entry.
+     * @param line       The line to check.
+     * @param entryStart The index of the start of the BibTeX entry.
      * @return true if the line is the end of a BibTeX entry, false otherwise.
      */
     private static boolean isEndOfBibEntry(String line, int entryStart) {
@@ -102,11 +72,11 @@ public class BIBExporter implements Exporter {
     /**
      * Updates a specific BibTeX entry with archived URLs.
      *
-     * @param lines         The list of lines in the BibTeX file.
-     * @param entryStart    The start index of the BibTeX entry.
-     * @param entryEnd      The end index of the BibTeX entry.
-     * @param extractedUrl  The URL to match in the BibTeX entry.
-     * @param archivedUrls  The formatted string of archived URLs.
+     * @param lines        The list of lines in the BibTeX file.
+     * @param entryStart   The start index of the BibTeX entry.
+     * @param entryEnd     The end index of the BibTeX entry.
+     * @param extractedUrl The URL to match in the BibTeX entry.
+     * @param archivedUrls The formatted string of archived URLs.
      */
     private static void updateBibEntry(List<String> lines, int entryStart, int entryEnd, String extractedUrl, String archivedUrls) {
         for (int j = entryStart; j <= entryEnd; j++) {
@@ -166,5 +136,35 @@ public class BIBExporter implements Exporter {
             lines.set(entryEnd - 1, precedingLine + ",");
         }
         lines.add(entryEnd, "    note = {" + archivedUrls + "},");
+    }
+
+    /**
+     * Exports the bibliographic data to a BibTeX file, updating entries with archived URLs.
+     *
+     * @param fileModel       The FileModel object containing file path and URL pairs.
+     * @param destinationPath The path to the destination file.
+     * @throws IOException If an I/O error occurs.
+     */
+    @Override
+    public void exportURLs(FileModel fileModel, String destinationPath) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(fileModel.getFilePath().toString()));
+        List<URLPair> urlPairs = fileModel.getUrlPairs();
+
+        for (URLPair pair : urlPairs) {
+            String archivedUrls = formatArchivedUrls(pair);
+            if (!archivedUrls.isEmpty()) {
+                updateBibEntriesWithArchivedUrls(lines, pair.getExtractedURL(), archivedUrls);
+            }
+        }
+        try {
+            Files.write(Paths.get(destinationPath), lines);
+        } catch (IOException e) {
+            throw new IOException("Could not write to file: " + destinationPath, e);
+        }
+    }
+
+    @Override
+    public void exportURLs(FolderModel folderModel, String destinationPath) throws URLExporterException {
+        throw new URLExporterException("BIB export is not supported for folders.");
     }
 }
