@@ -11,7 +11,6 @@ import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
@@ -30,29 +29,17 @@ import java.util.stream.Collectors;
  */
 public class CLIController {
 
+    private final ConsoleView view;
+    private final Scanner scanner;
+    private final ArchiverManager archiverManager;
+    private final ArrayList<PendingWaybackMachineJob> pendingJobs;
     private FileModel fileModel;
     private int currentURLPairIndex;
     private FolderModel folderModel;
     private int currentFileIndex;
-    private final ConsoleView view;
-    private final Scanner scanner;
     private boolean running = true;
-    private final ArchiverManager archiverManager;
     private ConfigModel config;
-    private final ArrayList<PendingWaybackMachineJob> pendingJobs;
 
-
-    public FileModel getFileModel() {
-        return fileModel;
-    }
-
-    public ArrayList<PendingWaybackMachineJob> getPendingJobs() {
-        return pendingJobs;
-    }
-
-    public void addPendingJob(PendingWaybackMachineJob job) {
-        this.pendingJobs.add(job);
-    }
 
     /**
      * Initializes a new controller for the command-line interface. This controller manages the user interface for URL extraction and archiving operations.
@@ -86,6 +73,18 @@ public class CLIController {
 
         archiverManager.addArchiver(new WaybackMachineArchiver(this.config, this));
         archiverManager.addArchiver(new ArchiveTodayArchiver());
+    }
+
+    public FileModel getFileModel() {
+        return fileModel;
+    }
+
+    public ArrayList<PendingWaybackMachineJob> getPendingJobs() {
+        return pendingJobs;
+    }
+
+    public void addPendingJob(PendingWaybackMachineJob job) {
+        this.pendingJobs.add(job);
     }
 
     /**
@@ -422,7 +421,7 @@ public class CLIController {
     private void handleQuit() {
         statusUpdate();
         // Handle export
-        if(fileModel != null) {
+        if (fileModel != null) {
             handleExport();
         }
 
@@ -434,9 +433,10 @@ public class CLIController {
 
     /**
      * Exports the URLs of the given file to a BIB file.
+     *
      * @param fm the file to export the URLs from
      */
-    private void exportBib(FileModel fm){
+    private void exportBib(FileModel fm) {
         if (yesNoPromt("action.export.bib", fm.getFileName())) {
             try {
                 ExporterFactory.getExporter("bib").exportURLs(fm, fm.getFilePath().toString());
@@ -450,17 +450,19 @@ public class CLIController {
 
     /**
      * Checks if the given file is a BIB file.
+     *
      * @param fileModel the file to check
      * @return true if the file is a BIB file, false otherwise
      */
-    private boolean isBibFile(FileModel fileModel){
+    private boolean isBibFile(FileModel fileModel) {
         return Objects.equals(fileModel.getMimeType(), "text/bib") || Objects.equals(fileModel.getMimeType(), "text/x-bibtex");
     }
 
     /**
      * Prompts the user for a yes/no answer to the given message.
+     *
      * @param message the message to display
-     * @param args the arguments to format the message with
+     * @param args    the arguments to format the message with
      * @return true if the user answered yes, false otherwise
      */
     private boolean yesNoPromt(String message, Object... args) {
@@ -643,10 +645,7 @@ public class CLIController {
             FileModel tempFileModel = iterator.next();
             try {
                 processFileModel(tempFileModel);
-            } catch (FileModelException e) {
-                view.printMessage(e);
-                iterator.remove();
-            } catch(IOException e) {
+            } catch (FileModelException | IOException e) {
                 view.printMessage(e);
                 iterator.remove();
             }
@@ -658,6 +657,7 @@ public class CLIController {
             this.fileModel = folderModel.getFiles().getFirst();
         }
     }
+
     /**
      * Processes a single file path, validates it, and initializes the file model.
      *
@@ -684,7 +684,7 @@ public class CLIController {
      * Throws FileModelException if no URLs are found in the file.
      *
      * @param fileModel The file model representing the file to be processed. It contains the file's path and MIME type.
-     * @throws IOException If an error occurs during reading of the file's content, indicating an I/O problem.
+     * @throws IOException        If an error occurs during reading of the file's content, indicating an I/O problem.
      * @throws FileModelException If no URLs are found in the file.
      */
     private void processFileModel(FileModel fileModel) throws IOException, FileModelException {
