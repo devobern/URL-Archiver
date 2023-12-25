@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CSVExporter implements Exporter {
-    final String delimiter = ";";
+    private static final String DELIMITER = ";";
+    private static final String HEADER_EXTRACTED_URL = "extracted url";
+    private static final String HEADER_ARCHIVED_URL = "archived url ";
 
     /**
      * Exports the URLs of the given file to a CSV file.
@@ -73,9 +75,9 @@ public class CSVExporter implements Exporter {
     private List<String[]> createDataRows(Stream<FileModel> fileModelStream, int maxArchivedUrls) {
         ArrayList<String[]> dataRows = new ArrayList<>();
         // Header
-        List<String> headers = new ArrayList<>(Collections.singletonList("extracted url"));
+        List<String> headers = new ArrayList<>(Collections.singletonList(HEADER_EXTRACTED_URL));
         for (int i = 1; i <= maxArchivedUrls; i++) {
-            headers.add("archived url " + i);
+            headers.add(HEADER_ARCHIVED_URL + i);
         }
         dataRows.add(headers.toArray(new String[0]));
 
@@ -128,7 +130,7 @@ public class CSVExporter implements Exporter {
     private String convertToCSV(String[] data) {
         return Stream.of(data)
                 .map(this::escapeSpecialCharacters)
-                .collect(Collectors.joining(delimiter));
+                .collect(Collectors.joining(DELIMITER));
     }
 
     /**
