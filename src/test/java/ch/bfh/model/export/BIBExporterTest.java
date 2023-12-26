@@ -28,24 +28,25 @@ class BIBExporterTest {
     @Test
     void testExportURLsWithExtractedUrlPresent() throws IOException {
         Path sourcePath = tempDir.resolve("biblatex-examples.bib");
-        String bibEntry = "@online{ctan,\n" +
-                "  title        = {CTAN},\n" +
-                "  date         = 2006,\n" +
-                "  url          = {http://www.ctan.org},\n" +
-                "  subtitle     = {The {Comprehensive TeX Archive Network}},\n" +
-                "  urldate      = {2006-10-01},\n" +
-                "  label        = {CTAN},\n" +
-                "  langid       = {english},\n" +
-                "  langidopts   = {variant=american},\n" +
-                "  annotation   = {This is an \\texttt{online} entry. The \\textsc{url}, which is\n" +
-                "                  given in the \\texttt{url} field, is transformed into a\n" +
-                "                  clickable link if \\texttt{hyperref} support has been\n" +
-                "                  enabled. Note the format of the \\texttt{urldate} field\n" +
-                "                  (\\texttt{yyyy-mm-dd}) in the database file. Also note the\n" +
-                "                  \\texttt{label} field which may be used as a fallback by\n" +
-                "                  citation styles which need an \\texttt{author} and\\slash or a\n" +
-                "                  \\texttt{year}},\n" +
-                "}";
+        String bibEntry = """
+                @online{ctan,
+                  title        = {CTAN},
+                  date         = 2006,
+                  url          = {http://www.ctan.org},
+                  subtitle     = {The {Comprehensive TeX Archive Network}},
+                  urldate      = {2006-10-01},
+                  label        = {CTAN},
+                  langid       = {english},
+                  langidopts   = {variant=american},
+                  annotation   = {This is an \\texttt{online} entry. The \\textsc{url}, which is
+                                  given in the \\texttt{url} field, is transformed into a
+                                  clickable link if \\texttt{hyperref} support has been
+                                  enabled. Note the format of the \\texttt{urldate} field
+                                  (\\texttt{yyyy-mm-dd}) in the database file. Also note the
+                                  \\texttt{label} field which may be used as a fallback by
+                                  citation styles which need an \\texttt{author} and\\slash or a
+                                  \\texttt{year}},
+                }""";
         Files.writeString(sourcePath, bibEntry);
 
         FileModel fileModel = new FileModel(sourcePath, "text/plain");
@@ -62,18 +63,19 @@ class BIBExporterTest {
     @Test
     void testExportURLsWithExtractedUrlPresentAndNoteField() throws IOException {
         Path sourcePath = tempDir.resolve("biblatex-examples.bib");
-        String bibEntry = "@online{ctan,\n" +
-                "  title        = {CTAN},\n" +
-                "  date         = 2006,\n" +
-                "  url          = {http://www.ctan.org},\n" +
-                "  subtitle     = {The {Comprehensive TeX Archive Network}},\n" +
-                "  urldate      = {2006-10-01},\n" +
-                "  label        = {CTAN},\n" +
-                "  langid       = {english},\n" +
-                "  langidopts   = {variant=american},\n" +
-                "  annotation   = {Existing note content},\n" +
-                "  note         = {Ed. facs. de la realizada en 1948--49},\n" +
-                "}";
+        String bibEntry = """
+                @online{ctan,
+                  title        = {CTAN},
+                  date         = 2006,
+                  url          = {http://www.ctan.org},
+                  subtitle     = {The {Comprehensive TeX Archive Network}},
+                  urldate      = {2006-10-01},
+                  label        = {CTAN},
+                  langid       = {english},
+                  langidopts   = {variant=american},
+                  annotation   = {Existing note content},
+                  note         = {Ed. facs. de la realizada en 1948--49},
+                }""";
         Files.writeString(sourcePath, bibEntry);
 
         FileModel fileModel = new FileModel(sourcePath, "text/plain");
