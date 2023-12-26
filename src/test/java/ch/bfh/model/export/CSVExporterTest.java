@@ -68,14 +68,33 @@ class CSVExporterTest {
         return fileModel;
     }
 
+    /**
+     * Gathers all URL pairs from a specified folder model.
+     *
+     * @param folderModel The model containing file data.
+     * @return List of URLPair objects from all files in the folder model.
+     */
     private List<URLPair> getAllURLPairs(FolderModel folderModel) {
         return folderModel.getFiles().stream().flatMap(fileModel -> fileModel.getUrlPairs().stream()).collect(Collectors.toList());
     }
 
+    /**
+     * Creates the CSV header string for extracted and archived URLs.
+     *
+     * @param numArchivedUrls Number of archived URL columns to include.
+     * @return CSV header string with columns for each archived URL.
+     */
     private String constructExpectedHeader(int numArchivedUrls) {
         return "extracted url" + IntStream.rangeClosed(1, numArchivedUrls).mapToObj(i -> ";archived url " + i).collect(Collectors.joining());
     }
 
+    /**
+     * Formats a URLPair into a CSV line with a specified number of archived URL fields.
+     *
+     * @param pair            The URLPair to format.
+     * @param numArchivedUrls Total number of archived URL fields for the line.
+     * @return Formatted CSV line with extracted and archived URLs.
+     */
     private String constructExpectedLine(URLPair pair, int numArchivedUrls) {
         String line = pair.getExtractedURL();
         List<String> archivedUrls = pair.getArchivedURLs();
