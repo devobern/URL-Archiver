@@ -12,7 +12,7 @@ class ExporterFactoryTest {
     @Test
     void testGetCsvExporter() {
         Exporter exporter = ExporterFactory.getExporter("csv");
-        assertTrue(exporter instanceof CSVExporter, "getExporter should return a CSVExporter for 'csv' type");
+        assertInstanceOf(CSVExporter.class, exporter, "getExporter should return a CSVExporter for 'csv' type");
     }
 
     /**
@@ -21,7 +21,7 @@ class ExporterFactoryTest {
     @Test
     void testGetBibExporter() {
         Exporter exporter = ExporterFactory.getExporter("bib");
-        assertTrue(exporter instanceof BIBExporter, "getExporter should return a BIBExporter for 'bib' type");
+        assertInstanceOf(BIBExporter.class, exporter, "getExporter should return a BIBExporter for 'bib' type");
     }
 
     /**
