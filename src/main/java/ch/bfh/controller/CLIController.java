@@ -667,7 +667,7 @@ public class CLIController {
      */
     private void handleSingleFile(String filePath) throws IOException {
         Path validatedPath = Paths.get(filePath);
-        String mimeType = null;
+        String mimeType;
         try {
             mimeType = FileValidator.validate(filePath);
             fileModel = new FileModel(validatedPath, mimeType);
