@@ -49,9 +49,8 @@ class FileValidatorTest {
      *
      * @param path     The file path.
      * @param mimeType The MIME type to return for the file.
-     * @throws IOException If an I/O error occurs.
      */
-    private void mockFileMethods(Path path, String mimeType) throws IOException {
+    private void mockFileMethods(Path path, String mimeType) {
         try (MockedStatic<Files> filesMockedStatic = Mockito.mockStatic(Files.class)) {
             filesMockedStatic.when(() -> Files.probeContentType(path)).thenReturn(mimeType);
             filesMockedStatic.when(() -> Files.isRegularFile(path)).thenReturn(true);
@@ -109,7 +108,7 @@ class FileValidatorTest {
      * Validates that unsupported file types are correctly rejected.
      */
     @Test
-    void validateUnsupportedFileType() throws IOException {
+    void validateUnsupportedFileType() {
         try (MockedStatic<Files> filesMockedStatic = Mockito.mockStatic(Files.class)) {
             filesMockedStatic.when(() -> Files.probeContentType(jpgPath))
                     .thenReturn("image/jpeg");
