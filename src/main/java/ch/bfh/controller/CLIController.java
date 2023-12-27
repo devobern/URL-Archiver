@@ -11,7 +11,6 @@ import ch.bfh.model.filereader.FileReaderInterface;
 import ch.bfh.view.ConsoleView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
@@ -601,7 +600,7 @@ public class CLIController {
         if (!Files.isDirectory(filePath)) {
             try {
                 String mimeType = FileValidator.validate(filePath.toString());
-                view.printFormattedMessage("file.validated.info", filePath.getFileName().toString());
+                view.printFormattedMessage("file.validated.info", filePath.getFileName().toString() + " (" + mimeType + ")");
                 folderModel.addFile(new FileModel(filePath, mimeType));
             } catch (FileModelException e) {
                 view.printMessage(e);
@@ -671,7 +670,7 @@ public class CLIController {
         try {
             mimeType = FileValidator.validate(filePath);
             fileModel = new FileModel(validatedPath, mimeType);
-            view.printFormattedMessage("file.validated.info", fileModel.getFileName());
+            view.printFormattedMessage("file.validated.info", fileModel.getFileName() + " (" + mimeType + ")");
             processFileModel(fileModel);
         } catch (FileModelException e) {
             view.printMessage(e);
