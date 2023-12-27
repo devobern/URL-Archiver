@@ -2,7 +2,6 @@ package ch.bfh.model;
 
 import ch.bfh.exceptions.FolderModelException;
 import ch.bfh.helper.I18n;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
