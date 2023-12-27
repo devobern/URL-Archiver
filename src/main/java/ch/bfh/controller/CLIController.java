@@ -634,9 +634,8 @@ public class CLIController {
      * Deletes any file from the folder model that fails to process due to a FileModelException.
      *
      * @param folderPath the directory path to process
-     * @throws IOException if an I/O error occurs when opening the directory
      */
-    private void handleFolder(String folderPath) throws IOException {
+    private void handleFolder(String folderPath) {
         folderModel = new FolderModel(folderPath);
         extractFilesFromFolder();
 
