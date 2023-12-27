@@ -7,7 +7,7 @@ import java.util.List;
  * Represents a pair of URLs: one extracted from a source and its corresponding archived versions.
  */
 public class URLPair {
-    private String extractedURL;
+    private final String extractedURL;
     private List<String> archivedURLs;
 
     /**
