@@ -32,7 +32,6 @@ public class FileValidator {
         }
 
         String mimeType = Files.probeContentType(path);
-        System.out.println("MIME-Type: " + mimeType);
         if (mimeType != null) {
             if (mimeType.equals("application/pdf") || mimeType.startsWith("text/")) {
                 return mimeType;
