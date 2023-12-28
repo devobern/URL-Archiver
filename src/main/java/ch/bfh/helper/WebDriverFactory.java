@@ -2,10 +2,8 @@ package ch.bfh.helper;
 
 import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.exceptions.ConfigFileException;
-import ch.bfh.model.ConfigModel;
 import ch.bfh.model.SupportedBrowsers;
-import org.checkerframework.checker.units.qual.A;
-import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,48 +12,29 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.safari.SafariOptions;
+import org.openqa.selenium.remote.AbstractDriverOptions;
 
 /**
- * A factory class for creating instances of {@link WebDriver} for different browsers.
- * This class provides a centralized way to create and configure web drivers for
- * Edge, Safari, Firefox, and Chrome. Based on the operating system an appropriate
- * WebDriver instance with a common page load strategy is returned.
- * Windows, macOS, and Linux are supported operating systems.
+ * Factory class for creating {@link WebDriver} instances tailored for different browsers.
+ * Supports creation of web drivers for browsers like Edge, Chrome, and Firefox,
+ * with consideration for the underlying operating system.
  */
 public class WebDriverFactory {
 
     /**
-     * Creates and returns EdgeOptions with the EAGER {@link PageLoadStrategy}.
+     * Generates browser-specific options with a common {@link PageLoadStrategy}.
      *
-     * @return {@link EdgeOptions} configured for the WebDriver.
+     * @param browser the browser for which to create options
+     * @return configured {@link MutableCapabilities} for the specified browser
+     * @throws IllegalArgumentException if the browser is unsupported
      */
-    private static EdgeOptions getEdgeOptions() {
-        EdgeOptions options = new EdgeOptions();
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        return options;
-    }
-
-
-    /**
-     * Creates and returns ChromeOptions with the EAGER {@link PageLoadStrategy}.
-     *
-     * @return {@link ChromeOptions} configured for the WebDriver.
-     */
-    private static ChromeOptions getChromeOptions() {
-        ChromeOptions options = new ChromeOptions();
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        return options;
-    }
-
-    /**
-     * Creates and returns FirefoxOptions with the EAGER {@link PageLoadStrategy}.
-     *
-     * @return {@link FirefoxOptions} configured for the WebDriver.
-     */
-    private static FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions options = new FirefoxOptions();
+    private static MutableCapabilities getBrowserOptions(SupportedBrowsers browser) {
+        AbstractDriverOptions<?> options = switch (browser) {
+            case FIREFOX -> new FirefoxOptions();
+            case CHROME -> new ChromeOptions();
+            case EDGE -> new EdgeOptions();
+            default -> throw new IllegalArgumentException("Unsupported browser: " + browser);
+        };
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         return options;
     }
@@ -63,27 +42,42 @@ public class WebDriverFactory {
     /**
      * Determines the operating system of the current environment.
      *
-     * @return A string representing the operating system name, e.g., "Windows", "macOS", "Linux".
+     * @return the detected {@link OperatingSystem}
      */
-    private static String getOperatingSystem() {
+    private static OperatingSystem getOperatingSystem() {
         String os = System.getProperty("os.name").toLowerCase();
         return switch (os) {
-            case String s when s.contains("win") -> "Windows";
-            case String s when s.contains("mac") -> "macOS";
-            case String s when s.contains("nix") || os.contains("nux") || os.contains("aix") -> "Linux";
-            default -> "Unknown";
+            case String s when s.contains("win") -> OperatingSystem.WINDOWS;
+            case String s when s.contains("mac") -> OperatingSystem.MACOS;
+            case String s when s.contains("nix") || s.contains("nux") || s.contains("aix") -> OperatingSystem.LINUX;
+            default -> OperatingSystem.UNKNOWN;
         };
     }
 
     /**
-     * Provides a WebDriver instance based on the current operating system.
-     * It returns an EdgeDriver for Windows, SafariDriver for macOS, FirefoxDriver for Linux,
-     * and ChromeDriver for other or unknown operating systems.
+     * Provides a default WebDriver instance based on the current operating system.
      *
-     * @return An instance of {@link WebDriver} appropriate for the current operating system.
+     * @return An instance of {@link WebDriver} suitable for the detected OS.
+     * @throws ArchiverException if the operating system is macOS or an unknown type
+     */
+    private static WebDriver getDefaultDriver() throws ArchiverException {
+        OperatingSystem currentOS = getOperatingSystem();
+        return switch (currentOS) {
+            case WINDOWS -> new EdgeDriver((EdgeOptions) getBrowserOptions(SupportedBrowsers.EDGE));
+            case LINUX -> new FirefoxDriver((FirefoxOptions) getBrowserOptions(SupportedBrowsers.FIREFOX));
+            case MACOS -> throw new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.macDefault"));
+            default -> new ChromeDriver((ChromeOptions) getBrowserOptions(SupportedBrowsers.CHROME));
+        };
+    }
+
+    /**
+     * Creates a WebDriver instance based on the configured browser preference.
+     * Defaults to the system's preferred browser if the configuration is unavailable or invalid.
+     *
+     * @return An instance of {@link WebDriver} based on browser configuration or system preference.
+     * @throws ArchiverException if an unsupported browser is specified
      */
     public static WebDriver getWebDriver() throws ArchiverException {
-        String currentOS = getOperatingSystem();
         SupportedBrowsers browser;
         try {
             browser = ConfigFileHelper.getBrowser();
@@ -91,33 +85,21 @@ public class WebDriverFactory {
             browser = SupportedBrowsers.DEFAULT;
         }
 
-        if (browser.equals(SupportedBrowsers.UNSUPPORTED)) {
-            throw(new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.error")));
-        }
-        switch (browser) {
-            case FIREFOX -> {
-                return new FirefoxDriver(getFirefoxOptions());
-            }
-            case CHROME -> {
-                return new ChromeDriver(getChromeOptions());
-            }
-            case EDGE -> {
-                return new EdgeDriver(getEdgeOptions());
-            }
-            case DEFAULT -> {
-                return switch (currentOS) {
-                    case "Windows" -> new EdgeDriver(getEdgeOptions());
-                    case "macOS" -> throw(new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.macDefault")));
-                    case "Linux" -> new FirefoxDriver(getFirefoxOptions());
-                    default -> new ChromeDriver(getChromeOptions());
-                };
-            }
-            default -> {
-                throw(new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.error")));
-            }
-
+        if (browser == SupportedBrowsers.UNSUPPORTED) {
+            throw new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.error"));
         }
 
+        try {
+            return switch (browser) {
+                case FIREFOX -> new FirefoxDriver((FirefoxOptions) getBrowserOptions(browser));
+                case CHROME -> new ChromeDriver((ChromeOptions) getBrowserOptions(browser));
+                case EDGE -> new EdgeDriver((EdgeOptions) getBrowserOptions(browser));
+                case DEFAULT -> getDefaultDriver();
+                default -> throw new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.error"));
+            };
+        } catch (IllegalArgumentException e) {
+            // Handle case where the browser is not supported
+            throw new ArchiverException(I18n.getString("action.archiving.unsupportedBrowser.error"), e);
+        }
     }
-
 }

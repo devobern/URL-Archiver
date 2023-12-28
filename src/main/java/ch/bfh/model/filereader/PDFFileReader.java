@@ -3,7 +3,6 @@ package ch.bfh.model.filereader;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.interactive.action.PDAction;
 import org.apache.pdfbox.pdmodel.interactive.action.PDActionURI;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
@@ -15,18 +14,17 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Implementation of FileReaderInterface for reading PDF files.
- * This class provides functionality to extract text and hyperlinks from PDF documents.
+ * FileReader implementation for PDF files.
+ * It extracts text and hyperlinks from PDF documents.
  */
 public class PDFFileReader implements FileReaderInterface {
 
     /**
-     * Reads the content from a PDF file located at the specified path.
-     * It extracts both the text and any embedded hyperlinks in the document.
+     * Reads and extracts text and hyperlinks from a PDF file specified by the path.
      *
-     * @param filePath the path of the PDF file to read.
-     * @return a string containing the text content and hyperlinks of the file.
-     * @throws IOException if an error occurs during reading the PDF.
+     * @param filePath Path to the PDF file.
+     * @return Extracted text and hyperlinks as a String.
+     * @throws IOException if an error occurs during file reading or processing.
      */
     @Override
     public String readFile(Path filePath) throws IOException {
@@ -42,23 +40,29 @@ public class PDFFileReader implements FileReaderInterface {
     }
 
     /**
-     * Extracts hyperlinks from the given PDF document and appends them to the result.
+     * Extracts and appends hyperlinks from the PDF document to the StringBuilder.
      *
-     * @param document the PDF document to extract hyperlinks from.
-     * @param result   the StringBuilder to append the extracted hyperlinks.
+     * @param document The PDF document from which to extract hyperlinks.
+     * @param result   StringBuilder to append the extracted hyperlinks.
+     * @throws IOException if an error occurs during hyperlink extraction.
      */
     private void extractHyperlinks(PDDocument document, StringBuilder result) throws IOException {
         for (PDPage page : document.getPages()) {
             List<PDAnnotation> annotations = page.getAnnotations();
+            appendAnnotationsHyperlinks(annotations, result);
+        }
+    }
 
-            for (PDAnnotation annot : annotations) {
-                if (annot instanceof PDAnnotationLink link) {
-                    PDAction action = link.getAction();
-
-                    if (action instanceof PDActionURI uri) {
-                        result.append("\n").append(uri.getURI());
-                    }
-                }
+    /**
+     * Appends hyperlinks from a list of annotations to the StringBuilder.
+     *
+     * @param annotations List of annotations to process for hyperlinks.
+     * @param result      StringBuilder to append the extracted hyperlinks.
+     */
+    private void appendAnnotationsHyperlinks(List<PDAnnotation> annotations, StringBuilder result) {
+        for (PDAnnotation annotation : annotations) {
+            if (annotation instanceof PDAnnotationLink link && link.getAction() instanceof PDActionURI uri) {
+                result.append("\n").append(uri.getURI());
             }
         }
     }

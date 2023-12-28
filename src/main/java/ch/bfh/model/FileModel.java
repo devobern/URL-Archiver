@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Represents a file for URL processing, holding metadata and content-related URLs.
+ * Represents a file for URL processing, containing metadata and URLs related to its content.
  */
 public class FileModel {
 
@@ -16,9 +16,8 @@ public class FileModel {
     private final Path filePath;
     private final List<URLPair> urlPairs;
 
-
     /**
-     * Constructs a FileModel with a path and MIME type.
+     * Constructs a FileModel with specified file path and MIME type.
      *
      * @param filePath the file's path
      * @param mimeType the file's MIME type
@@ -30,86 +29,59 @@ public class FileModel {
         this.urlPairs = new ArrayList<>();
     }
 
-
-    /**
-     * Returns the file name.
-     *
-     * @return the file name as a string
-     */
     public String getFileName() {
         return this.fileName;
     }
 
-    /**
-     * Returns the MIME type of the file.
-     *
-     * @return the MIME type as a string
-     */
     public String getMimeType() {
-        return mimeType;
+        return this.mimeType;
     }
 
-    /**
-     * Returns the file path.
-     *
-     * @return the file path as a Path object
-     */
     public Path getFilePath() {
-        return filePath;
+        return this.filePath;
     }
 
-
     /**
-     * Returns the list of URL pairs.
+     * Retrieves an unmodifiable view of the URL pairs.
      *
      * @return an unmodifiable list of URLPair objects
      */
     public List<URLPair> getUrlPairs() {
-        if(this.urlPairs == null){
-            return Collections.emptyList();
-        }
-        return this.urlPairs;
+        return Collections.unmodifiableList(this.urlPairs);
     }
 
     /**
-     * Adds a list of extracted URLs to the URL pairs.
+     * Adds a set of extracted URLs to the URL pairs.
      *
-     * @param extractedURLs a list of URLs as strings
+     * @param extractedURLs a set of URLs
      */
     public void addExtractedURLs(Set<String> extractedURLs) {
-        for (String url:extractedURLs) {
-            urlPairs.add(new URLPair(url));
-        }
+        extractedURLs.forEach(url -> urlPairs.add(new URLPair(url)));
     }
 
     /**
-     * Associates an archived URL with its corresponding extracted URL in the list of URL pairs.
+     * Sets archived URLs for a corresponding extracted URL.
      *
-     * @param extractedURL the URL that was extracted from the file content
-     * @param archivedURL  the URL that was archived
+     * @param extractedURL the URL extracted from the file
+     * @param archivedURLs list of archived URLs
      */
     public void setArchivedURL(String extractedURL, List<String> archivedURLs) {
-        for (URLPair pair : urlPairs) {
-            if (pair.getExtractedURL().equals(extractedURL)) {
-                pair.setArchivedURLs(archivedURLs);
-                break;
-            }
-        }
+        urlPairs.stream()
+                .filter(pair -> pair.getExtractedURL().equals(extractedURL))
+                .findFirst()
+                .ifPresent(pair -> pair.setArchivedURLs(archivedURLs));
     }
 
     /**
-     * Associates an archived URL with its corresponding extracted URL in the list of URL pairs.
+     * Adds an archived URL for a corresponding extracted URL.
      *
-     * @param extractedURL the URL that was extracted from the file content
-     * @param archivedURL  the URL that was archived
+     * @param extractedURL the URL extracted from the file
+     * @param archivedURL  the archived URL
      */
     public void addArchivedURL(String extractedURL, String archivedURL) {
-        for (URLPair pair : urlPairs) {
-            if (pair.getExtractedURL().equals(extractedURL)) {
-                pair.addArchivedURL(archivedURL);
-                break;
-            }
-        }
+        urlPairs.stream()
+                .filter(pair -> pair.getExtractedURL().equals(extractedURL))
+                .findFirst()
+                .ifPresent(pair -> pair.addArchivedURL(archivedURL));
     }
-
 }

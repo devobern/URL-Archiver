@@ -19,6 +19,7 @@ public class I18n {
      * @param locale the desired locale for the resource bundle
      * @return the resource bundle for the specified locale
      */
+    // TODO: Refactor Logic - To be discussed
     public static ResourceBundle getResourceBundle(Locale locale) {
         if (bundle == null || !bundle.getLocale().equals(locale)) {
             bundle = ResourceBundle.getBundle(BASE_NAME, locale);
