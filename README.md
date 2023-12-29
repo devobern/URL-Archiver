@@ -2,7 +2,7 @@
 The URL archiver enables the extraction of URLs from any Unicode text or PDF file and allows for interactive archiving on one of the supported archiving services.
 > ⚠️ The application was designed to be platform-independent. However, it has only been tested on the following systems, so it cannot be guaranteed to work without restrictions on other platforms.
 > - Windows 11 (Version 23H2)
-> - Windows 10 (Version 21H1)
+> - Windows 10 (Version 22H2)
 > - macOS (Sonoma)
 > - Ubuntu (20.04.3 LTS)
 
