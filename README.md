@@ -1,7 +1,8 @@
 # URL-Archiver
 The URL archiver enables the extraction of URLs from any Unicode text or PDF file and allows for interactive archiving on one of the supported archiving services.
 > ⚠️ The application was designed to be platform-independent. However, it has only been tested on the following systems, so it cannot be guaranteed to work without restrictions on other platforms.
-> - Windows 10/11
+> - Windows 11 (Version 23H2)
+> - Windows 10 (Version 21H1)
 > - macOS Sonoma
 > - Ubuntu 20.04.3 LTS.
 
@@ -15,9 +16,9 @@ The URL archiver enables the extraction of URLs from any Unicode text or PDF fil
 - [Mr. Frank Helbling](mailto:frank.helbling@bfh.ch) (Project Management)
 ## Installation
 ### Requirements
-- git
-- Maven
-- Java 21
+- Git: Latest stable version recommended.
+- Maven: Version 3.8 or higher.
+- Java: Version 21.
 ### Clone the repository
 To clone the repository, run the following command in a terminal:
 ```bash
@@ -82,7 +83,7 @@ To build and run the application, open a terminal and run the following script:
 ## Deinstallation
 To deinstall the application, simply delete the folder containing the application.
 
-## ## Licenses and Attributions
+## Licenses and Attributions
 
 This project uses the following open-source software:
 
