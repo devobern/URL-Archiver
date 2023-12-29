@@ -3,8 +3,8 @@ The URL archiver enables the extraction of URLs from any Unicode text or PDF fil
 > ⚠️ The application was designed to be platform-independent. However, it has only been tested on the following systems, so it cannot be guaranteed to work without restrictions on other platforms.
 > - Windows 11 (Version 23H2)
 > - Windows 10 (Version 21H1)
-> - macOS Sonoma
-> - Ubuntu 20.04.3 LTS.
+> - macOS (Sonoma)
+> - Ubuntu (20.04.3 LTS)
 
 ## Authors
 - [Mr. Nicolin Dora](mailto:nicolin.dora@students.bfh.ch)
@@ -12,8 +12,8 @@ The URL archiver enables the extraction of URLs from any Unicode text or PDF fil
 - [Mr. Kilian Wampfler](mailto:kilian.wampfler@students.bfh.ch)
 
 ## Supervisor
-- [Dr. Simon Kramer](mailto:simon.kramer@bfh.ch) (Technical)
 - [Mr. Frank Helbling](mailto:frank.helbling@bfh.ch) (Project Management)
+- [Dr. Simon Kramer](mailto:simon.kramer@bfh.ch) (Technical)
 ## Installation
 ### Requirements
 - Git: Latest stable version recommended.
@@ -87,13 +87,15 @@ To deinstall the application, simply delete the folder containing the applicatio
 
 This project uses the following open-source software:
 
-- JUnit Jupiter API (https://junit.org/junit5/), licensed under the Eclipse Public License v2.0 (EPL-2.0). A copy of the EPL-2.0 can be found [here](LICENSES/EPL-2.0.txt).
-- JUnit Jupiter Engine (https://junit.org/junit5/), licensed under the Eclipse Public License v2.0 (EPL-2.0). A copy of the EPL-2.0 can be found [here](LICENSES/EPL-2.0.txt).
-- Selenium Java (https://www.selenium.dev/), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
-- Selenium Logger (https://github.com/titusfortner/selenium-logger), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
-- Mockito Core (https://site.mockito.org/), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
-- Mockito JUnit Jupiter (https://site.mockito.org/), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
-- System Lambda (https://github.com/stefanbirkner/system-lambda), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
-- Apache PDFBox (https://pdfbox.apache.org/), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
-- Jackson Core (https://github.com/FasterXML/jackson-core), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
-- Jackson Dataformat XML (https://github.com/FasterXML/jackson-dataformat-xml), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
+| Library                                                                       | License                                                       |
+|-------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [JUnit Jupiter API](https://junit.org/junit5/)                                | [Eclipse Public License v2.0 (EPL-2.0)](LICENSES/EPL-2.0.txt) |
+| [JUnit Jupiter Engine](https://junit.org/junit5/)                             | [Eclipse Public License v2.0 (EPL-2.0)](LICENSES/EPL-2.0.txt) |
+| [Selenium Java](https://www.selenium.dev/)                                    | [Apache License 2.0](LICENSES/Apache-2.0.txt)                 |
+| [Selenium Logger](https://github.com/titusfortner/selenium-logger)            | [MIT License](LICENSES/MIT.txt)                               |
+| [Mockito Core](https://site.mockito.org/)                                     | [MIT License](LICENSES/MIT.txt)                               |
+| [Mockito JUnit Jupiter](https://site.mockito.org/)                            | [MIT License](LICENSES/MIT.txt)                               |
+| [System Lambda](https://github.com/stefanbirkner/system-lambda)               | [MIT License](LICENSES/MIT.txt)                               |
+| [Apache PDFBox](https://pdfbox.apache.org/)                                   | [Apache License 2.0](LICENSES/Apache-2.0.txt)                 |
+| [Jackson Core](https://github.com/FasterXML/jackson-core)                     | [Apache License 2.0](LICENSES/Apache-2.0.txt)                 |
+| [Jackson Dataformat XML](https://github.com/FasterXML/jackson-dataformat-xml) | [Apache License 2.0](LICENSES/Apache-2.0.txt)                 |
