@@ -82,5 +82,17 @@ To build and run the application, open a terminal and run the following script:
 ## Deinstallation
 To deinstall the application, simply delete the folder containing the application.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## ## Licenses and Attributions
+
+This project uses the following open-source software:
+
+- JUnit Jupiter API (https://junit.org/junit5/), licensed under the Eclipse Public License v2.0 (EPL-2.0). A copy of the EPL-2.0 can be found [here](LICENSES/EPL-2.0.txt).
+- JUnit Jupiter Engine (https://junit.org/junit5/), licensed under the Eclipse Public License v2.0 (EPL-2.0). A copy of the EPL-2.0 can be found [here](LICENSES/EPL-2.0.txt).
+- Selenium Java (https://www.selenium.dev/), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
+- Selenium Logger (https://github.com/titusfortner/selenium-logger), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
+- Mockito Core (https://site.mockito.org/), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
+- Mockito JUnit Jupiter (https://site.mockito.org/), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
+- System Lambda (https://github.com/stefanbirkner/system-lambda), licensed under the MIT License. A copy of the MIT License can be found [here](LICENSES/MIT.txt).
+- Apache PDFBox (https://pdfbox.apache.org/), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
+- Jackson Core (https://github.com/FasterXML/jackson-core), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
+- Jackson Dataformat XML (https://github.com/FasterXML/jackson-dataformat-xml), licensed under the Apache License 2.0. A copy of the Apache License 2.0 can be found [here](LICENSES/Apache-2.0.txt).
