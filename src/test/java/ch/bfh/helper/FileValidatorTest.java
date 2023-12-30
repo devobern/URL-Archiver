@@ -91,7 +91,7 @@ class FileValidatorTest {
     @Test
     void validateBibFileWindows() throws IOException, FileModelException {
         Assumptions.assumeTrue(System.getProperty("os.name").toLowerCase().contains("win"));
-        assertEquals("text/plain", FileValidator.validate(bibPath.toString()));
+        assertEquals("text/bib", FileValidator.validate(bibPath.toString()));
     }
 
     /**
