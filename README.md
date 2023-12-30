@@ -7,12 +7,12 @@ The URL archiver enables the extraction of URLs from any Unicode text or PDF fil
 > - Ubuntu (20.04.3 LTS)
 
 ## Authors
-- [Mr. Nicolin Dora](mailto:nicolin.dora@students.bfh.ch)
-- [Mr. Abidin Vejseli](mailto:abidin.vejseli@students.bfh.ch)
-- [Mr. Kilian Wampfler](mailto:kilian.wampfler@students.bfh.ch)
+- [Nicolin Dora](mailto:nicolin.dora@students.bfh.ch)
+- [Abidin Vejseli](mailto:abidin.vejseli@students.bfh.ch)
+- [Kilian Wampfler](mailto:kilian.wampfler@students.bfh.ch)
 
 ## Supervisor
-- [Mr. Frank Helbling](mailto:frank.helbling@bfh.ch) (Project Management)
+- [Frank Helbling](mailto:frank.helbling@bfh.ch) (Project Management)
 - [Dr. Simon Kramer](mailto:simon.kramer@bfh.ch) (Technical)
 ## Installation
 ### Requirements
