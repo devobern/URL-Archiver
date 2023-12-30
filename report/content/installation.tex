@@ -1,6 +1,18 @@
 \LoadBFHModule{boxes}
 
 \section{Installation (Sysadmin) Manual \& Script} \label{sec::installation_manual}
+The URL archiver enables the extraction of URLs from any Unicode text or PDF file and allows for interactive archiving
+on one of the supported archiving services.
+\begin{bfhWarnBox}
+The application was designed to be platform-independent. However, it has only been tested on the following systems, so it cannot be guaranteed to work without restrictions on other platforms.
+\begin{itemize}
+	\item Windows 11 (Version 23H2)
+	\item Windows 10 (Version 22H2)
+	\item macOS (Sonoma)
+	\item Ubuntu (20.04.3 LTS)
+\end{itemize}
+\end{bfhWarnBox}
+
 \subsection{Requirements}
 
 To build and start the application, ensure that the following dependencies are installed on your system:
@@ -14,7 +26,7 @@ To build and start the application, ensure that the following dependencies are i
 
 To clone the repository, run the following command in a terminal:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[numbers=none]
 git clone https://github.com/devobern/URL-Archiver.git
 \end{lstlisting}
 
@@ -41,46 +53,52 @@ MacOS (\texttt{build.sh}, \texttt{run.sh}, \texttt{build\_and\_run.sh}). The scr
 \subsubsection{Windows}
 
 \paragraph{Build the application}
+\mbox{}\\
 To build the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./build.ps1
 \end{lstlisting}
 
 \paragraph{Run the application}
+\mbox{}\\
 To run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./run.ps1
 \end{lstlisting}
 
 \paragraph{Build and run the application}
+\mbox{}\\
 To build and run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./build_and_run.ps1
 \end{lstlisting}
 
 \subsubsection{Linux and macOS}
 
 \paragraph{Build the application}
+\mbox{}\\
 To build the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./build.sh
 \end{lstlisting}
 
 \paragraph{Run the application}
+\mbox{}\\
 To run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./run.sh
 \end{lstlisting}
 
 \paragraph{Build and run the application}
+\mbox{}\\
 To build and run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./build_and_run.sh
 \end{lstlisting}
 
@@ -98,7 +116,7 @@ The URL-Archiver is a user-friendly application designed for extracting and arch
 
 Open Command Prompt, navigate to the application's directory, and execute:
 
-\begin{lstlisting}
+\begin{lstlisting}[numbers=none]
 ./run.ps1
 \end{lstlisting}
 
@@ -106,7 +124,7 @@ Open Command Prompt, navigate to the application's directory, and execute:
 
 Open Terminal, navigate to the application's directory, and run:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[numbers=none]
 ./run.sh
 \end{lstlisting}
 
