@@ -25,26 +25,31 @@ To clone the repository, run the following command in a terminal:
 git clone https://github.com/devobern/URL-Archiver.git
 ```
 ### Build and run scripts
-The build and run scripts are provided for Windows (`build.bat`, `run.bat`, `build_and_run.bat`), Linux and MacOS (`build.sh`, `run.sh`, `build_and_run.sh`). The scripts are located in the root directory of the project.
+The build and run scripts are provided for Windows (`build.ps1`, `run.ps1`, `build_and_run.ps1`), Linux and MacOS (`build.sh`, `run.sh`, `build_and_run.sh`). The scripts are located in the root directory of the project.
 > ⚠️ The scripts need to be executable. To make them executable, run the following command in a terminal: 
 > - Linux / MacOS: `chmod +x build.sh run.sh build_and_run.sh` 
-> - Windows: `chmod +x build.bat run.bat build_and_run.bat`
+> - Windows: 
+>   - Open PowerShell as an Administrator. 
+>   - Check the current execution policy by running: Get-ExecutionPolicy. 
+>   - If the policy is Restricted, change it to RemoteSigned to allow local scripts to run. Execute: Set-ExecutionPolicy RemoteSigned. 
+>   - Confirm the change when prompted.
+>   - This change allows you to run PowerShell scripts that are written on your local machine. **Be sure to only run scripts from trusted sources.**
 
 ### Windows
 #### Build the application
 To build the application, open a command prompt and run the following script:
-```bash
-./build.bat
+```powershell
+./build.ps1
 ```
 #### Run the application
 To run the application, open a command prompt and run the following script:
-```bash
-./run.bat
+```powershell
+./run.ps1
 ```
 #### Build and run the application
 To build and run the application, open a command prompt and run the following script:
-```bash
-./build_and_run.bat
+```powershell
+./build_and_run.ps1
 ```
 
 ### Linux
