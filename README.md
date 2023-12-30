@@ -16,6 +16,7 @@ The URL archiver enables the extraction of URLs from any Unicode text or PDF fil
 - [Dr. Simon Kramer](mailto:simon.kramer@bfh.ch) (Technical)
 ## Installation
 ### Requirements
+To build and start the application, ensure that the following dependencies are installed on your system:
 - Git: Latest stable version recommended.
 - Maven: Version 3.8 or higher.
 - Java: Version 21.
