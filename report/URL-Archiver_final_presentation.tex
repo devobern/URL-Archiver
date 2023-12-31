@@ -108,7 +108,7 @@
 			\begin{column}{0.7\textwidth} % Define the width of the left column
 				\begin{itemize}
 					\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
-					\item[\checkmark] Extracts \textbf{all URLs} from the text.
+					\item[\checkmark] Extracts \textbf{all URLs} from the files.
 					\item[\checkmark] Can \textbf{open} URLs in a web browser.
 					\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
 					\item[\checkmark] Retrieves archived URLs.
@@ -185,10 +185,6 @@
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
-		\note[item]{As you may have observed, we utilize the MVC pattern, among other techniques, to ensure the scalability of the application.  }
-		\note[item]{This involves separating the business logic from the presentation using a controller. }
-		\note[item]{This enables us to easly switch out the Command Line Interface with a Graphical User Interface.}
-		\note[item]{But that's not all!}
 	\end{frame}
 
 	\begin{frame}{Architecture}
@@ -196,21 +192,64 @@
 		\begin{columns} % Start the columns environment
 			\begin{column}{0.6\textwidth} % Define the width of the left column
 				\begin{itemize}
-					\item \textbf{Scalable} and \textbf{robust} design
-					\item Ensures \textbf{maintainability} and clear code structure
-					\item Commitment to \textbf{best programming practices}
+					\item \textbf{Archiving Services Integration:} Factory Pattern streamlines incorporating various web archiving services.
+					\item \textbf{Selenium Web Drivers:} Facilitates easy swapping or addition of drivers for different browsers.
+					\item \textbf{CSV and Bibtex Exporting:} Simplifies the process of exporting data in different file formats.
+					\item \textbf{File Reader Flexibility:} Allows seamless integration and extension of file reading capabilities.
+					\item \textbf{Ease of Extension:} The Factory Pattern enables straightforward expansion and customization of functionalities.
 				\end{itemize}
 			\end{column}
 			\begin{column}{0.4\textwidth} % Define the width of the right column
 				\begin{center}
-					\includegraphics[width=0.7\textwidth]{figures/URL_Archiver_Class_Diagram-FileReaderFactory}
+					\includegraphics[width=0.8\textwidth]{pictures/final_presentation/URL_Archiver_Class_Diagram-ArchiverManager.pdf}
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
-		\note[item]{To enhance our application's flexibility further, we've implemented a factory class that reads and processes different file formats. }
-		\note[item]{With a single call to the getFileReader() method from the FileReaderFactory, specifying the file type, we retrieve an appropriate FileReader. }
-		\note[item]{Currently, our application can handle all UNICODE text files and PDFs.}
 	\end{frame}
+
+	\begin{frame}{Enhancing Functionality and Flexibility}
+		\framesubtitle{Configuration, Internationalization, and Testing}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.6\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{Configuration File Usage:} Preserves settings between program sessions.
+					\begin{itemize}
+						\item \textbf{Stored Settings:} Includes Wayback Machine API keys and default browser.
+					\end{itemize}
+					\item \textbf{i18n Implementation:} Lays groundwork for multilingual support.
+					\item \textbf{Unit Testing:} Comprehensive tests written for all relevant classes.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.4\textwidth} % Define the width of the right column
+				\begin{center}
+					\includegraphics[width=0.7\textwidth]{pictures/final_presentation/unit_international_config.png}
+				\end{center}
+			\end{column}
+		\end{columns} % End the columns environment
+	\end{frame}
+
+	\begin{frame}{Ease of Use: Installation Simplified}
+		\framesubtitle{Custom Scripts for Cross-Platform Compatibility}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.6\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{Simplified Compilation and Installation:} Tailored scripts for Windows, Linux, and macOS.
+					\item \textbf{User-Friendly Scripts:} Enable straightforward application compilation and execution.
+					\item \textbf{Flexible Installation Options:} Users can choose to compile then run, or do both in one step.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.4\textwidth} % Define the width of the right column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/build_script.png}
+				\end{center}
+			\end{column}
+		\end{columns} % End the columns environment
+	\end{frame}
+
+	\section{Live-Demo}
+	% Nicolin
+	\setbeamertemplate{section page}[BFH-ruled]
+	\frame{\sectionpage}
 
 
 	\begin{frame}{Implementation Details}
