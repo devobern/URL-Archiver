@@ -1,4 +1,4 @@
-package ch.bfh.controller;
+package ch.bfh.helper;
 
 import java.util.HashSet;
 import java.util.Set;
