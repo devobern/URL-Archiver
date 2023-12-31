@@ -124,6 +124,11 @@
 				\end{center}
 			\end{column}
 		\end{columns}
+		\note[item]{Thank you Kilian and welcome from my side too.}
+		\note[item]{I will now explain our application to you in more detail. }
+		\note[item]{Firstly, the project requirements. Our application should be able to read directories with Unicode text or PDF files. Of course, it should also be possible to read individual files. The application should then read all URLs from the files. The user should then be able to open the URLs in their browser and archive the URLs to the two services archive.today and the Wayback Machine. Of course, our application should get back the archived version and save it. When all URLs have been processed, the user can save the URLs in a CSV file or, if possible, back into a Bibtex file.}
+		\note[item]{Last but not least, the code should be minimal, modular and self-explanatory. }
+		\note[item]{We have fulfilled all these requirements. However, our supervisor has the last word on the last one in particular. }
 		
 	\end{frame}
 	
@@ -135,13 +140,11 @@
 		\end{itemize}
 		\vspace{0.8cm}
 		\includegraphics[width=1\textwidth]{pictures/process_model-simple}
-		\note[item]{Thank you for coming from my side too.}
-		\note[item]{First lets talk about how an user can archive urls. }
-		\note[item]{----------------------------------------------------------}
-		\note[item]{For this you can see here a rough overview of how a user navigates through the application to archive URLs. }
-		\note[item]{The user can open the current URL in their default browser, access the help section, or view the archived URLs at any time.}
-		\note[item]{The user does not need to archive a url, he can skip the archiving process.}
-		\note[item]{Now to the more technical part.}
+		\note[item]{Now that I've talked about the what, let's move on to the how. }
+		\note[item]{You know this slide from the intermediate presentation, it shows the main path that a user takes in our application. This gives a good overview of our application. }
+		\note[item]{The user gives the URL archiver a path, the URLs are extracted and the user can open them in his default browser.}
+		\note[item]{The user can then archive the URL with one or both of the archiving services. }
+		\note[item]{The application receives the archived version and finally saves it to a CSV file or writes it back to a Bibtex file. }
 	\end{frame}
     
     
@@ -164,6 +167,11 @@
 	    		\end{center}
     		\end{column}
     	\end{columns}
+    	\note[item]{We have decided in favour of a command line program and against a GUI. For various reasons.}
+    	\note[item]{On the one hand, because we could focus on the logic and didn't have to build a responsive GUI.}
+    	\note[item]{ On the other hand, our stakeholders are in the technical world and should therefore have few problems with a CLI application. }
+    	\note[item]{With a CLI application we create a stable basis to build on. }
+    	\note[item]{With the MVC pattern we can add a GUI in the future with little effort. }
     	
     \end{frame}
 
@@ -185,6 +193,9 @@
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
+		\note[item]{Speaking of the MVC pattern. As already mentioned, this pattern allows us to easily extend the application in the future. }
+		\note[item]{As the view is separated from the model by the controller. }
+		\note[item]{This means that these parts can be easily exchanged without having to make major changes to the others. }
 	\end{frame}
 
 	\begin{frame}{Architecture}
@@ -205,6 +216,9 @@
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
+		\note[item]{We have also used the factory pattern where appropriate. }
+		\note[item]{Specifically with the archiving services, the Selenium web drivers, when exporting to a CVS and Bibtex file and when reading the files. }
+		\note[item]{As you can see on the right, using the archiving services as an example, this allows us a simple extension. }
 	\end{frame}
 
 	\begin{frame}{Enhancing Functionality and Flexibility}
@@ -226,6 +240,10 @@
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
+		\note[item]{We have also made various decisions to improve the functionality and flexibility of the application. }
+		\note[item]{We save configurations in a configuration file. }
+		\note[item]{We have laid the foundation for multilingualism... }
+		\note[item]{... and are testing all relevant classes with unit tests; there are currently 107 unit tests in total. }
 	\end{frame}
 
 	\begin{frame}{Ease of Use: Installation Simplified}
@@ -244,6 +262,8 @@
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
+		\note[item]{To make it as easy as possible for users to get started with the application, we have created compilation and run scripts. }
+		\note[item]{Of course bash scripts for Linux and macOS and PowerShell scripts for Windows. }
 	\end{frame}
 
 	\section{Live-Demo}
