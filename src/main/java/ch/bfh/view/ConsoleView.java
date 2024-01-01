@@ -79,7 +79,7 @@ public class ConsoleView {
      * Prints a separator line to the console.
      */
     public void printSeparator() {
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("-".repeat(100) + "\n");
     }
 
     /**
