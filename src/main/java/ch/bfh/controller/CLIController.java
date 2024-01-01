@@ -127,6 +127,7 @@ public class CLIController {
             String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
 
             view.printSeparator();
+            view.printFormattedMessage("info.current_file", fileModel.getFileName());
             view.printFormattedMessage("info.extracted_url", extractedURL);
 
             view.promptUserForOption();
@@ -161,7 +162,6 @@ public class CLIController {
 
     private void handleShowArchived() {
         statusUpdate();
-        view.printFormattedMessage("info.show_archived");
 
         // Create and populate a map of file names to lists of URLPairs with non-null archived URLs
         Map<String, List<URLPair>> fileUrlMap = (folderModel != null ? folderModel.getFiles() : Collections.singletonList(fileModel)).stream()
@@ -171,6 +171,14 @@ public class CLIController {
                                 .filter(urlPair -> urlPair.getArchivedURLs() != null && !urlPair.getArchivedURLs().isEmpty())
                                 .collect(Collectors.toList())
                 ));
+
+        // Return if no archived URLs are found
+        if(fileUrlMap.values().stream().allMatch(List::isEmpty)){
+            view.printFormattedMessage("info.no_archived");
+            return;
+        }
+
+        view.printFormattedMessage("info.show_archived");
 
         // Print map
         fileUrlMap.forEach((fileName, urlPairs) -> {
@@ -352,7 +360,10 @@ public class CLIController {
                 view.printFormattedMessage("action.archiving.solve_captchas");
                 selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
             }
-            case "3" -> selectedArchivers.addAll(archiverManager.getAllArchivers());
+            case "3" -> selectedArchivers.addAll(archiverManager.getSortedArchivers());
+            case "4" -> {
+                return;
+            }
             default -> {
                 view.printFormattedMessage("action.invalid");
                 return;
@@ -420,8 +431,14 @@ public class CLIController {
      */
     private void handleQuit() {
         statusUpdate();
+
+        // Check if there are any archived URLs using Stream API
+        boolean archivedURLs = (folderModel != null) ?
+                folderModel.getFiles().stream().anyMatch(FileModel::hasArchivedURLs) :
+                fileModel.hasArchivedURLs();
+
         // Handle export
-        if (fileModel != null) {
+        if (fileModel != null && archivedURLs) {
             handleExport();
         }
 

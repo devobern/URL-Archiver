@@ -84,4 +84,13 @@ public class FileModel {
                 .findFirst()
                 .ifPresent(pair -> pair.addArchivedURL(archivedURL));
     }
+
+    /**
+     * Returns whether the file has any archived URLs.
+     *
+     * @return true if the file has archived URLs, false otherwise
+     */
+    public boolean hasArchivedURLs() {
+        return urlPairs.stream().anyMatch(URLPair::hasArchivedURLs);
+    }
 }

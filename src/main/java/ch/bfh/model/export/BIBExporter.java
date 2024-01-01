@@ -118,7 +118,12 @@ public class BIBExporter implements Exporter {
      * @return The updated line with archived URLs appended.
      */
     private static String appendToNoteField(String currentLine, String archivedUrls) {
-        char closingChar = currentLine.trim().endsWith("},") ? '}' : '"';
+        char closingChar;
+        if(currentLine.trim().endsWith("},") || currentLine.trim().endsWith("}")){
+            closingChar = '}';
+        } else {
+            closingChar = '"';
+        }
         int closingPos = currentLine.lastIndexOf(closingChar);
         return currentLine.substring(0, closingPos) + ", " + archivedUrls + closingChar;
     }

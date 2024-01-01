@@ -1,10 +1,16 @@
 \section{Initial Situation}
 The Internet is constantly evolving, which means that there is no guarantee that a website as it exists today will still exist in a few years' time, let alone contain the same information. While this might not be a concern that the average Internet user has to grapple with, it poses a challenge to the academic demographic, where it becomes crucial to reference sources and potentially integrate links to additional data. If links become inactive, verifying the sources becomes challenging, if not impracticable.
+
 Archiving the existing status of a website is achievable, but it currently necessitates a manual and hence time-intensive operation, which not many people take the time to do. The objective of this project is to devise an automated solution to this predicament that is independent of platforms.
+
 The stakeholders for this solution include:
 \begin{itemize}
-    \item IT users possessing basic computer skills who can download and operate the program from Github
-    \item Dr. Simon Kramer, the technical project supervisor and intellectual owner of the project idea
+	\item Legal professionals and researchers who need to preserve web content as evidence or for case study references.
+	\item Journalists and media agencies that require archiving web pages for future reporting or fact-checking.
+	\item Librarians and archivists tasked with the digital preservation of online materials for historical records.
+	\item Content creators and marketers who wish to maintain records of web content for portfolio or audit purposes.
+	\item Educators and students who need to collect and cite online resources for academic projects and research.
+	\item Organizations and businesses that need to archive their web presence for compliance and record-keeping.
 \end{itemize}
 \clearpage
 
@@ -33,7 +39,7 @@ In addition to the code, it is essential that the following documents are provid
 \section{Priorities}
 The following priorities are listed in order of importance:
 \begin{enumerate}
-    \item \textbf{Functionality}: The primary priority is the accurate extraction and archiving of URLs. The software should reliably identify URLs in varied file types and ensure their successful archiving on \href{https://archive.ph}{https://archive.ph}.
+    \item \textbf{Functionality}: The primary priority is the accurate extraction and archiving of URLs. The software should reliably identify URLs in varied file types and ensure their successful archiving on Archive Today\footnote{https://archive.today} or Wayback Machine\footnote{https://web.archive.org/save/}.
     \item \textbf{Usability}: Given the diverse potential user base, the program should be platform-independent and possess a user-friendly interface. While the underlying mechanisms may be complex, the user experience should be seamless and intuitive.
     \item \textbf{Code Quality}: Emphasis should be placed on writing clean, minimal, and modular code. This not only aids in potential future enhancements but also in debugging and troubleshooting.
     \item \textbf{Documentation}: As with any software project, proper documentation is paramount. The project report should be concise, adhering to the principle of being ``maximally informative, minimally long,`` ensuring clarity of information without overwhelming the reader.

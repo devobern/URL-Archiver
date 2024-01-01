@@ -14,7 +14,7 @@
   invert-title,
 ]{bfhthesis}
 
-\LoadBFHModule{listings,terminal,boxes, tabular}
+\LoadBFHModule{listings, terminal, boxes, tabular}
 %---------------------------------------------------------------------------
 % Documents paths
 %---------------------------------------------------------------------------
@@ -146,7 +146,7 @@
 %\expert{Some expert}
 \degreeprogram{Project 1}
 \setupSignature{
-	N. Dora={\includegraphics[width=.5\linewidth]{sig_muster}},
+	N. Dora={\includegraphics[width=.5\linewidth]{./pictures/sig_Dora.png}},
 	A. Vejseli={\includegraphics[width=.5\linewidth]{sig_example}},
 	K. Wampfler={\includegraphics[width=.5\linewidth]{sig_example}}
 }
@@ -184,8 +184,10 @@
 \chapter{Implementation}
 \input{content/architecture}
 \input{content/processes}
+\input{content/scrum}
 
 \chapter{Deployment/Integration}
+\input{content/licensing_and_compliance}
 \input{content/installation}
 \input{content/user_manual}
 
@@ -195,7 +197,7 @@
 \input{content/future_work}
 
 %------------ Glossary -------------------
-\printglossary
+\printglossaries
 
 %------------ Index ----------------------
 \clearpage

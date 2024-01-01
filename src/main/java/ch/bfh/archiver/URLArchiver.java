@@ -30,6 +30,12 @@ public interface URLArchiver {
      */
     String getServiceName();
 
+    /**
+     * Checks if the archiving service is automated.
+     *
+     * @return true if the service is automated, false otherwise.
+     */
+    boolean isAutomated();
     // todo: Maybe we can add more methods
 }
 
