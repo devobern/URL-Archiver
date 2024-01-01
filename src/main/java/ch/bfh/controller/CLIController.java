@@ -354,6 +354,9 @@ public class CLIController {
                 selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
             }
             case "3" -> selectedArchivers.addAll(archiverManager.getAllArchivers());
+            case "4" -> {
+                return;
+            }
             default -> {
                 view.printFormattedMessage("action.invalid");
                 return;
