@@ -162,7 +162,6 @@ public class CLIController {
 
     private void handleShowArchived() {
         statusUpdate();
-        view.printFormattedMessage("info.show_archived");
 
         // Create and populate a map of file names to lists of URLPairs with non-null archived URLs
         Map<String, List<URLPair>> fileUrlMap = (folderModel != null ? folderModel.getFiles() : Collections.singletonList(fileModel)).stream()
@@ -172,6 +171,14 @@ public class CLIController {
                                 .filter(urlPair -> urlPair.getArchivedURLs() != null && !urlPair.getArchivedURLs().isEmpty())
                                 .collect(Collectors.toList())
                 ));
+
+        // Return if no archived URLs are found
+        if(fileUrlMap.values().stream().allMatch(List::isEmpty)){
+            view.printFormattedMessage("info.no_archived");
+            return;
+        }
+
+        view.printFormattedMessage("info.show_archived");
 
         // Print map
         fileUrlMap.forEach((fileName, urlPairs) -> {
