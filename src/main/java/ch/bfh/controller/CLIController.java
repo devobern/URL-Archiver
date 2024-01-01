@@ -431,8 +431,14 @@ public class CLIController {
      */
     private void handleQuit() {
         statusUpdate();
+
+        // Check if there are any archived URLs using Stream API
+        boolean archivedURLs = (folderModel != null) ?
+                folderModel.getFiles().stream().anyMatch(FileModel::hasArchivedURLs) :
+                fileModel.hasArchivedURLs();
+
         // Handle export
-        if (fileModel != null) {
+        if (fileModel != null && archivedURLs) {
             handleExport();
         }
 
