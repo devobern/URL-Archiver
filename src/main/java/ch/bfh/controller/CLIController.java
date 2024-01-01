@@ -127,6 +127,7 @@ public class CLIController {
             String extractedURL = fileModel.getUrlPairs().get(currentURLPairIndex).getExtractedURL();
 
             view.printSeparator();
+            view.printFormattedMessage("info.current_file", fileModel.getFileName());
             view.printFormattedMessage("info.extracted_url", extractedURL);
 
             view.promptUserForOption();
