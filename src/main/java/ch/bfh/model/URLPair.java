@@ -69,4 +69,13 @@ public class URLPair {
     public String toString() {
         return "URLPair { Extracted URL: " + extractedURL + ", Archived URLs: " + archivedURLs + " }";
     }
+
+    /**
+     * Checks if the URL pair has any archived URLs.
+     *
+     * @return true if the URL pair has archived URLs, false otherwise
+     */
+    public boolean hasArchivedURLs() {
+        return !this.archivedURLs.isEmpty();
+    }
 }
