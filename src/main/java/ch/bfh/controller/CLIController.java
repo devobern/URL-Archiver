@@ -360,7 +360,7 @@ public class CLIController {
                 view.printFormattedMessage("action.archiving.solve_captchas");
                 selectedArchivers.add(archiverManager.getArchiver("ArchiveToday"));
             }
-            case "3" -> selectedArchivers.addAll(archiverManager.getAllArchivers());
+            case "3" -> selectedArchivers.addAll(archiverManager.getSortedArchivers());
             case "4" -> {
                 return;
             }
