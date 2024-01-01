@@ -2,11 +2,8 @@ package ch.bfh.archiver;
 
 import ch.bfh.exceptions.ArchiverException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Manages a collection of URL archivers and provides functionality
@@ -63,6 +60,30 @@ public class ArchiverManager {
     public List<URLArchiver> getAllArchivers() {
         return Collections.unmodifiableList(new ArrayList<>(archivers.values()));
     }
+
+    /**
+     * Returns a list of all archivers managed by this manager, sorted by automation.
+     * <p>
+     * This method provides access to all {@link URLArchiver} instances currently
+     * managed by this ArchiverManager. The returned list is a snapshot of the current
+     * state and modifications to this list do not affect the internal state of the
+     * manager.
+     * </p>
+     * <p>
+     * The returned list is sorted by automation, with automated archivers appearing
+     * first in the list.
+     * </p>
+     *
+     * @return a list containing all {@link URLArchiver} instances managed by this
+     *         manager. If no archivers are managed, an empty list is returned.
+     */
+    public List<URLArchiver> getSortedArchivers() {
+        return archivers.values().stream()
+                .sorted(Comparator.comparing(URLArchiver::isAutomated).reversed())
+                .collect(Collectors.toList());
+    }
+
+
 
     /**
      * Archives a URL using the selected archivers.
