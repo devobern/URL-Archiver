@@ -6,7 +6,7 @@ on one of the supported archiving services.
 > so it cannot be guaranteed to work without restrictions on other platforms.
 > - Windows 11 (Version 23H2)
 > - Windows 10 (Version 22H2)
-> - macOS (Sonoma)
+> - macOS (Ventura)
 > - Ubuntu (20.04.3 LTS)
 
 ## Authors
