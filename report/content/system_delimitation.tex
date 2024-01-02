@@ -2,38 +2,38 @@
 
 \subsection{System Environment (statics)}
 \subsubsection{System Overview}
-The primary purpose of the URL-Archiver is to extract URLs from Unicode text files and PDFs, and archive them on supported platforms: Archive.today and the Wayback Machine. The system provides the archived URL versions to the user via a CSV file. Additionally, when a .bib file is provided by the user, the original bib file is updated with a note field containing these archived URLs for each entry.
+The primary purpose of the URL-Archiver is to extract URLs from Unicode text files and PDFs, and archive them on supported platforms: Archive Today and the Wayback Machine. The system provides the archived URL versions to the user via a CSV file. Additionally, when a BibTeX file is provided by the user, the original BibTeX file is updated with a note field containing these archived URLs for each entry.
 
 \subsubsection{Hardware Specifications}
-The URL-Archiver does not impose any special hardware requirements. However, an internet connection is essential for the archiving process to function.
+The URL-Archiver does not impose any special hardware requirements. However, an internet connection \index{internet connection} is essential for the archiving process to function.
 
 \subsubsection{Software Components}
-The URL-Archiver is platform-independent, operating on major systems such as Windows (tested on Windows 10, version 22H2  and Windows 11, version 23H2), macOS (tested on macOS Sonoma), and Linux (tested on Ubuntu 20.04.3 LTS). The system has varying browser dependencies based on the operating system: Chrome is required for macOS, Edge for Windows, and Firefox for Ubuntu/Linux (Latest stable versions of the browsers are recommended). Users can change the default Browser in the configuration of the application. Other dependencies are installed with the URL-Archiver and do not require separate installation.
+The URL-Archiver is platform-independent \index{platform-independent}, operating on major systems such as Windows (tested on Windows 10, version 22H2  and Windows 11, version 23H2), macOS (tested on macOS Sonoma), and Linux (tested on Ubuntu 20.04.3 LTS). The system has varying browser dependencies based on the operating system: Chrome is required for macOS, Edge for Windows, and Firefox for Ubuntu/Linux (Latest stable versions of the browsers are recommended). Users can change the default Browser in the configuration of the application. Other dependencies are installed with the URL-Archiver and do not require separate installation.
 
 \subsubsection{System Architecture}
-The URL-Archiver uses the Model-View-Controller (MVC) pattern, as illustrated in figure \ref{fig:mvc_highlevel}, to enable future enhancements, such as adding a GUI interface. The Factory pattern is applied where appropriate to simplify the extension of functionalities. For instance, adding extra archiving services can be easily accomplished by introducing a new archiving service, as shown in figure \ref{fig:factory_pattern_archiving_services}.
+The URL-Archiver uses the \gls{MVCPattern}\index{MVC-Pattern}, as illustrated in figure \ref{fig:mvc_highlevel}, to enable future enhancements, such as adding a \gls{GUI} interface. The \gls{FactoryPattern}\index{Factory Pattern} is applied where appropriate to simplify the extension of functionalities. For instance, adding extra archiving services can be easily accomplished by introducing a new archiving service, as shown in figure \ref{fig:factory_pattern_archiving_services}.
 
 \begin{figure}
 	\includegraphics[width=0.5\textwidth]{./diagrams/mvc_diagram-Highlevel_MVC.pdf}
 	\centering
-	\caption{High-level MVC-Pattern from URL-Archiver}
+	\caption{High-level MVC-Pattern \index{MVC-Pattern} from URL-Archiver}
 	\label{fig:mvc_highlevel}
 \end{figure}
 
 \begin{figure}
 	\includegraphics[width=0.5\textwidth]{./diagrams/URL_Archiver_Class_Diagram-ArchiverManager.pdf}
 	\centering
-	\caption{Extension with new archiving service XY (using the factory pattern)}
+	\caption{Extension with new archiving service XY (using the Factory Pattern\index{Factory Pattern})}
 	\label{fig:factory_pattern_archiving_services}
 \end{figure}
 
 \subsubsection{Data Management}
 Upon completion of its execution, the URL-Archiver generates a CSV file where each line contains an extracted URL and its archived versions, separated by semicolons. For example, a line like \texttt{https://xy.com;https://web.archive.org/xy;https://archive.ph/xy} shows the original URL and its archives. This simple format makes it easy to track and manage archived URLs. 
 
-Optionally, if the user provided a \gls{BibTeX} file, URLs are integrated into the note field of each entry. If there's no existing note field, a new one is created with the format \texttt{note = {Archived Versions: \url{url1}, \url{url2}}}. If a note field already exists, the archived URLs are appended to it in the format \texttt{note = {<current note>, Archived Versions: \url{url1}, \url{url2}}}. This approach ensures that the archived URLs are neatly added to the BibTeX entries, maintaining the integrity of the original data.
+Optionally, if the user provided a BibTeX file, URLs are integrated into the note field of each entry. If there's no existing note field, a new one is created with the format \texttt{note = {Archived Versions: \url{url1}, \url{url2}}}. If a note field already exists, the archived URLs are appended to it in the format \texttt{note = {<current note>, Archived Versions: \url{url1}, \url{url2}}}. This approach ensures that the archived URLs are neatly added to the BibTeX entries, maintaining the integrity of the original data.
 
 \subsubsection{User Interface}
-Currently, the system uses a command-line interface. The MVC pattern lays the groundwork for potential future implementation of a GUI interface.
+Currently, the system uses a command-line interface. The MVC-Pattern \index{MVC-Pattern} lays the groundwork for potential future implementation of a GUI interface.
 
 \subsubsection{Integration with Other Systems}
 The system integrates with the Wayback Machine via API, with certain limitations detailed in their API documentation\footnote{https://archive.org/details/spn-2-public-api-page-docs/mode/2up}. For archiving on Archive.today, which lacks an API, Selenium is used to automate the process as much as possible. However, users must manually complete captchas.

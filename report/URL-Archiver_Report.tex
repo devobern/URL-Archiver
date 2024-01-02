@@ -66,30 +66,6 @@
 	\begingroup\color{BFH-Gray}\blindtextblindtext[#1]\endgroup
 }
 %---------------------------------------------------------------------------
-% Glossary Package
-%---------------------------------------------------------------------------
-% the glossaries package uses makeindex
-% if you use TeXnicCenter do the following steps:
-%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
-%  - Select the profile "LaTeX => PDF"
-%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
-%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
-%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
-%
-% for futher informations go to http://ewus.de/tipp-1029.html
-%---------------------------------------------------------------------------
-\usepackage[nonumberlist]{glossaries-extra}
-\makeglossaries
-\input{content/glossary}
-%---------------------------------------------------------------------------
-% Makeindex Package
-%---------------------------------------------------------------------------
-\usepackage{makeidx}
-\makeindex
-%\usepackage{imakeidx}          % To produce index
-%\makeindex[columns=2,intoc]    % Index-Initialisation
-%\makeindex[columns=3,columnseprule,columnsep,intoc]
-%---------------------------------------------------------------------------
 % Hyperref Package (Create links in a pdf)
 %---------------------------------------------------------------------------
 \usepackage[
@@ -108,6 +84,31 @@
 	,citecolor=.
 ]{hyperref}
 %---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+% Glossary Package
+%---------------------------------------------------------------------------
+% the glossaries package uses makeindex
+% if you use TeXnicCenter do the following steps:
+%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
+%  - Select the profile "LaTeX => PDF"
+%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
+%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
+%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
+%
+% for futher informations go to http://ewus.de/tipp-1029.html
+%---------------------------------------------------------------------------
+%\usepackage[nonumberlist]{glossaries-extra}
+\usepackage[hyperfirst=false]{glossaries-extra}
+\makeglossaries
+\input{content/glossary}
+%---------------------------------------------------------------------------
+% Makeindex Package
+%---------------------------------------------------------------------------
+\usepackage{makeidx}
+\makeindex
+%\usepackage{imakeidx}          % To produce index
+%\makeindex[columns=2,intoc]    % Index-Initialisation
+%\makeindex[columns=3,columnseprule,columnsep,intoc]
 
 %% %% Customize Footer and Headers in Document
 %% \KOMAoptions{headsepline,plainheadsepline,footsepline,plainfootsepline}%
