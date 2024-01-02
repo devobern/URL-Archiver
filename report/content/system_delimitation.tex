@@ -30,7 +30,7 @@ The URL-Archiver uses the Model-View-Controller (MVC) pattern, as illustrated in
 \subsubsection{Data Management}
 Upon completion of its execution, the URL-Archiver generates a CSV file where each line contains an extracted URL and its archived versions, separated by semicolons. For example, a line like \texttt{https://xy.com;https://web.archive.org/xy;https://archive.ph/xy} shows the original URL and its archives. This simple format makes it easy to track and manage archived URLs. 
 
-Optionally, if the user provided a BibTeX file, URLs are integrated into the note field of each entry. If there's no existing note field, a new one is created with the format \texttt{note = {Archived Versions: \url{url1}, \url{url2}}}. If a note field already exists, the archived URLs are appended to it in the format \texttt{note = {<current note>, Archived Versions: \url{url1}, \url{url2}}}. This approach ensures that the archived URLs are neatly added to the BibTeX entries, maintaining the integrity of the original data.
+Optionally, if the user provided a \gls{BibTeX} file, URLs are integrated into the note field of each entry. If there's no existing note field, a new one is created with the format \texttt{note = {Archived Versions: \url{url1}, \url{url2}}}. If a note field already exists, the archived URLs are appended to it in the format \texttt{note = {<current note>, Archived Versions: \url{url1}, \url{url2}}}. This approach ensures that the archived URLs are neatly added to the BibTeX entries, maintaining the integrity of the original data.
 
 \subsubsection{User Interface}
 Currently, the system uses a command-line interface. The MVC pattern lays the groundwork for potential future implementation of a GUI interface.
