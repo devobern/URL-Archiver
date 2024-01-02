@@ -6,7 +6,7 @@
 ## OS X
 #$pdf_previewer = 'open %S';
 ## GNU/Linux (Debian/Ubuntu like)
-$pdf_previewer = 'start xdg-open';
+#$pdf_previewer = 'start xdg-open %S';
 
 ##
 ## EPS to PDF conversion hook
@@ -14,7 +14,7 @@ $pdf_previewer = 'start xdg-open';
 @cus_dep_list = (@cus_dep_list, "eps pdf 0 eps2pdf");
 sub eps2pdf {
    system("epstopdf $_[0].eps");
-   }
+  }
 
 ##
 ## GLO to GLS conversion hook
@@ -25,10 +25,17 @@ add_cus_dep( 'glo', 'gls', 0, 'makeglossaries' );
 $clean_ext .= "slo sls slg acr acn alg glo gls glg";
 sub makeglossaries {
    my ($base_name, $path) = fileparse( $_[0] );
-   pushd $path;
-   my $return = system "makeglossaries", $base_name;
-   popd;
+   my $curr_dir = getcwd();  # Store the current directory
+   chdir $path;  # Change to the directory containing the .aux file
+   my $return = system "makeglossaries $base_name";
+   chdir $curr_dir;  # Change back to the original directory
    return $return;
+   ## OLD
+   #my ($base_name, $path) = fileparse( $_[0] );
+   #pushd $path;
+   #my $return = system "makeglossaries", $base_name;
+   #popd;
+   #return $return;
 }
 
 ##
@@ -40,7 +47,7 @@ set_tex_cmds( '--shell-escape %O %S' );
 ##
 ## Set default TeX file
 ##
-#@default_files = ('tutorial-stm32cubeide-installation.tex');
+#@default_files = ('reportTitle.tex');
 
 ##
 ## Latexmk build properties
@@ -55,7 +62,7 @@ $bibtex_use = 1;
 $out_dir = '_build';
 
 ##
-## Post process hooks (Linux, OS X only; For Windows install used CLI tools)
+## Post process hooks (Linux, OS X only; For Windows install CLI tools)
 ##
 ## Copy PDF to a sub directory named "_output"
 #$success_cmd = 'mkdir -p _output && cp _build/*.pdf _output/';
