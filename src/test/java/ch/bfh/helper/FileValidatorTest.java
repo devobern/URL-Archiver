@@ -95,13 +95,23 @@ class FileValidatorTest {
     }
 
     /**
-     * Validates a .bib file on non-Windows systems.
+     * Validates a .bib file on Linux systems.
      */
     @Test
-    void validateBibFileNonWindows() throws IOException, FileModelException {
-        Assumptions.assumeFalse(System.getProperty("os.name").toLowerCase().contains("win"));
+    void validateBibFileLinux() throws IOException, FileModelException {
+        Assumptions.assumeTrue(System.getProperty("os.name").toLowerCase().contains("nux"));
         mockFileMethods(bibPath, "text/x-bibtex");
         assertEquals("text/x-bibtex", FileValidator.validate(bibPath.toString()));
+    }
+
+    /**
+     * Validates a .bib file on Mac systems.
+     */
+    @Test
+    void validateBibFileMac() throws IOException, FileModelException {
+        Assumptions.assumeTrue(System.getProperty("os.name").toLowerCase().contains("mac"));
+        mockFileMethods(bibPath, "text/x-bibtex");
+        assertEquals("text/bib", FileValidator.validate(bibPath.toString()));
     }
 
     /**
