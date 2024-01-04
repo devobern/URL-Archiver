@@ -237,51 +237,51 @@
 	\setbeamertemplate{section page}[BFH-ruled]
 	\frame{\sectionpage}
 	
-	\begin{frame}{Project Requirements}
-		% Nicolin
-		\framesubtitle{Requirements met}
-		\begin{columns} % Start the columns environment
-			\begin{column}{0.7\textwidth} % Define the width of the left column
-				\begin{itemize}
-					\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
-					\item[\checkmark] Extracts \textbf{all URLs} from the files.
-					\item[\checkmark] Can \textbf{open} URLs in a web browser.
-					\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
-					\item[\checkmark] Retrieves archived URLs.
-					\item[\checkmark] \textbf{Outputs a CSV file} with key-value pairs of original and archived URLs.
-					\item[\checkmark] Can \textbf{add archived URLs to a .BIB file}.
-					\item[(\checkmark)] The program code should be \textbf{minimal, modular, and self-explaining}.
-				\end{itemize}
-				
-			\end{column}
-			\begin{column}{0.3\textwidth} % Define the width of the left column
-				\begin{center}
-					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/achievement.jpg}
-				\end{center}
-			\end{column}
-		\end{columns}
-		\note[item]{Thank you Kilian and welcome from my side too.}
-		\note[item]{I will now explain our application to you in more detail. }
-		\note[item]{Firstly, the project requirements. Our application should be able to read directories with Unicode text or PDF files. Of course, it should also be possible to read individual files. The application should then read all URLs from the files. The user should then be able to open the URLs in their browser and archive the URLs to the two services archive.today and the Wayback Machine. Of course, our application should get back the archived version and save it. When all URLs have been processed, the user can save the URLs in a CSV file or, if possible, back into a Bibtex file.}
-		\note[item]{Last but not least, the code should be minimal, modular and self-explanatory. }
-		\note[item]{We have fulfilled all these requirements. However, our supervisor has the last word on the last one in particular. }
-		
-	\end{frame}
+	%\begin{frame}{Project Requirements}
+	%	% Nicolin
+	%	\framesubtitle{Requirements met}
+	%	\begin{columns} % Start the columns environment
+	%		\begin{column}{0.7\textwidth} % Define the width of the left column
+	%			\begin{itemize}
+	%				\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
+	%				\item[\checkmark] Extracts \textbf{all URLs} from the files.
+	%				\item[\checkmark] Can \textbf{open} URLs in a web browser.
+	%				\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
+	%				\item[\checkmark] Retrieves archived URLs.
+	%				\item[\checkmark] \textbf{Outputs a CSV file} with key-value pairs of original and archived URLs.
+	%				\item[\checkmark] Can \textbf{add archived URLs to a .BIB file}.
+	%				\item[(\checkmark)] The program code should be \textbf{minimal, modular, and self-explaining}.
+	%			\end{itemize}
+	%			
+	%		\end{column}
+	%		\begin{column}{0.3\textwidth} % Define the width of the left column
+	%			\begin{center}
+	%				\includegraphics[width=0.9\textwidth]{pictures/final_presentation/achievement.jpg}
+	%			\end{center}
+	%		\end{column}
+	%	\end{columns}
+	%	\note[item]{Thank you Kilian and welcome from my side too.}
+	%	\note[item]{I will now explain our application to you in more detail. }
+	%	\note[item]{Firstly, the project requirements. Our application should be able to read directories with Unicode text or PDF files. Of course, it should also be possible to read individual files. The application should then read all URLs from the files. The user should then be able to open the URLs in their browser and archive the URLs to the two services archive.today and the Wayback Machine. Of course, our application should get back the archived version and save it. When all URLs have been processed, the user can save the URLs in a CSV file or, if possible, back into a Bibtex file.}
+	%	\note[item]{Last but not least, the code should be minimal, modular and self-explanatory. }
+	%	\note[item]{We have fulfilled all these requirements. However, our supervisor has the last word on the last one in particular. }
+	%	
+	%\end{frame}
 	
-	\subsection{Process Model}
-	\begin{frame}{Process Model}
-		\framesubtitle{Workflow for URL Extraction and Archiving}
-		\begin{itemize}
-			\item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
-		\end{itemize}
-		\vspace{0.8cm}
-		\includegraphics[width=1\textwidth]{pictures/process_model-simple}
-		\note[item]{Now that I've talked about the what, let's move on to the how. }
-		\note[item]{You know this slide from the intermediate presentation, it shows the main path that a user takes in our application. This gives a good overview of our application. }
-		\note[item]{The user gives the URL archiver a path, the URLs are extracted and the user can open them in his default browser.}
-		\note[item]{The user can then archive the URL with one or both of the archiving services. }
-		\note[item]{The application receives the archived version and finally saves it to a CSV file or writes it back to a Bibtex file. }
-	\end{frame}
+	%\subsection{Process Model}
+	%\begin{frame}{Process Model}
+	%	\framesubtitle{Workflow for URL Extraction and Archiving}
+	%	\begin{itemize}
+	%		\item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
+	%	\end{itemize}
+	%	\vspace{0.8cm}
+	%	\includegraphics[width=1\textwidth]{pictures/process_model-simple}
+	%	\note[item]{Now that I've talked about the what, let's move on to the how. }
+	%	\note[item]{You know this slide from the intermediate presentation, it shows the main path that a user takes in our application. This gives a good overview of our application. }
+	%	\note[item]{The user gives the URL archiver a path, the URLs are extracted and the user can open them in his default browser.}
+	%	\note[item]{The user can then archive the URL with one or both of the archiving services. }
+	%	\note[item]{The application receives the archived version and finally saves it to a CSV file or writes it back to a Bibtex file. }
+	%\end{frame}
     
     
     \begin{frame}{Command line application}
@@ -294,12 +294,11 @@
     				\item \textbf{Technical Audience:} Suited for users proficient in command-line environments.
     				\item \textbf{Efficiency in Development:} Streamlines the development process by focusing less on UI design.
     				\item \textbf{Flexibility and Scalability:} Provides a stable base for future feature expansion.
-    				\item \textbf{Foundation for Future Enhancements:} The MVC pattern lays the groundwork for easy GUI integration later.
     			\end{itemize}
     		\end{column}
     		\begin{column}{0.3\textwidth} % Define the width of the left column
 	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{pictures/final_presentation/cmd_vs_gui.png}
+	    			\includegraphics[width=0.95\textwidth]{pictures/final_presentation/cmd_2.jpg}
 	    		\end{center}
     		\end{column}
     	\end{columns}
@@ -337,18 +336,19 @@
 	\begin{frame}{Architecture}
 		\framesubtitle{Factory Pattern}
 		\begin{columns} % Start the columns environment
-			\begin{column}{0.6\textwidth} % Define the width of the left column
+			\begin{column}{0.5\textwidth} % Define the width of the left column
+				%The factory pattern is used in the following places to keep the code easily extendable:
 				\begin{itemize}
-					\item \textbf{Archiving Services Integration:} Factory Pattern streamlines incorporating various web archiving services.
-					\item \textbf{Selenium Web Drivers:} Facilitates easy swapping or addition of drivers for different browsers.
-					\item \textbf{CSV and Bibtex Exporting:} Simplifies the process of exporting data in different file formats.
-					\item \textbf{File Reader Flexibility:} Allows seamless integration and extension of file reading capabilities.
-					\item \textbf{Ease of Extension:} The Factory Pattern enables straightforward expansion and customization of functionalities.
+					\item \textbf{File Reader:} More input file types? No problem.
+					\item \textbf{Archiving Services Integration:} An additional service can be added very easily.
+					\item \textbf{Selenium Web Drivers:} Support another browser? Nothing easier than that!
+					\item \textbf{Export functionality:} Easily add support for additional file types.
+					%\item \textbf{Ease of Extension:} The Factory Pattern enables straightforward expansion and customization of functionalities.
 				\end{itemize}
 			\end{column}
-			\begin{column}{0.4\textwidth} % Define the width of the right column
+			\begin{column}{0.5\textwidth} % Define the width of the right column
 				\begin{center}
-					\includegraphics[width=0.8\textwidth]{pictures/final_presentation/URL_Archiver_Class_Diagram-ArchiverManager.pdf}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/ArchiverManager_Color.pdf}
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
@@ -372,7 +372,7 @@
 			\end{column}
 			\begin{column}{0.4\textwidth} % Define the width of the right column
 				\begin{center}
-					\includegraphics[width=0.7\textwidth]{pictures/final_presentation/unit_international_config.png}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/functionality.jpg}
 				\end{center}
 			\end{column}
 		\end{columns} % End the columns environment
@@ -406,18 +406,6 @@
 	% Nicolin
 	\setbeamertemplate{section page}[BFH-ruled]
 	\frame{\sectionpage}
-
-
-	\begin{frame}{Implementation Details}
-		% Nicolin
-		\framesubtitle{}
-	\end{frame}
-
-
-	\begin{frame}{Demonstration of the Solution}
-		% Nicolin
-		\framesubtitle{}
-	\end{frame}
 
 	\begin{frame}{SCRUM}
 		% Abidin
@@ -494,7 +482,7 @@
                 \begin{itemize}
                     \item good refresher for java development
                     \item the team worked well together
-                    \item my junit tests could be improved (consistency & quality)
+                    \item my junit tests could be improved (consistency \& quality)
                     \item my git commit messages according to convention
                 \end{itemize}
             \end{column}
