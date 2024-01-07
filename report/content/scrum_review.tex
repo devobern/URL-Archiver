@@ -1,38 +1,43 @@
 \subsection{Review Project Setup}
-This chapter provides a review of our initial setup for this project. 
+This chapter reflects on the initial setup and organization of our project.
 
-\subsubsection{Initial situation}
-The first thing we did at the start of this project was to analyse the functional and non-functional requirements. 
-From this we knew the following important facts:
+\subsubsection{Initial Situation}
+Our project began with an in-depth analysis of the provided functional and non-functional requirements.
+We used the initial project description as a guiding framework and scheduled a meeting with our coach, Dr. Simon Kramer, to clarify any ambiguities.
+This analysis led to several key insights:
 \begin{itemize}
-    \item the application must be platform-independent and written in Java.
-    \item the code should be minimal, modular and self-explanatory
-    \item the code must be publicly available -> we need a public repository
-    \item we are dependent on external resources (archive.today \& WayBackMachine)
-    \item we don't need a graphical interface (console application)
+    \item The application must be platform-independent and developed in Java.
+    \item The code should be minimalistic, modular, and self-explanatory.
+    \item A public repository is required for code availability.
+    \item We depend on external resources like Archive Today and Apache PDFBox.
+    \item A console application is preferred, eliminating the need for a graphical interface.
 \end{itemize}
 
+This systematic approach allowed us to create a modular and extendable codebase.
+When the integration of the Wayback Machine was later introduced as a requirement by our stakeholder, our well-structured codebase enabled us to agilely accommodate this new feature.
+This addition was assessed to ensure it added value to the project and didn't become a blocker, demonstrating the effectiveness of our initial analysis and flexible project approach.
+
 \subsubsection{Subject analysis}
-For the subject analysis we researched the external resources we needed to use. In our project these were the two archiving services archive.today and the WayBackMachine.
-We looked for answers to the following questions 
-What automation interfaces are available? Do these archiving services support REST API or not? What might hinder the automation process? Captcha?
-Do we need a login? 
-At the same time we tried to design a rough user interaction process.
-With all the information gathered, we had a rough plan of what our application should look like and we could begin with the coding.
+In our subject analysis, we thoroughly researched necessary external resources, focusing on Archive Today and the Wayback Machine.
+Our investigation included their automation interfaces, REST API support, and potential challenges such as Captcha and login requirements.
+We also ensured these resources were compatible with our FLOSS licensing requirement.
+This study allowed us to design an initial user interaction model and provided a clear roadmap for our application's development, facilitating a smooth transition into the coding phase.
 
 \subsubsection{Stakeholder(-Management)}
-For our project, stakeholder management was simple because our only stakeholder was our consultant (Dr Simon Kramer).
-If we had any uncertainties, we organised a meeting with Mr Kramer on a Wednesday in our Project 1 timeslot and were able to clarify them.
+Our stakeholder management focused on effective communication with our primary stakeholder, Dr. Simon Kramer.
+We efficiently addressed any uncertainties by scheduling regular meetings with Dr. Kramer, utilizing our designated Project 1 timeslot.
+This approach allowed for straightforward and effective resolution of questions and alignment of project deliverables.
 
 \subsubsection{Organisation}
-As a team, we organised ourselves through a specially created Teams chat group.
-We also scheduled meetings every Monday and Friday for internal team exchanges to avoid any misunderstandings.
+Our team's organization was based on agile principles, with scheduled Monday and Friday meetings serving as our Scrum events.
+These structured sessions were complemented by self-organized meetings among team members as needed, facilitating code reviews, quick resolution of questions, or addressing any issues.
+This agile approach ensured effective communication and collaboration, which was vital for the project's smooth progression.
 
 \subsubsection{Installations}
-To ensure smooth collaboration between team members, we set up a github repository and a jira project (on atlassian.net).
-We also defined our objectives (epics) in the first week and created the epics in our jira project. 
-Then each team member updated their preferred IDE and installed the latest Java version.
-In retrospect, we should have created a basic code structure at this stage. This would have saved us the trouble of refactoring later.
+For our project installations, we established a GitHub repository and a Jira project on Atlassian.net, ensuring efficient collaboration.
+Our first week involved defining objectives and creating epics in Jira.
+We also updated our IDEs and installed the latest Java version for consistency.
+Reflecting back, an early setup of a basic code structure would have been beneficial, potentially minimizing the need for later refactoring.
 
 \subsection{Review}
 This chapter provides a review of our project, discussing the management of our sprints and backlogs, and our progress towards achieving our product goal.
@@ -64,7 +69,7 @@ Our attention to detail and commitment to our goals throughout the project's lif
 
 \subsubsection{Product Backlog}
 Our product backlog management was an exercise in adaptability and strategic foresight.
-In collaboration with stakeholders, we regularly assessed and updated our backlog, ensuring it remained relevant and reflective of current project needs.
+In collaboration with our stakeholder, we regularly assessed and updated our backlog, ensuring it remained relevant and reflective of current project needs.
 This iterative process, led by the Product Owner, involved introducing new user stories and de-prioritizing or removing those that had lost their relevance.
 Our focus was on high-priority tasks that directly contributed to achieving the product goal, while medium and low-priority items were cataloged for potential future development.
 This approach maintained a balance between addressing immediate project requirements and envisioning future enhancements.
@@ -83,12 +88,10 @@ The velocity report illustrates this progress, with an upward trend in completed
 \end{figure}
 
 \subsection{Retrospective I: Scrum Method}
-
 This chapter reflects on the distribution and implementation of Scrum roles as previously described.
 It also considers our insights from Scrum Events and Scrum Artifacts.
 
 \subsubsection{Scrum Roles}
-
 Nicolin fulfilled the role of Product Owner exceptionally well.
 He consistently maintained and prioritized the Product Backlog.
 Moreover, he ensured we were in close communication with our customer, Mr. Kramer, guaranteeing that stakeholder requirements were discussed and incorporated.
@@ -117,7 +120,7 @@ Exploring more precise estimation techniques could improve our ability to align 
 Sprint planning was a strong point for our team, particularly with the upfront estimation of user stories and prioritization based on business value and team velocity.
 We ensured that the most impactful tasks were addressed each sprint.
 Encountering larger-than-expected user stories at times provided learning opportunities for better task evaluation.
-A more comprehensive review process for estimating user stories could bolster our sprint planning further.
+A more comprehensive review process for estimating user stories could strengthen our sprint planning further.
 
 \paragraph{Daily Scrum}
 Adjusting to bi-weekly meetings complemented our part-time work schedules and kept team communication robust.
@@ -231,18 +234,22 @@ I am determined to improve my planning and communication within the team right f
 \subsubsection{Abidin Vejseli}
 Project 1 has been an enriching yet demanding journey, requiring meticulous time management and organization from my side.
 The Scrum methodology, which I believe our team adapted effectively, and the complexities of part-time study contributed to this challenge.
-Personally, I felt the initial module introduction was rather lengthy and could be condensed to the essential elements.
-It was unfortunate not to have both coaches at the presentation, an aspect I missed.
+Personally, I felt the initial module introduction was rather lengthy and could be condensed to the essential material.
+It was unfortunate not to have both coaches at the presentation, which was an aspect that I missed.
 
 Working within the team was a positive experience, and I'm proud of how we distributed the workload, ensuring valuable learning for everyone.
-The interaction with our coaches was a highlight, their readiness to assist was something I greatly valued.
-For the next project, I aim to initiate and ideally complete my user stories right at the start of the sprint.
+The interaction with our coaches was a highlight, their readiness to assist was something I greatly appreciated.
+For the next project, I aim to start and ideally complete my user stories during the first half of the sprint.
 
 \subsubsection{Killian Wampfler}
-For me, Project 1 was a great refresher for my programming skills and software development techniques. As I already use the Scrum method in my company, this part wasn't new to me.
-However, it was interesting to use the Scrum method in such a small team (3 people). Also, the team worked really well together and I think we could all learn something from this project.
+For me, Project 1 was a great refresher for my programming skills and software development techniques.
+As I already use the Scrum method in my company, this part wasn't new to me.
+However, it was interesting to use the Scrum method in such a small team (3 people).
+Also, the team worked really well together and I think we could all learn something from this project.
 
-Personally, I learned two things from this project. First, my unit tests have a lot of room for improvement (in quality and quantity).
-And more importantly, my git commit messages weren't the norm. Because of this, our git repository doesn't look consistent, and as this project needs to be publicly accessible, this is not desired.
+Personally, I learned two things from this project.
+First, my unit tests have a lot of room for improvement (in quality and quantity).
+And more importantly, my git commit messages weren't the norm.
+Because of this, our git repository doesn't look consistent, and as this project needs to be publicly accessible, this is not desired.
 
 Lastly I really appreciated how much freedom Mr. Kramer gave us and that he always took the time to answer our questions.
