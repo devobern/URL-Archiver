@@ -166,7 +166,6 @@ class WebDriverFactory {
 + {static} getWebDriver(): WebDriver
 }
 ArchiverException <.. WebDriverFactory : <<throws>>
-WebDriverFactory "1" -- "1" OperatingSystem
 
 class PendingWaybackMachineJob {
 - <<get>> extractedUrl: String
@@ -240,7 +239,6 @@ class ConfigModel {
 + ConfigModel(accessKey: String, secretKey: String)
 + ConfigModel(accessKey: String, secretKey: String, browser: SupportedBrowsers)
 }
-ConfigModel "*" -- "1" SupportedBrowsers
 
 class FileModel {
 - <<get>> mimeType: String
