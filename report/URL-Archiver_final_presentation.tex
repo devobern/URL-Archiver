@@ -1,7 +1,7 @@
 \documentclass[
-    ngerman,%globale Übergabe der Hauptsprache
+ngerman,%globale Übergabe der Hauptsprache
 %	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
-    authorontitle=true,
+authorontitle=true,
 ]{bfhbeamer}
 
 % Used for images
@@ -10,12 +10,12 @@
 \usetikzlibrary{shapes.geometric} % for hexagonal shapes
 % Define a new command for creating hexagon-shaped images
 \newcommand{\hexagonimage}[2][]{
-    \begin{tikzpicture}
-        \node[regular polygon, regular polygon sides=6, draw, inner sep=0pt, minimum width=3cm, path picture={
-            \node at (path picture bounding box.center) {
-                \includegraphics[width=3cm,#1]{#2}
-            };}] {};
-    \end{tikzpicture}
+	\begin{tikzpicture}
+		\node[regular polygon, regular polygon sides=6, draw, inner sep=0pt, minimum width=3cm, path picture={
+			\node at (path picture bounding box.center) {
+				\includegraphics[width=3cm,#1]{#2}
+			};}] {};
+	\end{tikzpicture}
 }
 
 
@@ -42,165 +42,165 @@
 \setbeamertemplate{page number in head/foot}[framenumber]
 
 \begin{document}
-
-    \setbeamertemplate{title page}[BFH-fullgraphic]
-    \maketitle
-
-
-
-    \begin{frame}{Table of Content}
-        \framesubtitle{Topics Covered}
-        \begin{columns} % Start the columns environment
-            \begin{column}{0.4\textwidth} % Define the width of the left column
-                %\setcounter{tocdepth}{1}
-                \tableofcontents
-            \end{column}
-            \begin{column}{0.6\textwidth} % Define the width of the left column
-                \begin{center}
-                    \includegraphics[width=0.3\textwidth]{figures/process_model-simple-vertikal}
-                    %\includegraphics[width=0.6\textwidth]{pictures/URL_Archiver_Screenshot}
-                \end{center}
-            \end{column}
-        \end{columns}
-    \end{frame}
-
-
-
-    \begin{frame}{About what was this project again?}
-    	% Kilian
-  
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.3\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{pictures/final_presentation/thinking1.jpg}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-    \begin{frame}{Problem Statement Recap "URL-Archiver"}
-    	% Kilian
-    	\framesubtitle{The ever changing Internet}
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item \textbf{problem statement}
-    				\begin{itemize}
-                        \item \textbf{ever-changing Internet} (websites are taken down or changed)
-    				    \item \textbf{Forensic} (e.g. \textbf{legal report} about a statement on the Internet)
-                    \end{itemize}
-                    \bigskip
-                    \item \textbf{solution}
-                    \begin{itemize}
-                        \item a java application which \textbf{searches hyperlinks}
-                        \item and \textbf{archives} them with an archiving service
-                    \end{itemize}
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.3\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{pictures/final_presentation/idea.jpg}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-    \begin{frame}{Project Goal}
-    	% Kilian
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item \textbf{Develop a software that\ldots}
-    				\begin{itemize}
-                        \item \ldots \textbf{searches hyperlinks} within documents
-    				    \item \ldots is capable of \textbf{archiving websites}
-    				    \item \ldots can \textbf{store} current and archived links in a file
-    				    \item \ldots is \textbf{easy} and \textbf{intuitive} to use
-                    \end{itemize}
-                    
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.3\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{pictures/final_presentation/goal.jpg}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-    \begin{frame}{Project Setup Review}
-    	% Kilian
-        \framesubtitle{Initial Situation}
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item \textbf{What we knew:}
-    				\begin{itemize}
-                        \item the end result has to be a \textbf{platform independent java application}
-    				    \item we can only use \textbf{FLOSS}-licensed libraries 
-    				    \item the software must support \textbf{archive.ph} and \textbf{WayBackMachine}
-    				    \item the code must be publicly accessible
-                    \end{itemize}
-    				
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.3\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{pictures/final_presentation/initial_situation.jpg}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-    \begin{frame}{Project Setup Review}
-    	% Kilian
-        \framesubtitle{Initial Situation}
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item \textbf{What we did first:}
-    				\begin{itemize}
-                        \item \textbf{project setup}
-    				    \item we \textbf{researched} both archiving services and whats possible
-    				    \item we designed the rough \textbf{process for user interaction}
-    				    \item we decided on a \textbf{software design pattern}
-                    \end{itemize}
-    				\bigskip
-                    \bigskip
-                    \bigskip
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.23\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.9\textwidth]{figures/process_model-simple-vertikal}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-    \begin{frame}{Project Setup Review}
-    	% Kilian
-        \framesubtitle{Installation / Project Setup}
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item creation of a new \textbf{github repository} for public accessibility
-    				\item setting up a \textbf{jira project} (with epics and first stories)
-    				\item installing the \textbf{latest java version}
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.23\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.5\textwidth]{pictures/github-mark.png}
-                    \includegraphics[width=0.9\textwidth]{pictures/jira_logo.png}
-                    \includegraphics[width=0.9\textwidth]{pictures/Java-Logo.png}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    \end{frame}
-
-
-
+	
+	\setbeamertemplate{title page}[BFH-fullgraphic]
+	\maketitle
+	
+	
+	
+	\begin{frame}{Table of Content}
+		\framesubtitle{Topics Covered}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.4\textwidth} % Define the width of the left column
+				%\setcounter{tocdepth}{1}
+				\tableofcontents
+			\end{column}
+			\begin{column}{0.6\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.3\textwidth]{figures/process_model-simple-vertikal}
+					%\includegraphics[width=0.6\textwidth]{pictures/URL_Archiver_Screenshot}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	
+	
+	\begin{frame}{About what was this project again?}
+		% Kilian
+		
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/thinking1.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Problem Statement Recap "URL-Archiver"}
+		% Kilian
+		\framesubtitle{The ever changing Internet}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{problem statement}
+					\begin{itemize}
+						\item \textbf{ever-changing Internet} (websites are taken down or changed)
+						\item \textbf{Forensic} (e.g. \textbf{legal report} about a statement on the Internet)
+					\end{itemize}
+					\bigskip
+					\item \textbf{solution}
+					\begin{itemize}
+						\item a java application which \textbf{searches hyperlinks}
+						\item and \textbf{archives} them with an archiving service
+					\end{itemize}
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/idea.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Project Goal}
+		% Kilian
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{Develop a software that\ldots}
+					\begin{itemize}
+						\item \ldots \textbf{searches hyperlinks} within documents
+						\item \ldots is capable of \textbf{archiving websites}
+						\item \ldots can \textbf{store} current and archived links in a file
+						\item \ldots is \textbf{easy} and \textbf{intuitive} to use
+					\end{itemize}
+					
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/goal.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Project Setup Review}
+		% Kilian
+		\framesubtitle{Initial Situation}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{What we knew:}
+					\begin{itemize}
+						\item the end result has to be a \textbf{platform independent java application}
+						\item we can only use \textbf{FLOSS}-licensed libraries 
+						\item the software must support \textbf{archive.ph} and \textbf{WayBackMachine}
+						\item the code must be publicly accessible
+					\end{itemize}
+					
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{pictures/final_presentation/initial_situation.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Project Setup Review}
+		% Kilian
+		\framesubtitle{Initial Situation}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{What we did first:}
+					\begin{itemize}
+						\item \textbf{project setup}
+						\item we \textbf{researched} both archiving services and whats possible
+						\item we designed the rough \textbf{process for user interaction}
+						\item we decided on a \textbf{software design pattern}
+					\end{itemize}
+					\bigskip
+					\bigskip
+					\bigskip
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.23\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.9\textwidth]{figures/process_model-simple-vertikal}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Project Setup Review}
+		% Kilian
+		\framesubtitle{Installation / Project Setup}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item creation of a new \textbf{github repository} for public accessibility
+					\item setting up a \textbf{jira project} (with epics and first stories)
+					\item installing the \textbf{latest java version}
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.23\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.5\textwidth]{pictures/github-mark.png}
+					\includegraphics[width=0.9\textwidth]{pictures/jira_logo.png}
+					\includegraphics[width=0.9\textwidth]{pictures/Java-Logo.png}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	
+	
 	\section{Solution Overview}
 	% Nicolin
 	\setbeamertemplate{section page}[BFH-ruled]
@@ -210,25 +210,25 @@
 	%	% Nicolin
 	%	\framesubtitle{Requirements met}
 	%	\begin{columns} % Start the columns environment
-	%		\begin{column}{0.7\textwidth} % Define the width of the left column
-	%			\begin{itemize}
-	%				\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
-	%				\item[\checkmark] Extracts \textbf{all URLs} from the files.
-	%				\item[\checkmark] Can \textbf{open} URLs in a web browser.
-	%				\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
-	%				\item[\checkmark] Retrieves archived URLs.
-	%				\item[\checkmark] \textbf{Outputs a CSV file} with key-value pairs of original and archived URLs.
-	%				\item[\checkmark] Can \textbf{add archived URLs to a .BIB file}.
-	%				\item[(\checkmark)] The program code should be \textbf{minimal, modular, and self-explaining}.
-	%			\end{itemize}
-	%			
-	%		\end{column}
-	%		\begin{column}{0.3\textwidth} % Define the width of the left column
-	%			\begin{center}
-	%				\includegraphics[width=0.9\textwidth]{pictures/final_presentation/achievement.jpg}
-	%			\end{center}
-	%		\end{column}
-	%	\end{columns}
+		%		\begin{column}{0.7\textwidth} % Define the width of the left column
+			%			\begin{itemize}
+				%				\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
+				%				\item[\checkmark] Extracts \textbf{all URLs} from the files.
+				%				\item[\checkmark] Can \textbf{open} URLs in a web browser.
+				%				\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
+				%				\item[\checkmark] Retrieves archived URLs.
+				%				\item[\checkmark] \textbf{Outputs a CSV file} with key-value pairs of original and archived URLs.
+				%				\item[\checkmark] Can \textbf{add archived URLs to a .BIB file}.
+				%				\item[(\checkmark)] The program code should be \textbf{minimal, modular, and self-explaining}.
+				%			\end{itemize}
+			%			
+			%		\end{column}
+		%		\begin{column}{0.3\textwidth} % Define the width of the left column
+			%			\begin{center}
+				%				\includegraphics[width=0.9\textwidth]{pictures/final_presentation/achievement.jpg}
+				%			\end{center}
+			%		\end{column}
+		%	\end{columns}
 	%	\note[item]{Thank you Kilian and welcome from my side too.}
 	%	\note[item]{I will now explain our application to you in more detail. }
 	%	\note[item]{Firstly, the project requirements. Our application should be able to read directories with Unicode text or PDF files. Of course, it should also be possible to read individual files. The application should then read all URLs from the files. The user should then be able to open the URLs in their browser and archive the URLs to the two services archive.today and the Wayback Machine. Of course, our application should get back the archived version and save it. When all URLs have been processed, the user can save the URLs in a CSV file or, if possible, back into a Bibtex file.}
@@ -241,8 +241,8 @@
 	%\begin{frame}{Process Model}
 	%	\framesubtitle{Workflow for URL Extraction and Archiving}
 	%	\begin{itemize}
-	%		\item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
-	%	\end{itemize}
+		%		\item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
+		%	\end{itemize}
 	%	\vspace{0.8cm}
 	%	\includegraphics[width=1\textwidth]{pictures/process_model-simple}
 	%	\note[item]{Now that I've talked about the what, let's move on to the how. }
@@ -251,34 +251,34 @@
 	%	\note[item]{The user can then archive the URL with one or both of the archiving services. }
 	%	\note[item]{The application receives the archived version and finally saves it to a CSV file or writes it back to a Bibtex file. }
 	%\end{frame}
-    
-    
-    \begin{frame}{Command line application}
-    	% Nicolin
-    	\framesubtitle{Why a command line and not a GUI application?}
-    	\begin{columns} % Start the columns environment
-    		\begin{column}{0.7\textwidth} % Define the width of the left column
-    			\begin{itemize}
-    				\item \textbf{Focus on Logic:} Emphasis on functional depth over visual design.
-    				\item \textbf{Technical Audience:} Suited for users proficient in command-line environments.
-    				\item \textbf{Efficiency in Development:} Streamlines the development process by focusing less on UI design.
-    				\item \textbf{Flexibility and Scalability:} Provides a stable base for future feature expansion.
-    			\end{itemize}
-    		\end{column}
-    		\begin{column}{0.3\textwidth} % Define the width of the left column
-	    		\begin{center}
-	    			\includegraphics[width=0.95\textwidth]{pictures/final_presentation/cmd_2.jpg}
-	    		\end{center}
-    		\end{column}
-    	\end{columns}
-    	\note[item]{We have decided in favour of a command line program and against a GUI. For various reasons.}
-    	\note[item]{On the one hand, because we could focus on the logic and didn't have to build a responsive GUI.}
-    	\note[item]{ On the other hand, our stakeholders are in the technical world and should therefore have few problems with a CLI application. }
-    	\note[item]{With a CLI application we create a stable basis to build on. }
-    	\note[item]{With the MVC pattern we can add a GUI in the future with little effort. }
-    	
-    \end{frame}
-
+	
+	
+	\begin{frame}{Command line application}
+		% Nicolin
+		\framesubtitle{Why a command line and not a GUI application?}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.7\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{Focus on Logic:} Emphasis on functional depth over visual design.
+					\item \textbf{Technical Audience:} Suited for users proficient in command-line environments.
+					\item \textbf{Efficiency in Development:} Streamlines the development process by focusing less on UI design.
+					\item \textbf{Flexibility and Scalability:} Provides a stable base for future feature expansion.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.95\textwidth]{pictures/final_presentation/cmd_2.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+		\note[item]{We have decided in favour of a command line program and against a GUI. For various reasons.}
+		\note[item]{On the one hand, because we could focus on the logic and didn't have to build a responsive GUI.}
+		\note[item]{ On the other hand, our stakeholders are in the technical world and should therefore have few problems with a CLI application. }
+		\note[item]{With a CLI application we create a stable basis to build on. }
+		\note[item]{With the MVC pattern we can add a GUI in the future with little effort. }
+		
+	\end{frame}
+	
 	\begin{frame}{Architecture}
 		\framesubtitle{Employing the \textbf{MVC} Pattern}
 		
@@ -301,7 +301,7 @@
 		\note[item]{As the view is separated from the model by the controller. }
 		\note[item]{This means that these parts can be easily exchanged without having to make major changes to the others. }
 	\end{frame}
-
+	
 	\begin{frame}{Architecture}
 		\framesubtitle{Factory Pattern}
 		\begin{columns} % Start the columns environment
@@ -325,7 +325,7 @@
 		\note[item]{Specifically with the archiving services, the Selenium web drivers, when exporting to a CVS and Bibtex file and when reading the files. }
 		\note[item]{As you can see on the right, using the archiving services as an example, this allows us a simple extension. }
 	\end{frame}
-
+	
 	\begin{frame}{Enhancing Functionality and Flexibility}
 		\framesubtitle{Configuration, Internationalization, and Testing}
 		\begin{columns} % Start the columns environment
@@ -350,7 +350,7 @@
 		\note[item]{We have laid the foundation for multilingualism... }
 		\note[item]{... and are testing all relevant classes with unit tests; there are currently 107 unit tests in total. }
 	\end{frame}
-
+	
 	\begin{frame}{Ease of Use: Installation Simplified}
 		\framesubtitle{Custom Scripts for Cross-Platform Compatibility}
 		\begin{columns} % Start the columns environment
@@ -370,85 +370,188 @@
 		\note[item]{To make it as easy as possible for users to get started with the application, we have created compilation and run scripts. }
 		\note[item]{Of course bash scripts for Linux and macOS and PowerShell scripts for Windows. }
 	\end{frame}
-
+	
 	\section{Live-Demo}
 	% Nicolin
 	\setbeamertemplate{section page}[BFH-ruled]
 	\frame{\sectionpage}
-
-	\begin{frame}{SCRUM}
+	
+	\begin{frame}{SCRUM Review}
 		% Abidin
-		\framesubtitle{}
+		\framesubtitle{Product Goal}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.8\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item[\checkmark] Accepts \textbf{directories}, \textbf{Unicode text} (.BIB, .TEX, .HTML, etc.), or \textbf{.PDF files} as input.
+					\item[\checkmark] Extracts \textbf{all URLs} from the files.
+					\item[\checkmark] Can \textbf{open} URLs in a web browser.
+					\item[\checkmark] Can \textbf{archive URLs} to \textbf{archive.today} and \textbf{the Wayback Machine}.
+					\item[\checkmark] Retrieves archived URLs.
+					\item[\checkmark] \textbf{Outputs a CSV file} with key-value pairs of original and archived URLs.
+					\item[\checkmark] Can \textbf{add archived URLs to a .BIB file}.
+					\item[(\checkmark)] The program code should be \textbf{minimal, modular, and self-explaining}.
+					\item[\checkmark] \textbf{User manual}, \textbf{Installation instructions} and \textbf{Software documentation} are provided.
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.2\textwidth} % Define the width of the right column
+			\end{column}
+		\end{columns} % End the columns environment
 	\end{frame}
-
-
-    \begin{frame}{Lessons learned}
-        \framesubtitle{Team}
-        \begin{columns} % Start the columns environment
-            \begin{column}{0.5\textwidth} % Define the width of the left column
-                \begin{itemize}
-                    \item \textbf{Basic code structure}
-                    \item \textbf{Code Reviews} more often 
-                    \item \textbf{Weeklys} are important
-                \end{itemize}
-            \end{column}
-            \begin{column}{0.3\textwidth} % Define the width of the left column
-                \begin{center}
-                    \includegraphics[width=1\textwidth]{pictures/Learnings}
-                \end{center}
-            \end{column}
-        \end{columns}
-    \end{frame}
-
-    \section{Conclusion}
+	
+	\begin{frame}{SCRUM Review}
+		\framesubtitle{Scrum Methodology}
+		\begin{center}
+			% First member
+			\begin{minipage}{.3\textwidth}
+				\centering
+				\hexagonimage{pictures/dora_2} \\ % Replace with the correct file name
+				\textbf{Nicolin Dora}\\
+				Product Owner \& Developer
+			\end{minipage}
+			% Second member
+			\begin{minipage}{.3\textwidth}
+				\centering
+				\hexagonimage{pictures/vejseli_2}\\ % Replace with the correct file name
+				\textbf{Abidin Vejseli}\\
+				Scrummaster \& Developer
+			\end{minipage}
+			% % Third member
+			\begin{minipage}{.3\textwidth}
+				\centering
+				\hexagonimage{pictures/wampfler_2}\\ % Replace with the correct file name
+				\textbf{Kilian Wampfler}\\
+				Developer
+			\end{minipage}
+		\end{center}
+	\end{frame}
+	
+	\begin{frame}{SCRUM Review}
+		% Abidin
+		\framesubtitle{Product and Sprint Backlog Management}
+		\includegraphics[width=1\textwidth]{pictures/Scrum/velocity_report}
+	\end{frame}
+	
+	\begin{frame}{SCRUM Review}
+		\framesubtitle{Sprint Goals \& Approach}
+		\begin{itemize}
+			\item \textbf{Sprint 1} Implement input handler for files (any unicode file e.g. .bib, .txt, .html and .pdf) and basic user guidance (Menu, Error messages).
+			\item \textbf{Sprint 2} Implement a function to scan a provided text in order to identify and extract any URLs contained within it and upgrade our current console-based interface to enable users to easily open any extracted URL using their default web browser.
+			\item \textbf{Sprint 3} Develop and implement a fully automated URL submission system that integrates with the Wayback Machine and Archive Today to ensure at least a 98\% success rate in URL archiving.
+			\item \textbf{Sprint 4} Enhance the system's stability and usability by resolving identified Selenium bugs across Linux, macOS, and Edge browsers, documenting the sprint process and licenses, conducting a thorough code review, and establishing a new configuration management file, aiming for zero critical bugs at sprint closure and readying the system for seamless URL archiving integration in subsequent sprints.
+			\item \textbf{Sprint 5} Complete application refactoring for asynchronous archiving and .BIB file URL integration, ensuring no critical bugs and preparing for seamless future enhancements.
+			\item \textbf{Sprint 6} Deliver a finalized application design, improved code quality, and complete documentation, with all components ready for review.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{SCRUM Review}
+		\framesubtitle{Delimitation and Delivery}
+		\begin{center}
+			\includegraphics[width=0.5\textwidth]{pictures/final_presentation/scrum board concept illustration}
+		\end{center}
+	\end{frame}
+	
+	\begin{frame}{SCRUM Review}
+		\framesubtitle{Tools and Communication}
+		Our project's success was also due to the effective use of tools like:
+		\begin{columns}
+			\begin{column}{0.6\textwidth}
+				\begin{itemize}
+					\item Java, Maven, JUnit 5
+					\item IntelliJ IDEA, GitHub, LaTeX
+					\item Microsoft Teams and BigBlueButton
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.4\textwidth}
+				\centering
+				\includegraphics[height=0.6cm]{pictures/Java-Logo}\\
+				\vspace{1em}
+				\includegraphics[height=0.6cm]{pictures/LaTeX_logo}
+				\vspace{1em}
+				\includegraphics[height=0.6cm]{pictures/JUnit_5_Logo}\\
+				\vspace{1em}
+				\includegraphics[height=0.6cm]{pictures/final_presentation/MS-Teams_Logo}
+				\vspace{1em}
+				\includegraphics[height=0.6cm]{pictures/final_presentation/BigBlueButton_icon}\\
+				\vspace{1em}
+				\includegraphics[height=0.6cm]{pictures/IntelliJ_IDEA_Icon}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{SCRUM Review}
+		% Abidin
+		\framesubtitle{Conclusion}
+		\centering
+		\includegraphics[width=0.6\textwidth]{pictures/final_presentation/Team growing lightbulb plant}
+	\end{frame}
+	
+	\begin{frame}{Lessons learned}
+		\framesubtitle{Team}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.5\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item \textbf{Basic code structure}
+					\item \textbf{Code Reviews} more often 
+					\item \textbf{Weeklys} are important
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=1\textwidth]{pictures/Learnings}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\section{Conclusion}
 	% Kilian
 	\setbeamertemplate{section page}[BFH-ruled]
 	\frame{\sectionpage}
-
-    \begin{frame}{Conclusion: Project Goal}
-        \begin{columns} % Start the columns environment
-            \begin{column}{0.5\textwidth} % Define the width of the left column
-                \begin{itemize}
-                    \item[\checkmark] \textbf{Develop a software that}\ldots
-                    \begin{itemize}
-                        \item[\checkmark] \ldots \textbf{searches hyperlinks} within documents
-                        \item[\checkmark] \ldots is capable of \textbf{archiving websites}
-                        \item[\checkmark] \ldots can \textbf{store} current and archived links in a file
-                        \item[\checkmark] \ldots is \textbf{easy} and \textbf{intuitive} to use
-                    \end{itemize}
-                \end{itemize}
-            \end{column}
-            \begin{column}{0.3\textwidth} % Define the width of the left column
-                \begin{center}
-                    \includegraphics[width=0.6\textwidth]{pictures/sherlock}
-                \end{center}
-            \end{column}
-        \end{columns}
-    \end{frame}
-
-    \begin{frame}{Future Work}
-        \framesubtitle{What can be done to improve the application further}
-        \begin{columns} % Start the columns environment
-            \begin{column}{0.5\textwidth} % Define the width of the left column
-                \begin{itemize}
-                    \item Add more \textbf{archiving services} (such as Memento Time Travel)
-                    \item Support more \textbf{input file types} (e.g. .docx)
-                    \item Integrate a \textbf{graphical interface}
-                    \item Implement \textbf{multilingual} support
-                \end{itemize}
-            \end{column}
-            \begin{column}{0.3\textwidth} % Define the width of the left column
-                \begin{center}
-                    \includegraphics[width=1\textwidth]{pictures/final_presentation/Business_team_2.jpg}
-                \end{center}
-            \end{column}
-        \end{columns}
-    \end{frame}
-
-    \section{Questions?}
-    \setbeamertemplate{section page}[BFH-ruled]
-    \frame{\sectionpage}
-
+	
+	\begin{frame}{Conclusion: Project Goal}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.5\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item[\checkmark] \textbf{Develop a software that}\ldots
+					\begin{itemize}
+						\item[\checkmark] \ldots \textbf{searches hyperlinks} within documents
+						\item[\checkmark] \ldots is capable of \textbf{archiving websites}
+						\item[\checkmark] \ldots can \textbf{store} current and archived links in a file
+						\item[\checkmark] \ldots is \textbf{easy} and \textbf{intuitive} to use
+					\end{itemize}
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=0.6\textwidth]{pictures/sherlock}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Future Work}
+		\framesubtitle{What can be done to improve the application further}
+		\begin{columns} % Start the columns environment
+			\begin{column}{0.5\textwidth} % Define the width of the left column
+				\begin{itemize}
+					\item Add more \textbf{archiving services} (such as Memento Time Travel)
+					\item Support more \textbf{input file types} (e.g. .docx)
+					\item Integrate a \textbf{graphical interface}
+					\item Implement \textbf{multilingual} support
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.3\textwidth} % Define the width of the left column
+				\begin{center}
+					\includegraphics[width=1\textwidth]{pictures/final_presentation/Business_team_2.jpg}
+				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\section{Questions?}
+	\setbeamertemplate{section page}[BFH-ruled]
+	\frame{\sectionpage}
+	
 \end{document}
 %---------------------------------------------------------------------------------------%
 %																						%
@@ -457,136 +560,136 @@
 %---------------------------------------------------------------------------------------%
 
 %     \begin{frame}{Problem Statement Recap "URL-Archiver"}
-%     	% Kilian
-%         \framesubtitle{The ever changing internet}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.6\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item \textbf{ever-changing internet} (websites are taken down or changed)
-%                     \item not a problem for everyday internet users but\ldots
-%                     \item \ldots what about \textbf{documents} (e. g. theses, documentations etc.)
-%                     \begin{itemize}
-%                         \item invalid links to content-relevant information
-%                         \item invalid quote links
-%                         \item old documents may contain numerous broken hyperlinks
-%                     \end{itemize}
-%                     \item another case: \textbf{Forensic}
-%                     \begin{itemize}
-%                         \item e.g. \textbf{legal report} about a statement on the Internet
-%                     \end{itemize}
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.3\textwidth} % Define the width of the left column
-%                 \begin{center}
-%                     \includegraphics[width=0.6\textwidth]{pictures/broken_link}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%     	% Kilian
+	%         \framesubtitle{The ever changing internet}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.6\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item \textbf{ever-changing internet} (websites are taken down or changed)
+				%                     \item not a problem for everyday internet users but\ldots
+				%                     \item \ldots what about \textbf{documents} (e. g. theses, documentations etc.)
+				%                     \begin{itemize}
+					%                         \item invalid links to content-relevant information
+					%                         \item invalid quote links
+					%                         \item old documents may contain numerous broken hyperlinks
+					%                     \end{itemize}
+				%                     \item another case: \textbf{Forensic}
+				%                     \begin{itemize}
+					%                         \item e.g. \textbf{legal report} about a statement on the Internet
+					%                     \end{itemize}
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.3\textwidth} % Define the width of the left column
+			%                 \begin{center}
+				%                     \includegraphics[width=0.6\textwidth]{pictures/broken_link}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 
-	
-	
+
+
 
 %     \begin{frame}{Problem Statement}
-%         \framesubtitle{Simple Solution}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item Archive the \textbf{actual state} of the linked websites
-%                     \begin{itemize}
-%                         \item Wayback machine
-%                         \item archive.today
-%                         \item Memento Time Travel
-%                         \item and more…
-%                     \end{itemize}
-%                     \item But who has the \textbf{time} and \textbf{motivation}?
-%                     \begin{itemize}
-%                         \item \ldots to search each hyperlink
-%                         \item \ldots to manually archive each website
-%                     \end{itemize}
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.4\textwidth} % Define the width of the left column
-%                 \begin{center}
-%                     \includegraphics[width=0.7\textwidth]{pictures/frustrated}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%         \framesubtitle{Simple Solution}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item Archive the \textbf{actual state} of the linked websites
+				%                     \begin{itemize}
+					%                         \item Wayback machine
+					%                         \item archive.today
+					%                         \item Memento Time Travel
+					%                         \item and more…
+					%                     \end{itemize}
+				%                     \item But who has the \textbf{time} and \textbf{motivation}?
+				%                     \begin{itemize}
+					%                         \item \ldots to search each hyperlink
+					%                         \item \ldots to manually archive each website
+					%                     \end{itemize}
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.4\textwidth} % Define the width of the left column
+			%                 \begin{center}
+				%                     \includegraphics[width=0.7\textwidth]{pictures/frustrated}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 
 %     \subsection{Project Goal}
 %     \begin{frame}{Project Goal}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item \textbf{Develop a software that}\ldots
-%                     \begin{itemize}
-%                         \item \ldots \textbf{searches hyperlinks} within documents
-%                         \item \ldots is capable of \textbf{archiving websites}
-%                         \item \ldots can \textbf{store} current and archived links in a file
-%                         \item \ldots is \textbf{easy} and \textbf{intuitive} to use
-%                     \end{itemize}
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.3\textwidth} % Define the width of the left column
-%                 \begin{center}
-%                     \includegraphics[width=0.6\textwidth]{pictures/sherlock}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item \textbf{Develop a software that}\ldots
+				%                     \begin{itemize}
+					%                         \item \ldots \textbf{searches hyperlinks} within documents
+					%                         \item \ldots is capable of \textbf{archiving websites}
+					%                         \item \ldots can \textbf{store} current and archived links in a file
+					%                         \item \ldots is \textbf{easy} and \textbf{intuitive} to use
+					%                     \end{itemize}
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.3\textwidth} % Define the width of the left column
+			%                 \begin{center}
+				%                     \includegraphics[width=0.6\textwidth]{pictures/sherlock}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 
 %     \subsection{Requirements}
 %     \begin{frame}{Functional Requirements}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item \textbf{The software must be}\ldots
-%                     \begin{itemize}
-%                         \item \ldots a \textbf{Java application} that is compatible with multiple platforms
-%                         \item \ldots Free and Open Source Software licensed \textbf{(FLOSS)}
-%                         \item \ldots capable of archiving websites on \textbf{archive.ph} or/and \textbf{WayBackMachine}
-%                         \item \ldots capable of generating a \textbf{CSV-file} with key-value (URL, archived URL)
-%                     \end{itemize}
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.3\textwidth} % Define the width of the left column
-%                 \begin{center}
-%                     \includegraphics[height=1cm]{pictures/Java-Logo}
-%                     \vspace{1em}
-%                     \includegraphics[height=1cm]{pictures/Wayback_Machine_logo}
-%                     \vspace{1em}
-%                     \includegraphics[height=1cm]{pictures/archive_today_logo}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-
-
-%     \end{frame}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item \textbf{The software must be}\ldots
+				%                     \begin{itemize}
+					%                         \item \ldots a \textbf{Java application} that is compatible with multiple platforms
+					%                         \item \ldots Free and Open Source Software licensed \textbf{(FLOSS)}
+					%                         \item \ldots capable of archiving websites on \textbf{archive.ph} or/and \textbf{WayBackMachine}
+					%                         \item \ldots capable of generating a \textbf{CSV-file} with key-value (URL, archived URL)
+					%                     \end{itemize}
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.3\textwidth} % Define the width of the left column
+			%                 \begin{center}
+				%                     \includegraphics[height=1cm]{pictures/Java-Logo}
+				%                     \vspace{1em}
+				%                     \includegraphics[height=1cm]{pictures/Wayback_Machine_logo}
+				%                     \vspace{1em}
+				%                     \includegraphics[height=1cm]{pictures/archive_today_logo}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	
+	
+	%     \end{frame}
 
 %     \begin{frame}{Non-Functional requirement}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item Coding Norm
-%                     \item publicly accessible
-%                     \item Project-Method: \textbf{SCRUM}
-%                     \item public documents in English
-%                     \item project report with \textbf{LaTeX}
-%                     %\item The program code should be minimal, modular, and self-explaining
-%                     %\item The program code should be published in a git repository
-%                     %\item The project must be carried out according to scrum
-%                     %\item Public documents should be written in English
-%                     %\item LaTeX should be used for the project report
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.4\textwidth} % Define the width of the left column
-%                 \begin{center}
-%                     \includegraphics[width=0.8\textwidth]{pictures/clean-code-1}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item Coding Norm
+				%                     \item publicly accessible
+				%                     \item Project-Method: \textbf{SCRUM}
+				%                     \item public documents in English
+				%                     \item project report with \textbf{LaTeX}
+				%                     %\item The program code should be minimal, modular, and self-explaining
+				%                     %\item The program code should be published in a git repository
+				%                     %\item The project must be carried out according to scrum
+				%                     %\item Public documents should be written in English
+				%                     %\item LaTeX should be used for the project report
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.4\textwidth} % Define the width of the left column
+			%                 \begin{center}
+				%                     \includegraphics[width=0.8\textwidth]{pictures/clean-code-1}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 % %-------------------------------%
 
 % % Chapter two "Solving the Problem"
@@ -598,61 +701,61 @@
 
 %     \subsection{Process Model}
 %     \begin{frame}{Process Model}
-%         \framesubtitle{Workflow for URL Extraction and Archiving}
-%         \begin{itemize}
-%             \item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
-%         \end{itemize}
-%         \vspace{0.8cm}
-%         \includegraphics[width=1\textwidth]{pictures/process_model-simple}
-%         \note[item]{Thank you for coming from my side too.}
-%         \note[item]{First lets talk about how an user can archive urls. }
-%         \note[item]{----------------------------------------------------------}
-%         \note[item]{For this you can see here a rough overview of how a user navigates through the application to archive URLs. }
-%         \note[item]{The user can open the current URL in their default browser, access the help section, or view the archived URLs at any time.}
-%         \note[item]{The user does not need to archive a url, he can skip the archiving process.}
-%         \note[item]{Now to the more technical part.}
-%     \end{frame}
+	%         \framesubtitle{Workflow for URL Extraction and Archiving}
+	%         \begin{itemize}
+		%             \item User can \textbf{skip URLs}, \textbf{launch them}, \textbf{access help} or \textbf{quit} the program at \textbf{any time}
+		%         \end{itemize}
+	%         \vspace{0.8cm}
+	%         \includegraphics[width=1\textwidth]{pictures/process_model-simple}
+	%         \note[item]{Thank you for coming from my side too.}
+	%         \note[item]{First lets talk about how an user can archive urls. }
+	%         \note[item]{----------------------------------------------------------}
+	%         \note[item]{For this you can see here a rough overview of how a user navigates through the application to archive URLs. }
+	%         \note[item]{The user can open the current URL in their default browser, access the help section, or view the archived URLs at any time.}
+	%         \note[item]{The user does not need to archive a url, he can skip the archiving process.}
+	%         \note[item]{Now to the more technical part.}
+	%     \end{frame}
 
 %     \subsection{Architecture}
 %     \begin{frame}{High Level Class Diagram}
-%         \framesubtitle{Overview}
-%         \includegraphics[width=1\textwidth]{figures/URL_Archiver_Class_Diagram-Presentation_0}
-%         \note[item]{To demonstrate how we meet the requirements for our application, which Kilian presented earlier, I will now provide a high-level overview of our structure and its individual components.}
-%         \note[item]{It is important to note that this is our current structure, subject to expansion and adaptation as the project advances. }
-%         \note[item]{The Main class serves as the application's entry point.}
-%         \note[item]{CLIController interprets user commands, validates paths and types, and selects the data model.}
-%         \note[item]{FileModel manages individual file data, and stores URL associations.}
-%         \note[item]{FolderModel deals with file groupings within folders, integrating multiple FileModel instances.}
-%         \note[item]{URLPair links original to the archived URL. }
-%         \note[item]{I18n enables the application to support multiple languages, enhancing global usability.}
-%         \note[item]{UserChoice defines possible user actions with corresponding i18n keys, aiding in international user interaction.}
-%         \note[item]{ConsoleView acts as the communication hub, utilizing UserChoice for navigation and i18n for language support.}
-%         \note[item]{Now I would like to discuss some aspects of the architecture in greater detail. }
-%     \end{frame}
+	%         \framesubtitle{Overview}
+	%         \includegraphics[width=1\textwidth]{figures/URL_Archiver_Class_Diagram-Presentation_0}
+	%         \note[item]{To demonstrate how we meet the requirements for our application, which Kilian presented earlier, I will now provide a high-level overview of our structure and its individual components.}
+	%         \note[item]{It is important to note that this is our current structure, subject to expansion and adaptation as the project advances. }
+	%         \note[item]{The Main class serves as the application's entry point.}
+	%         \note[item]{CLIController interprets user commands, validates paths and types, and selects the data model.}
+	%         \note[item]{FileModel manages individual file data, and stores URL associations.}
+	%         \note[item]{FolderModel deals with file groupings within folders, integrating multiple FileModel instances.}
+	%         \note[item]{URLPair links original to the archived URL. }
+	%         \note[item]{I18n enables the application to support multiple languages, enhancing global usability.}
+	%         \note[item]{UserChoice defines possible user actions with corresponding i18n keys, aiding in international user interaction.}
+	%         \note[item]{ConsoleView acts as the communication hub, utilizing UserChoice for navigation and i18n for language support.}
+	%         \note[item]{Now I would like to discuss some aspects of the architecture in greater detail. }
+	%     \end{frame}
 
 %     \begin{frame}{Architecture}
-%         \framesubtitle{Employing the \textbf{MVC} Pattern}
-
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item Modular design for \textbf{easy extension}
-%                     \item Separate data, view, and control flow
-%                     \item Facilitates the potential \textbf{addition of a GUI}
-%                 \end{itemize}
-%             \end{column}
-
-%             \begin{column}{0.5\textwidth} % Define the width of the right column
-%                 \begin{center}
-%                     \includegraphics[width=1\textwidth]{figures/mvc_diagram-Detailed_MVC}
-%                 \end{center}
-%             \end{column}
-%         \end{columns} % End the columns environment
-%         \note[item]{As you may have observed, we utilize the MVC pattern, among other techniques, to ensure the scalability of the application.  }
-%         \note[item]{This involves separating the business logic from the presentation using a controller. }
-%         \note[item]{This enables us to easly switch out the Command Line Interface with a Graphical User Interface.}
-%         \note[item]{But that's not all!}
-%     \end{frame}
+	%         \framesubtitle{Employing the \textbf{MVC} Pattern}
+	
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item Modular design for \textbf{easy extension}
+				%                     \item Separate data, view, and control flow
+				%                     \item Facilitates the potential \textbf{addition of a GUI}
+				%                 \end{itemize}
+			%             \end{column}
+		
+		%             \begin{column}{0.5\textwidth} % Define the width of the right column
+			%                 \begin{center}
+				%                     \includegraphics[width=1\textwidth]{figures/mvc_diagram-Detailed_MVC}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns} % End the columns environment
+	%         \note[item]{As you may have observed, we utilize the MVC pattern, among other techniques, to ensure the scalability of the application.  }
+	%         \note[item]{This involves separating the business logic from the presentation using a controller. }
+	%         \note[item]{This enables us to easly switch out the Command Line Interface with a Graphical User Interface.}
+	%         \note[item]{But that's not all!}
+	%     \end{frame}
 
 % %\begin{frame}{High Level Class Diagram}
 % %    \framesubtitle{Main}
@@ -677,10 +780,10 @@
 % %\end{frame}
 
 % % \begin{frame}{High Level Class Diagram}
-% %     \framesubtitle{FileModel}
-% %     \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-Presentation_3}
-% %     \note[item]{Here you can see the data model where all the business logic takes place. However, I will be going into more detail about this later on, so I will refrain from going into any more detail at this point. }
-% % \end{frame}
+	% %     \framesubtitle{FileModel}
+	% %     \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-Presentation_3}
+	% %     \note[item]{Here you can see the data model where all the business logic takes place. However, I will be going into more detail about this later on, so I will refrain from going into any more detail at this point. }
+	% % \end{frame}
 
 % %\begin{frame}{High Level Class Diagram}
 % %    \framesubtitle{I18n and UserChoice}
@@ -697,88 +800,88 @@
 % %\end{frame}
 
 %     \begin{frame}{Architecture}
-%         \framesubtitle{Factory Pattern}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.6\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item \textbf{Scalable} and \textbf{robust} design
-%                     \item Ensures \textbf{maintainability} and clear code structure
-%                     \item Commitment to \textbf{best programming practices}
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.4\textwidth} % Define the width of the right column
-%                 \begin{center}
-%                     \includegraphics[width=0.7\textwidth]{figures/URL_Archiver_Class_Diagram-FileReaderFactory}
-%                 \end{center}
-%             \end{column}
-%         \end{columns} % End the columns environment
-%         \note[item]{To enhance our application's flexibility further, we've implemented a factory class that reads and processes different file formats. }
-%         \note[item]{With a single call to the getFileReader() method from the FileReaderFactory, specifying the file type, we retrieve an appropriate FileReader. }
-%         \note[item]{Currently, our application can handle all UNICODE text files and PDFs.}
-%     \end{frame}
+	%         \framesubtitle{Factory Pattern}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.6\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item \textbf{Scalable} and \textbf{robust} design
+				%                     \item Ensures \textbf{maintainability} and clear code structure
+				%                     \item Commitment to \textbf{best programming practices}
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.4\textwidth} % Define the width of the right column
+			%                 \begin{center}
+				%                     \includegraphics[width=0.7\textwidth]{figures/URL_Archiver_Class_Diagram-FileReaderFactory}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns} % End the columns environment
+	%         \note[item]{To enhance our application's flexibility further, we've implemented a factory class that reads and processes different file formats. }
+	%         \note[item]{With a single call to the getFileReader() method from the FileReaderFactory, specifying the file type, we retrieve an appropriate FileReader. }
+	%         \note[item]{Currently, our application can handle all UNICODE text files and PDFs.}
+	%     \end{frame}
 
 % %  \begin{frame}{Architecture}
-% %      \framesubtitle{Multilanguage Support with ResourceBundle}
-% %      \begin{columns} % Start the columns environment
-% %          \begin{column}{0.6\textwidth} % Define the width of the left column
-% %              \begin{itemize}
-% %                  \item Ready for global adaptability.
-% %                  \item Future-proofing architectural choice.
-% %                  \item Potential to accommodate multiple languages.
-% %              \end{itemize}
-% %          \end{column}
-% %          \begin{column}{0.4\textwidth} % Define the width of the right column
-% %              \includegraphics[width=0.7\textwidth]{pictures/URL_Archiver_Class_Diagram-I18n}
-% %          \end{column}
-% %      \end{columns} % End the columns environment
-% %  \end{frame}
+	% %      \framesubtitle{Multilanguage Support with ResourceBundle}
+	% %      \begin{columns} % Start the columns environment
+		% %          \begin{column}{0.6\textwidth} % Define the width of the left column
+			% %              \begin{itemize}
+				% %                  \item Ready for global adaptability.
+				% %                  \item Future-proofing architectural choice.
+				% %                  \item Potential to accommodate multiple languages.
+				% %              \end{itemize}
+			% %          \end{column}
+		% %          \begin{column}{0.4\textwidth} % Define the width of the right column
+			% %              \includegraphics[width=0.7\textwidth]{pictures/URL_Archiver_Class_Diagram-I18n}
+			% %          \end{column}
+		% %      \end{columns} % End the columns environment
+	% %  \end{frame}
 
 
 % % Slide for Key Components
 
 %     \subsection{Data Model}
 %     \begin{frame}{Key Components of the Data Model}
-%         \framesubtitle{Overview}
-%         \begin{columns} % Start the columns environment
-%             \begin{column}{0.5\textwidth} % Define the width of the left column
-%                 \begin{itemize}
-%                     \item \textbf{FileModel}: Represents and handles individual files
-%                     \item \textbf{FolderModel}: Manages a collection of FileModel instances
-%                     \item \textbf{URLPair}: Links extracted URLs with their archived counterparts
-%                     \item \textbf{FileReaderFactory}: Organizes and maintains URLPairs
-%                     \item \textbf{URLExtractor}: Used for URL extraction
-%                     \item \textbf{URLArchiver}: Used for URL archiving
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.5\textwidth} % Define the width of the right column
-%                 \includegraphics[width=1\textwidth]{figures/URL_Archiver_Class_Diagram-DataModel}
-%             \end{column}
-%         \end{columns} % End the columns environment
-%         \note{Now, let us discuss our data model. It is consists of the following classes:}
-%         \note[item]{The FileModel class manages the details of individual files. Each FileModel potentially containing multiple URLPair objects.}
-%         \note[item]{The FolderModel is applied when a user provides a folder path, storing the folder's structure and containing a list of FileModel objects.}
-%         \note[item]{The FileReaderFactory is our system for providing the right reader for a file, based on its type. This ensures that each file is read correctly and efficiently.}
-%         \note[item]{With the URLExtractor, our model extracts URLs from text, and the URLArchiver takes care of the URL archiving process.}
-%         \note[item]{This setup not only facilitates a clear division of tasks among the different components but also streamlines the process of archiving and retrieving URLs.}
-%         \note[item]{And now to the technologies we use for development.}
-%     \end{frame}
+	%         \framesubtitle{Overview}
+	%         \begin{columns} % Start the columns environment
+		%             \begin{column}{0.5\textwidth} % Define the width of the left column
+			%                 \begin{itemize}
+				%                     \item \textbf{FileModel}: Represents and handles individual files
+				%                     \item \textbf{FolderModel}: Manages a collection of FileModel instances
+				%                     \item \textbf{URLPair}: Links extracted URLs with their archived counterparts
+				%                     \item \textbf{FileReaderFactory}: Organizes and maintains URLPairs
+				%                     \item \textbf{URLExtractor}: Used for URL extraction
+				%                     \item \textbf{URLArchiver}: Used for URL archiving
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.5\textwidth} % Define the width of the right column
+			%                 \includegraphics[width=1\textwidth]{figures/URL_Archiver_Class_Diagram-DataModel}
+			%             \end{column}
+		%         \end{columns} % End the columns environment
+	%         \note{Now, let us discuss our data model. It is consists of the following classes:}
+	%         \note[item]{The FileModel class manages the details of individual files. Each FileModel potentially containing multiple URLPair objects.}
+	%         \note[item]{The FolderModel is applied when a user provides a folder path, storing the folder's structure and containing a list of FileModel objects.}
+	%         \note[item]{The FileReaderFactory is our system for providing the right reader for a file, based on its type. This ensures that each file is read correctly and efficiently.}
+	%         \note[item]{With the URLExtractor, our model extracts URLs from text, and the URLArchiver takes care of the URL archiving process.}
+	%         \note[item]{This setup not only facilitates a clear division of tasks among the different components but also streamlines the process of archiving and retrieving URLs.}
+	%         \note[item]{And now to the technologies we use for development.}
+	%     \end{frame}
 
 % %\begin{frame}{Data Model}
 % %    \framesubtitle{FolderModel Class}
 % %    \begin{columns} % Start the columns environment
-% %        \begin{column}{0.5\textwidth} % Define the width of the left column
-% %            \begin{itemize}
-% %                \item Utilized upon user-defined folder path.
-% %                \item Stores folder structure within FolderModel.
-% %                \item Contains list of FileModel objects.
-% %                \item Essential for archiving URLs into .BIB files.
-% %                \item Facilitates clear division of responsibilities.
-% %            \end{itemize}
-% %        \end{column}
-% %        \begin{column}{0.5\textwidth} % Define the width of the right column
-% %            \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-DataModel_1}
-% %        \end{column}
-% %    \end{columns} % End the columns environment
+	% %        \begin{column}{0.5\textwidth} % Define the width of the left column
+		% %            \begin{itemize}
+			% %                \item Utilized upon user-defined folder path.
+			% %                \item Stores folder structure within FolderModel.
+			% %                \item Contains list of FileModel objects.
+			% %                \item Essential for archiving URLs into .BIB files.
+			% %                \item Facilitates clear division of responsibilities.
+			% %            \end{itemize}
+		% %        \end{column}
+	% %        \begin{column}{0.5\textwidth} % Define the width of the right column
+		% %            \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-DataModel_1}
+		% %        \end{column}
+	% %    \end{columns} % End the columns environment
 % %    \note{The FolderModel class is only used when the user specifies a path to a folder. In such a case, the structure of the folder is stored in the FolderModel, i.e. there is a list of FileModel objects. }
 % %    \note[item]{This will be important later when the archive URLs are written back to a file (.BIB).}
 % %    \note[item]{It also allows us to separate the responsibilities nicely.  }
@@ -787,19 +890,19 @@
 % %\begin{frame}{Data Model}
 % %    \framesubtitle{FileModel Class}
 % %    \begin{columns} % Start the columns environment
-% %        \begin{column}{0.5\textwidth} % Define the width of the left column
-% %            \begin{itemize}
-% %                \item FileModel operates independently or within FolderModel.
-% %                \item Stores list of URLPair objects.
-% %                \item Utilizes FileReaderFactory to select appropriate reader.
-% %                \item Extracts and saves URLs using URLExtractor.
-% %                \item Archives URLs upon user's command with URLArchiver.
-% %            \end{itemize}
-% %        \end{column}
-% %        \begin{column}{0.5\textwidth} % Define the width of the right column
-% %            \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-DataModel_2}
-% %        \end{column}
-% %    \end{columns} % End the columns environment
+	% %        \begin{column}{0.5\textwidth} % Define the width of the left column
+		% %            \begin{itemize}
+			% %                \item FileModel operates independently or within FolderModel.
+			% %                \item Stores list of URLPair objects.
+			% %                \item Utilizes FileReaderFactory to select appropriate reader.
+			% %                \item Extracts and saves URLs using URLExtractor.
+			% %                \item Archives URLs upon user's command with URLArchiver.
+			% %            \end{itemize}
+		% %        \end{column}
+	% %        \begin{column}{0.5\textwidth} % Define the width of the right column
+		% %            \includegraphics[width=1\textwidth]{pictures/URL_Archiver_Class_Diagram-DataModel_2}
+		% %        \end{column}
+	% %    \end{columns} % End the columns environment
 % %    \note[item]{The FileModel class can exist without a FolderModel class.}
 % %    \note[item]{This is the case when the user specifies only one file.}
 % %    \note[item]{In any case, the FileModel class is currently responsible for storing a list of URLPairs objects. }
@@ -809,67 +912,67 @@
 
 %     \subsection{Technologies}
 %     \begin{frame}{Technologies I/II}
-%         \begin{columns}
-%             \begin{column}{0.7\textwidth}
-%                 \begin{itemize}
-%                     \item \textbf{Java}: The primary programming language for our application
-%                     \item \textbf{LaTeX}: Used for documentation and presentation
-%                     \item \textbf{JUnit 5}: Utilized for unit testing
-%                     \item \textbf{PDFTextStripper (PDFBox library)}: Used for extracting text from PDF documents
-%                     \item \textbf{Selenium}: Web automation tool used for tasks like inputting URLs, handling \textbf{captchas}, and retrieving archived URLs due to the absence of an official API from archive.today
-%                     \item \textbf{Maven}: Essential for compilation, dependency management, and building the project
-%                 \end{itemize}
-
-%                 \note[item]{The application is developed in Java, while the report, presentations, and user manual are authored in LaTeX.}
-%                 \note[item]{For testing, we utilize JUnit 5, and for text extraction from PDFs, we rely on PDFTextStripper. }
-%                 \note[item]{The archiving process on Archive.today is executed using Selenium to navigate the lack of an API and to address captcha challenges.}
-%                 \note[item]{Additionally, we use Maven for building the application and managing dependencies.}
-%             \end{column}
-
-%             \begin{column}{0.3\textwidth}
-%                 \includegraphics[height=0.5cm]{pictures/Java-Logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=0.5cm]{pictures/LaTeX_logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=0.5cm]{pictures/JUnit_5_Logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=0.5cm]{pictures/Apache_PDFBox_logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=0.5cm]{pictures/Selenium_logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=0.5cm]{pictures/Apache_Maven_logo}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%         \begin{columns}
+		%             \begin{column}{0.7\textwidth}
+			%                 \begin{itemize}
+				%                     \item \textbf{Java}: The primary programming language for our application
+				%                     \item \textbf{LaTeX}: Used for documentation and presentation
+				%                     \item \textbf{JUnit 5}: Utilized for unit testing
+				%                     \item \textbf{PDFTextStripper (PDFBox library)}: Used for extracting text from PDF documents
+				%                     \item \textbf{Selenium}: Web automation tool used for tasks like inputting URLs, handling \textbf{captchas}, and retrieving archived URLs due to the absence of an official API from archive.today
+				%                     \item \textbf{Maven}: Essential for compilation, dependency management, and building the project
+				%                 \end{itemize}
+			
+			%                 \note[item]{The application is developed in Java, while the report, presentations, and user manual are authored in LaTeX.}
+			%                 \note[item]{For testing, we utilize JUnit 5, and for text extraction from PDFs, we rely on PDFTextStripper. }
+			%                 \note[item]{The archiving process on Archive.today is executed using Selenium to navigate the lack of an API and to address captcha challenges.}
+			%                 \note[item]{Additionally, we use Maven for building the application and managing dependencies.}
+			%             \end{column}
+		
+		%             \begin{column}{0.3\textwidth}
+			%                 \includegraphics[height=0.5cm]{pictures/Java-Logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=0.5cm]{pictures/LaTeX_logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=0.5cm]{pictures/JUnit_5_Logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=0.5cm]{pictures/Apache_PDFBox_logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=0.5cm]{pictures/Selenium_logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=0.5cm]{pictures/Apache_Maven_logo}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 
 %     \begin{frame}{Technologies II/II}
-%         \begin{columns}
-%             \begin{column}{0.7\textwidth}
-%                 \begin{itemize}
-%                     \item \textbf{Archive.today}: One of the services used by the URL-Archiver to archive URLs
-%                     \item \textbf{Wayback Machine}: One of the services used by the URL-Archiver to archive URLs
-%                     \item \textbf{JetBrains IntelliJ IDEA}: Used to develop the program and create the report and presentation in Latex
-%                     \item \textbf{GitHub}: A platform for code hosting and collaboration, allowing us to manage our program's development and version control
-%                     \item \textbf{Atlassian Jira}: A tool for tracking progress and managing our project goals and tasks
-%                 \end{itemize}
-%             \end{column}
-%             \begin{column}{0.3\textwidth}
-%                 \includegraphics[height=1cm]{pictures/Wayback_Machine_logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=1cm]{pictures/archive_today_logo}
-%                 \vspace{1em}
-%                 \includegraphics[height=1cm]{pictures/IntelliJ_IDEA_Icon}
-%                 \vspace{1em}
-%                 \includegraphics[height=1cm]{pictures/github-mark}
-%                 \vspace{1em}
-%                 \includegraphics[height=1cm]{pictures/jira_logo}
-%             \end{column}
-%         \end{columns}
-%         \note[item]{Furthermore, we rely on Archive.today and additionally on the Wayback Machine to archive URLs.}
-%         \note[item]{As our development environment, we use JetBrains' IntelliJ IDEA.}
-%         \note[item]{We use Github to store our code and for version control. }
-%         \note[item]{To manage and plan our project, we use Jira.}
-%     \end{frame}
+	%         \begin{columns}
+		%             \begin{column}{0.7\textwidth}
+			%                 \begin{itemize}
+				%                     \item \textbf{Archive.today}: One of the services used by the URL-Archiver to archive URLs
+				%                     \item \textbf{Wayback Machine}: One of the services used by the URL-Archiver to archive URLs
+				%                     \item \textbf{JetBrains IntelliJ IDEA}: Used to develop the program and create the report and presentation in Latex
+				%                     \item \textbf{GitHub}: A platform for code hosting and collaboration, allowing us to manage our program's development and version control
+				%                     \item \textbf{Atlassian Jira}: A tool for tracking progress and managing our project goals and tasks
+				%                 \end{itemize}
+			%             \end{column}
+		%             \begin{column}{0.3\textwidth}
+			%                 \includegraphics[height=1cm]{pictures/Wayback_Machine_logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=1cm]{pictures/archive_today_logo}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=1cm]{pictures/IntelliJ_IDEA_Icon}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=1cm]{pictures/github-mark}
+			%                 \vspace{1em}
+			%                 \includegraphics[height=1cm]{pictures/jira_logo}
+			%             \end{column}
+		%         \end{columns}
+	%         \note[item]{Furthermore, we rely on Archive.today and additionally on the Wayback Machine to archive URLs.}
+	%         \note[item]{As our development environment, we use JetBrains' IntelliJ IDEA.}
+	%         \note[item]{We use Github to store our code and for version control. }
+	%         \note[item]{To manage and plan our project, we use Jira.}
+	%     \end{frame}
 
 % %-------------------------------%
 
@@ -883,134 +986,134 @@
 %     \subsection{Scrum Team}
 % % Experiment Slide
 %     \begin{frame}{Our Scrum Team}
-%         \begin{center}
-% % First member
-%             \begin{minipage}{.3\textwidth}
-%                 \centering
-%                 \hexagonimage{pictures/dora_2} \\ % Replace with the correct file name
-%                 \textbf{Nicolin Dora}\\
-%                 Product Owner \& Developer
-%             \end{minipage}
-% % Second member
-%             \begin{minipage}{.3\textwidth}
-%                 \centering
-%                 \hexagonimage{pictures/vejseli_2}\\ % Replace with the correct file name
-%                 \textbf{Abidin Vejseli}\\
-%                 Scrummaster \& Developer
-%             \end{minipage}
-% % Third member
-%             \begin{minipage}{.3\textwidth}
-%                 \centering
-%                 \hexagonimage{pictures/wampfler_2}\\ % Replace with the correct file name
-%                 \textbf{Kilian Wampfler}\\
-%                 Developer
-%             \end{minipage}
-%         \end{center}
-%     \end{frame}
+	%         \begin{center}
+		% % First member
+		%             \begin{minipage}{.3\textwidth}
+			%                 \centering
+			%                 \hexagonimage{pictures/dora_2} \\ % Replace with the correct file name
+			%                 \textbf{Nicolin Dora}\\
+			%                 Product Owner \& Developer
+			%             \end{minipage}
+		% % Second member
+		%             \begin{minipage}{.3\textwidth}
+			%                 \centering
+			%                 \hexagonimage{pictures/vejseli_2}\\ % Replace with the correct file name
+			%                 \textbf{Abidin Vejseli}\\
+			%                 Scrummaster \& Developer
+			%             \end{minipage}
+		% % Third member
+		%             \begin{minipage}{.3\textwidth}
+			%                 \centering
+			%                 \hexagonimage{pictures/wampfler_2}\\ % Replace with the correct file name
+			%                 \textbf{Kilian Wampfler}\\
+			%                 Developer
+			%             \end{minipage}
+		%         \end{center}
+	%     \end{frame}
 
 % % Experiment Slide
 %     \begin{frame}{Other Roles}
-%         \begin{center}
-% % First member
-%             \begin{minipage}{.3\textwidth}
-%                 \centering
-%                 \hexagonimage{pictures/kramer_2} \\ % Replace with the correct file name
-%                 \textbf{Dr. Simon Kramer}\\
-%                 Stakeholder \& Customer
-%             \end{minipage}
-% % Second member
-%             \begin{minipage}{.3\textwidth}
-%                 \centering
-%                 \hexagonimage{pictures/helbling_2}\\ % Replace with the correct file name
-%                 \textbf{Frank Helbling}\\
-%                 PM-Advisor
-%             \end{minipage}
-%         \end{center}
-%     \end{frame}
+	%         \begin{center}
+		% % First member
+		%             \begin{minipage}{.3\textwidth}
+			%                 \centering
+			%                 \hexagonimage{pictures/kramer_2} \\ % Replace with the correct file name
+			%                 \textbf{Dr. Simon Kramer}\\
+			%                 Stakeholder \& Customer
+			%             \end{minipage}
+		% % Second member
+		%             \begin{minipage}{.3\textwidth}
+			%                 \centering
+			%                 \hexagonimage{pictures/helbling_2}\\ % Replace with the correct file name
+			%                 \textbf{Frank Helbling}\\
+			%                 PM-Advisor
+			%             \end{minipage}
+		%         \end{center}
+	%     \end{frame}
 
 %     \subsection{Our Scrum Adaptions}
 %     \begin{frame}{Our Scrum Adaptions}
-%         \framesubtitle{Sprint}
-%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint}
-%     \end{frame}
+	%         \framesubtitle{Sprint}
+	%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint}
+	%     \end{frame}
 
 %     \begin{frame}{Our Scrum Adaptions}
-%         \framesubtitle{Sprint Planning}
-%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Planning}
-%     \end{frame}
+	%         \framesubtitle{Sprint Planning}
+	%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Planning}
+	%     \end{frame}
 
 %     \begin{frame}{Our Scrum Adaptions}
-%         \framesubtitle{Daily Scrum}
-%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Daily_Scrum}
-%     \end{frame}
+	%         \framesubtitle{Daily Scrum}
+	%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Daily_Scrum}
+	%     \end{frame}
 
 %     \begin{frame}{Our Scrum Adaptions}
-%         \framesubtitle{Sprint Review}
-%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Review}
-%     \end{frame}
+	%         \framesubtitle{Sprint Review}
+	%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Review}
+	%     \end{frame}
 
 %     \begin{frame}{Our Scrum Adaptions}
-%         \framesubtitle{Sprint Retro}
-%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Retro}
-%     \end{frame}
+	%         \framesubtitle{Sprint Retro}
+	%         \includegraphics[width=1\textwidth]{figures/scrum_adaptions-Sprint_Retro}
+	%     \end{frame}
 
 %     \subsection{Scrum implementation}
 %     \begin{frame}{Estimation Method}
-%         \framesubtitle{T-Shirt Sizes}
-%         \begin{center}
-%             \includegraphics[width=0.6\textwidth]{pictures/tshirt_sizes}
-%         \end{center}
-%     \end{frame}
+	%         \framesubtitle{T-Shirt Sizes}
+	%         \begin{center}
+		%             \includegraphics[width=0.6\textwidth]{pictures/tshirt_sizes}
+		%         \end{center}
+	%     \end{frame}
 
 %     \begin{frame}{Velocity}
-%         \begin{center}
-%             \includegraphics[width=1\textwidth]{pictures/GANT-Diagramm}
-%         \end{center}
-%     \end{frame}
+	%         \begin{center}
+		%             \includegraphics[width=1\textwidth]{pictures/GANT-Diagramm}
+		%         \end{center}
+	%     \end{frame}
 
 %     \begin{frame}{Backlog}
-%         \begin{center}
-%             \includegraphics[width=1\textwidth]{pictures/Backlog 1}
-%         \end{center}
-%     \end{frame}
+	%         \begin{center}
+		%             \includegraphics[width=1\textwidth]{pictures/Backlog 1}
+		%         \end{center}
+	%     \end{frame}
 
 %     \begin{frame}{Epics}
-%         \begin{center}
-%             \includegraphics[width=0.8\textwidth]{pictures/Epic}
-%         \end{center}
-%     \end{frame}
+	%         \begin{center}
+		%             \includegraphics[width=0.8\textwidth]{pictures/Epic}
+		%         \end{center}
+	%     \end{frame}
 
 %     \begin{frame}{Spint 2}
-%         \framesubtitle{Sprint Goal}
-%         \includegraphics[width=1\textwidth]{pictures/SprintBacklog 1}
-%     \end{frame}
+	%         \framesubtitle{Sprint Goal}
+	%         \includegraphics[width=1\textwidth]{pictures/SprintBacklog 1}
+	%     \end{frame}
 
 %     \begin{frame}{Spint 2}
-%         \framesubtitle{Categories}
-%         \includegraphics[width=1\textwidth]{pictures/Sprint Backlog 2}
-%     \end{frame}
+	%         \framesubtitle{Categories}
+	%         \includegraphics[width=1\textwidth]{pictures/Sprint Backlog 2}
+	%     \end{frame}
 
 %     \begin{frame}{User Story}
-%         \framesubtitle{Description, Acceptance Criteria, DOR and DOD}
-%         \begin{center}
-%             \includegraphics[width=1\textwidth]{pictures/User Story 1}
-%         \end{center}
-%     \end{frame}
+	%         \framesubtitle{Description, Acceptance Criteria, DOR and DOD}
+	%         \begin{center}
+		%             \includegraphics[width=1\textwidth]{pictures/User Story 1}
+		%         \end{center}
+	%     \end{frame}
 
 %     \begin{frame}{Our learnings}
-%         \begin{columns}
-%             \begin{column}{0.5\textwidth}
-%                 \begin{center}
-%                     \includegraphics[width=0.8\textwidth]{pictures/scrum_adaptions-learnings}
-%                 \end{center}
-%             \end{column}
-%             \begin{column}{0.5\textwidth}
-%                 \begin{center}
-%                     \includegraphics[width=0.8\textwidth]{pictures/Learnings}
-%                 \end{center}
-%             \end{column}
-%         \end{columns}
-%     \end{frame}
+	%         \begin{columns}
+		%             \begin{column}{0.5\textwidth}
+			%                 \begin{center}
+				%                     \includegraphics[width=0.8\textwidth]{pictures/scrum_adaptions-learnings}
+				%                 \end{center}
+			%             \end{column}
+		%             \begin{column}{0.5\textwidth}
+			%                 \begin{center}
+				%                     \includegraphics[width=0.8\textwidth]{pictures/Learnings}
+				%                 \end{center}
+			%             \end{column}
+		%         \end{columns}
+	%     \end{frame}
 
 
 % %----------------------------------------%
