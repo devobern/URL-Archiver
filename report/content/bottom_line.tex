@@ -1,0 +1,85 @@
+\section{Bottom Line}
+
+\subsection{Conclusion}
+The journey of developing the URL-Archiver has been a mix of unexpected challenges and rewarding experiences.
+Initially assumed to be straightforward, the project revealed its complexity as we delved deeper.
+This experience highlighted the importance of effective team communication, a critical factor in overcoming the unforeseen challenges of the project.
+Reflecting on our approach, establishing a more robust project structure from the beginning would have been beneficial.
+Despite these challenges, the project was rewarding and a great learning experience.
+
+One of the key takeaways was the value of practical experience with Git.
+This tool not only enhanced our collaborative efforts but also contributed to our personal skill development.
+Remarkably, the URL-Archiver stands as our first project built entirely from scratch, marking a significant milestone in our journey as developers.
+
+We firmly believe that the URL-Archiver has the potential to be a valuable asset to its users.
+By significantly reducing the time and effort required for extracting and archiving URLs, the application promises an increase in productivity for its users.
+This improvement is not just theoretical; it's a practical solution addressing a real need in the digital world.
+
+In conclusion, while the project journey had its ups and downs, the collective learning and the potential impact of the URL-Archiver make it a fulfilling experience.
+We are optimistic about its utility and look forward to seeing its adoption and evolution in the professional world.
+
+\subsection{Productivity Increase Calculation}
+This section calculates the estimated productivity increase for users of our URL-Archiver software.
+The calculation factors include task duration without and with the software, the resulting time economy, cost per time unit, and overall cost economy.
+
+\subsubsection{Assumptions}
+The following assumptions were made for our calculations:
+\begin{itemize}
+    \item The file contains 60 URLs.
+    \item Without URL-Archiver, manually finding and copying each URL takes approximately 12 seconds.
+    \item The URL-Archiver takes an average of 2 seconds to find all URLs in a file.
+    \item Archiving one URL using Wayback Machine manually takes 60 seconds.
+    \item Archiving one URL using Archive Today manually takes 90 seconds.
+    \item With URL-Archiver, initiating the archiving process for one URL in Wayback Machine takes 10 seconds. The actual archiving in the background takes in average 30 seconds.
+    \item Archiving one URL using Archive Today remains at 90 seconds even with the URL-Archiver.
+    \item The average hourly wage for a professional in Switzerland is CHF 40.
+    \item Parallel archiving with Wayback Machine allows for multiple URLs to be archived concurrently, reducing the total time significantly.
+\end{itemize}
+
+\subsubsection{Wayback Machine Analysis}
+\textbf{Without URL-Archiver:}
+\begin{align*}
+    \text{Task duration without SW} &= \text{URL extraction} + \text{URL archiving} \\
+    &= (60 \times 12\, \text{seconds}) + (60 \times 60\, \text{seconds}) \\
+    &= 720\, \text{seconds} + 3600\, \text{seconds} \\
+    &= 4320\, \text{seconds (72 minutes)}
+\end{align*}
+
+\textbf{With URL-Archiver:}
+\begin{align*}
+    \text{Task duration with SW} &= \text{URL extraction} + \text{URL archiving} \\
+    &= 2\, \text{seconds} + (60 \times 40\, \text{seconds}) \\
+    &= 2\, \text{seconds} + 2400\, \text{seconds} \\
+    &= 2402\, \text{seconds (40 minutes)}
+\end{align*}
+
+\textbf{Productivity Increase:}
+\begin{align*}
+    \text{Task duration economy} &= 72 - 40 = 32\, \text{minutes} \\
+    \text{Cost per time unit} &= \frac{40\, \text{CHF}}{60\, \text{minutes}} \\
+    \text{Cost economy} &= 32 \times \left( \frac{40\, \text{CHF}}{60} \right) = 21.33\, \text{CHF per document}
+\end{align*}
+
+\subsubsection{Archive Today Analysis}
+\textbf{Without URL-Archiver:}
+\begin{align*}
+    \text{Task duration without SW} &= \text{URL extraction} + \text{URL archiving} \\
+    &= (60 \times 12\, \text{seconds}) + (60 \times 90\, \text{seconds}) \\
+    &= 720\, \text{seconds} + 5400\, \text{seconds} \\
+    &= 6120\, \text{seconds (102 minutes)}
+\end{align*}
+
+\textbf{With URL-Archiver:}
+\begin{align*}
+    \text{Task duration with SW} &= \text{URL extraction} + \text{URL archiving} \\
+    &= 2\, \text{seconds} + (60 \times 90\, \text{seconds}) \\
+    &= 2\, \text{seconds} + 5400\, \text{seconds} \\
+    &= 5402\, \text{seconds (90 minutes)}
+\end{align*}
+
+\textbf{Productivity Increase:}
+\begin{align*}
+    \text{Task duration economy} &= 102 - 90 = 12\, \text{minutes} \\
+    \text{Cost per time unit} &= \frac{40\, \text{CHF}}{60\, \text{minutes}} \\
+    \text{Cost economy} &= 12 \times \left( \frac{40\, \text{CHF}}{60} \right) = 8.00\, \text{CHF per document}
+\end{align*}
