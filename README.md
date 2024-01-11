@@ -189,6 +189,31 @@ For Bibtex entries:
 - Without an existing note field, URLs are added as: note = {Archived Versions: \url{url1}, \url{url2}}
 - With a note field, they're appended as: note = {<current note>, Archived Versions: \url{url1}, \url{url2}}
 
+## Project Status and Future Contributions
+
+### Current Development Status
+Currently, the development of URL-Archiver by the [original team](#authors) is on hold. This is due to our work and academic commitments, which prevent us from dedicating the necessary time to further develop the project in the near future.
+
+### Open for Contributions
+
+We welcome and encourage the open-source community to contribute to the development and enhancement of the URL-Archiver.
+
+If you are interested in contributing, please ensure that any contributions adhere to the project's existing license terms.
+
+We look forward to seeing how the URL-Archiver grows and evolves with the community's support and contributions.
+
+
+## Future Work
+While we are currently not in a position to actively pursue these enhancements, we believe the following improvements would significantly contribute to the project's evolution and utility:
+- [ ] Improving the URL extraction algorithm for more efficient and accurate results.
+- [ ] Expanding support for various input file types.
+- [ ] Implementing a user-friendly graphical interface.
+- [ ] Enabling multilingual support for global accessibility.
+- [ ] Automatically archiving all URLs in a file for efficiency.
+- [ ] Providing more detailed setting options for user customization.
+- [ ] Publishing the application in package repositories to simplify installation.
+- [ ] Improving the code layout, like breaking up the controller for better clarity.
+
 ## Deinstallation
 
 To deinstall the application, simply delete the folder containing the application.
