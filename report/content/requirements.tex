@@ -7,22 +7,37 @@ In this section, we outline the main features (Epics) of the project and break t
 \input{content/epic3}
 \input{content/epic4}
 \input{content/epic5}
+\clearpage
+\subsection{Functional requirements}
+The URL-Archiver project, as described in the task document, is designed to be a platform-independent Java program that performs several key functions:
 
-\subsection{Functional requirements (added value)}
-The following is required for the application to run properly: 
 \begin{itemize}
-    \item Java (required: version 19 or later)
-    \item Maven (recommended: 3.8 or later)
-    \item Following Browsers are required: 
-    \begin{itemize}
-        \item For Windows: Edge (Chrome \& Firefox are supported)
-        \item For Linux: Firefox (Chrome is supported)
-        \item For Mac: Chrome or Firefox
-    \end{itemize}
-    \item maven and java must be added to the path variable (for installation script)
-    \item If you want to use the WayBackMachine, you will need a login and S3 credentials.
+    \item \textbf{Input Processing:} It accepts directories or files (including various text and PDF formats) as input and scans them for URLs.
+    \item \textbf{URL Extraction:} The program extracts all URLs using regular expressions.
+    \item \textbf{Optional Browser Interaction:} It has an optional feature to open URLs in a web browser.
+    \item \textbf{URL Archiving:} The program posts URLs to an archiving service (archive.today \& WayBackMachine) and retrieves the archived URLs.
+    \item \textbf{Output Generation:} It outputs a CSV file containing the original and archived URL pairs.
+    \item \textbf{Optional File Integration:} The program can optionally insert archived URLs into a .BIB file.
 \end{itemize}
 
-\subsection{Boundary and Pre-Conditions}
-It is assumed that the user has basic computer knowledge. The user should also be familiar with the CLI of his operating system.
-Also, the application is currently only available in English, so a basic knowledge of English is helpful.
+Additionally, the project emphasizes minimal, modular, and self-explanatory code. The report for the project is expected to be concise and include this project description.
+
+\subsection{Boundary}
+The following limits apply:
+
+\begin{itemize}
+    \item \textbf{Input:} The application processes only text files (e.g.: .BIB, .TEX; .HTML; etc.) and PDF files
+    \item \textbf{Output:} The application exports the extracted and archived URLs only as CSV or direct in a BIB file
+    \item \textbf{Archiving:} The application supports at the moment only archive.today and WayBackMachine (for restrictions on the APIs of these services, please refer to the documentation of the archiving services themselves)
+\end{itemize}
+\clearpage
+\subsection{Pre-conditions}
+For the application to run smoothly, the following pre-conditions must be met:
+
+\begin{itemize}
+    \item \textbf{Java Environment:} The application requires a Java runtime environment to be installed on the system where it will be executed.
+    \item \textbf{File Formats:} The software is designed to work with specific file formats, primarily text and PDF files. Ensuring these are the file types provided is necessary for successful operation.
+    \item \textbf{Archiving Service Access:} The application needs access to an internet connection and web archiving services, such as archive.ph, for URL archiving functionalities.
+    \item \textbf{Login + S3 Credentials (WayBackMachine only):} For archiving with the WayBackMachine a login and S3-Credentials are required.
+\end{itemize}
+\clearpage
