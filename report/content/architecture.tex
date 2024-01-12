@@ -3,10 +3,15 @@ This chapter describes the architecture of the application.
 
 \subsection{Frontend}
 The frontend architecture of this application is structured around a console-based interface, as indicated by the `ConsoleView` and `CLIController` classes. The `ConsoleView` class is responsible for presenting information to the user and handling user input in a console environment. It's designed to display data and messages in a clear and user-friendly manner. The `CLIController`, part of the Controller component in the MVC pattern, acts as an intermediary between the `ConsoleView` and the application's backend. It processes user inputs received through the `ConsoleView`, interacts with the model to retrieve or update data, and then reflects these changes back on the console interface. This architecture allows for a straightforward and efficient user interaction in a command-line environment.
-\vskip 1cm
-\begin{center}
+\vskip 0.5cm
+\begin{figure}[h!]
+    \center
     \includegraphics[width=1\textwidth]{pictures/final_presentation/command_line_application.jpg}
-\end{center}
+    \caption{Screenshot of the Console View}
+    \label{fig:Screenshot_ConsoleView}
+\end{figure}
+
+
 
 \clearpage
 
@@ -26,10 +31,14 @@ The MVC (Model-View-Controller) pattern, as depicted in the following diagram, i
 The interaction between these components allows for efficient code separation, easier maintenance, and development. The Main class acts as the entry point of the application, orchestrating the MVC pattern. The Controller uses and updates the Model, and the View is also updated accordingly, maintaining a clear separation of concerns.
 
 Below is an overview of the MVC pattern used in this application.
-\vskip 0.3cm
-\begin{center}
-    \includegraphics[width=0.8\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
-\end{center}
+
+\begin{figure}[h!]
+    \center
+    \includegraphics[width=0.7\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
+    \caption{Highlevel Diagram of implemented MVC Pattern}
+    \label{fig:MVC_Highlevel}
+\end{figure}
+
 \clearpage
 
 \subsubsection{Factory Pattern}
@@ -49,17 +58,24 @@ The following two diagrams illustrate these factories.
 \clearpage
 
 \textbf{FileReaderFactory:} \\
-\vskip 0.5cm
-\begin{center}
-    \includegraphics[width=0.6\textwidth]{pictures/FileReaderFactory-0.png}
-\end{center}
-\vskip 1cm
-\textbf{ExporterFactory:} \\
-\vskip 0.5cm
-\begin{center}
-    \includegraphics[width=1\textwidth]{pictures/ExporterFactory-0.png}
-\end{center}
 
+\begin{figure}[h!]
+    \center
+    \includegraphics[width=0.5\textwidth]{pictures/FileReaderFactory-0.png}
+    \caption{Diagram of the FileReader Factory}
+    \label{fig:FileReaderFactory_Diagram}
+\end{figure}
+
+\textbf{ExporterFactory:} \\
+
+\begin{figure}[h!]
+    \center
+    \includegraphics[width=0.9\textwidth]{pictures/ExporterFactory-0.png}
+    \caption{Diagram of the Exporter Factory}
+    \label{fig:ExporterFactory_Diagram}
+\end{figure}
+
+\clearpage
 \subsubsection{Config File}
 In this application, the use of a configuration JSON file is instrumental for managing various settings and parameters. The application includes classes like `ConfigModel` and `ConfigFileHelper` to interact with this file. `ConfigModel` defines the structure of the configuration data, ensuring that all necessary settings are represented and easily accessible within the application. `ConfigFileHelper`, on the other hand, handles the reading and writing of the JSON configuration file, abstracting these operations from the rest of the application's code. This approach not only simplifies the management of configuration settings but also enhances the application's flexibility, as changes to configuration do not require alterations in the codebase.
 
@@ -95,4 +111,7 @@ This adherence to SOLID principles indicates a well-structured, maintainable, an
 \subsubsection{Class Diagram}
 Below the complete class diagram of this application is displayed. 
 
+\clearpage
+
 \includepdf[pages=1,fitpaper]{diagrams/uml_diagram.pdf}
+
