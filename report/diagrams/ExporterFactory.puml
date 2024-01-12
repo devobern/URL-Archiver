@@ -12,7 +12,7 @@ class BIBExporter {
 + exportURLs(fileModel: FileModel, destinationPath: String)
 + exportURLs(folderModel: FolderModel, destinationPath: String)
 }
-Exporter <|.. BIBExporter
+Exporter <|.. BIBExporter : implements
 
 class CSVExporter {
 - {static} DELIMITER: String
@@ -21,7 +21,7 @@ class CSVExporter {
 + exportURLs(fileModel: FileModel, destinationPath: String)
 + exportURLs(folderModel: FolderModel, destinationPath: String)
 }
-Exporter <|.. CSVExporter
+Exporter <|.. CSVExporter : implements
 
 class ExporterFactory {
 + {static} getExporter(type: String): Exporter
