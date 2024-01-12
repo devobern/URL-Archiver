@@ -1,12 +1,21 @@
 \section{Architecture (e.g., back-/frontend)}
-This is a CLI application so our frontend is reduced to a simple user interaction on the console. The application itself is built according to the MVC pattern.
+This chapter describes the architecture of the application. 
+
+\subsection{MVC Pattern}
+This application is developed according to the MVC software architecture pattern. 
+The MVC (Model-View-Controller) pattern, as depicted in the following diagram, is a software architectural pattern for implementing user interfaces. It divides an application into three interconnected components:
+
 \begin{itemize}
-    \item \textbf{M}odel: all data interaction (for this application only runtime data) are handled in a model structure
-    \item \textbf{V}iew: the user interactions and information displaying are handled in a seperate view
-    \item \textbf{C}ontroller: the logic of the application is handled in the controller and some static helper classes
+    \item \textbf{Model:} Represents the data structure, business logic, and rules of the application. In your diagram, the model is represented by classes like FileModel, FolderModel, URLPair, and ConfigModel.
+    \item \textbf{View:} Displays the data (the model) to the user and sends user commands to the controller. The ConsoleView is an example of this component in your diagram.
+    \item \textbf{Controller:} Handles user input, interacts with the model, and selects the view to present. In the diagram, this is represented by CLIController.
+    
 \end{itemize}
-The advantage of this pattern is the clear separation of the view, logic and data. With this pattern it is easy to add a graphical interface (a new view). The controller and data models do not need to be changed in this case. The same is the case if something in the data models change.
-For persistent storing of data the applications writes local json-files (e.g. configuration). Because this application doesn't need to store a lot of data persistently, it doesn't need a database.
-The application is dependent on online archiving services (at the moment archive.today and WayBackMachine). 
-The architecture of the application is shown below as an UML class diagram.
-\includepdf[pages=1,fitpaper]{diagrams/uml_diagram.pdf}
+
+The interaction between these components allows for efficient code separation, easier maintenance, and development. The Main class seems to act as the entry point of the application, orchestrating the MVC pattern. The diagram suggests that the Controller uses and updates the Model, and the View is also updated accordingly, maintaining a clear separation of concerns.
+
+\includegraphics[width=1\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
+\clearpage
+
+
+
