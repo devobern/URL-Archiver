@@ -1,7 +1,18 @@
 \section{Architecture}
 This chapter describes the architecture of the application. 
 
-\subsection{Software Design Pattern}
+\subsection{Frontend}
+The frontend architecture of this application is structured around a console-based interface, as indicated by the `ConsoleView` and `CLIController` classes. The `ConsoleView` class is responsible for presenting information to the user and handling user input in a console environment. It's designed to display data and messages in a clear and user-friendly manner. The `CLIController`, part of the Controller component in the MVC pattern, acts as an intermediary between the `ConsoleView` and the application's backend. It processes user inputs received through the `ConsoleView`, interacts with the model to retrieve or update data, and then reflects these changes back on the console interface. This architecture allows for a straightforward and efficient user interaction in a command-line environment.
+\vskip 1cm
+\begin{center}
+    \includegraphics[width=1\textwidth]{pictures/final_presentation/command_line_application.jpg}
+\end{center}
+
+\clearpage
+
+\subsection{Backend}
+
+\subsubsection{Software Design Pattern}
 This application is developed according to the MVC software architecture pattern. 
 The MVC (Model-View-Controller) pattern, as depicted in the following diagram, is a software architectural pattern for implementing user interfaces. It divides an application into three interconnected components:
 
@@ -15,11 +26,13 @@ The MVC (Model-View-Controller) pattern, as depicted in the following diagram, i
 The interaction between these components allows for efficient code separation, easier maintenance, and development. The Main class acts as the entry point of the application, orchestrating the MVC pattern. The Controller uses and updates the Model, and the View is also updated accordingly, maintaining a clear separation of concerns.
 
 Below is an overview of the MVC pattern used in this application.
-
-\includegraphics[width=1\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
+\vskip 0.3cm
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
+\end{center}
 \clearpage
 
-\subsection{Factory Pattern}
+\subsubsection{Factory Pattern}
 In this application the factory pattern was used.
 The Factory Pattern in software design is a creational pattern that provides a way to encapsulate the instantiation of objects. Instead of directly creating objects using the `new` operator, this pattern delegates the responsibility of object creation to a factory. This abstraction allows for greater flexibility and scalability in code. It's particularly useful when the exact types of objects to be created can vary or when there needs to be some logic involved in the creation of these objects. The Factory Pattern aids in maintaining a clear separation of concerns and promotes code reusability, making it a fundamental concept in object-oriented design and programming.
 
@@ -47,7 +60,7 @@ The following two diagrams illustrate these factories.
     \includegraphics[width=1\textwidth]{pictures/ExporterFactory-0.png}
 \end{center}
 
-\subsection{Config File}
+\subsubsection{Config File}
 In this application, the use of a configuration JSON file is instrumental for managing various settings and parameters. The application includes classes like `ConfigModel` and `ConfigFileHelper` to interact with this file. `ConfigModel` defines the structure of the configuration data, ensuring that all necessary settings are represented and easily accessible within the application. `ConfigFileHelper`, on the other hand, handles the reading and writing of the JSON configuration file, abstracting these operations from the rest of the application's code. This approach not only simplifies the management of configuration settings but also enhances the application's flexibility, as changes to configuration do not require alterations in the codebase.
 
 The config file looks like this:
@@ -67,13 +80,15 @@ The config file can be modified with the application during runtime. However, th
 At the moment the application saves the credentials for the WayBackMachine and the selected brwoser for the archive.today service.
 \clearpage
 
-\subsection{Frontend}
-The frontend architecture of this application is structured around a console-based interface, as indicated by the `ConsoleView` and `CLIController` classes. The `ConsoleView` class is responsible for presenting information to the user and handling user input in a console environment. It's designed to display data and messages in a clear and user-friendly manner. The `CLIController`, part of the Controller component in the MVC pattern, acts as an intermediary between the `ConsoleView` and the application's backend. It processes user inputs received through the `ConsoleView`, interacts with the model to retrieve or update data, and then reflects these changes back on the console interface. This architecture allows for a straightforward and efficient user interaction in a command-line environment.
-\vskip 1cm
-\begin{center}
-    \includegraphics[width=1\textwidth]{pictures/final_presentation/command_line_application.jpg}
-\end{center}
+\subsubsection{SOLID principles}
+The application was developed with the SOLID principles in mind. 
+\begin{enumerate}
+    \item \textbf{Single Responsibility Principle:} Each class, such as FileReaderFactory, ConfigModel, or CLIController, has a distinct responsibility, ensuring that every module or class handles only one aspect of the application's functionality.
+    \item \textbf{Open/Closed Principle:} The use of interfaces like FileReaderInterface and factory classes allows the application to be open for extension but closed for modification. New functionality can be added with minimal changes to the existing code.
+    \item \textbf{Liskov Substitution Principle:} The design suggests that subclasses (like specific file readers) can be substituted for their parent class or interface without disrupting the application, maintaining the robustness of the design.
+    \item \textbf{Interface Segregation Principle:} The application's design favors lean interfaces, ensuring that classes only implement methods that are necessary for their functionality, as seen in the focused methods of the URLArchiver and Exporter interfaces.
+    \item \textbf{Dependency Inversion Principle:} High-level modules like CLIController do not depend on low-level modules but on abstractions. This is evident in the use of interfaces and factory classes for creating object instances, reducing dependencies on concrete implementations.
+\end{enumerate}
 
-
-
+This adherence to SOLID principles indicates a well-structured, maintainable, and scalable application design.
 \clearpage
