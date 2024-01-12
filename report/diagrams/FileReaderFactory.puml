@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+interface FileReaderInterface {
++ readFile(filePath: Path): String
+}
+
+
+class TextFileReader {
+}
+FileReaderInterface <|.. TextFileReader : implements
+
+class PDFFileReader {
+}
+FileReaderInterface <|.. PDFFileReader : implements
+
+class FileReaderFactory {
+- {static} MIME_TYPE_TEXT: String
+- {static} MIME_TYPE_PDF: String
++ {static} getFileReader(mimeType: String): FileReaderInterface
+}
+FileReaderFactory ..> FileReaderInterface : returns instance of
+
+
+@enduml
