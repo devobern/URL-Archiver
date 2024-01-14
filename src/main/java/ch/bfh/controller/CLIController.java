@@ -513,9 +513,15 @@ public class CLIController {
      * @return true if the user answered yes, false otherwise
      */
     private boolean yesNoPromt(String message, Object... args) {
-        view.printFormattedMessage(message, args);
-        String userInput = scanner.nextLine();
-        return userInput.equalsIgnoreCase("y");
+        while (true) {
+            view.printFormattedMessage(message, args);
+            String userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("n")) {
+                return userInput.equalsIgnoreCase("y");
+            } else {
+                view.printFormattedMessage("action.invalid");
+            }
+        }
     }
 
     private void handleExport() {
