@@ -185,8 +185,8 @@
 \chapter{Implementation}
 \input{content/architecture}
 \input{content/processes}
-\input{content/scrum}
-\input{content/scrum_review}
+%\input{content/scrum}
+%\input{content/scrum_review}
 
 \chapter{Deployment/Integration}
 \input{content/licensing_and_compliance}
@@ -212,9 +212,13 @@
 
 %------------ Appendix ----------------	
 \appendix
-\includepdf[scale=0.9, pages=1, offset=0in -1.5in, pagecommand=\chapter{Original Project Description}]{content/kms4-03_URL-Archiver.pdf}
-\include{content/libraries_and_licenses}
+\chapter{Appendix}
 
+\include{content/appendix}
+\includepdf[scale=0.9, pages=1, offset=0.4in -0.6in, pagecommand=\section{Original Project Description}\label{org_proj_desc}]{content/kms4-03_URL-Archiver.pdf}
+\include{content/libraries_and_licenses}
+\section{Class Diagram}
+\includepdf[pages=1,fitpaper]{diagrams/uml_diagram.pdf}
 %------------ Authorship declaration translated to main language ------------
 \declarationOfAuthorship
 
