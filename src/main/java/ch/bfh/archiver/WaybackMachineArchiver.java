@@ -1,8 +1,11 @@
 package ch.bfh.archiver;
 
+import ch.bfh.controller.CLIController;
 import ch.bfh.exceptions.ArchiverException;
 import ch.bfh.model.ConfigModel;
-import ch.bfh.model.archiving.*;
+import ch.bfh.model.archiving.PendingWaybackMachineJob;
+import ch.bfh.model.archiving.WaybackMachineArchiveResponse;
+import ch.bfh.model.archiving.WaybackMachineJob;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -11,72 +14,60 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-
 /**
- * An implementation of the URLArchiver interface for archiving URLs using the Wayback Machine service.
- * This class encapsulates the functionality specific to the Wayback Machine for archiving purposes.
+ * Archiver implementation for the Wayback Machine service.
+ * This class handles the process of archiving URLs using the Wayback Machine API.
  */
-public class WaybackMachineArchiver implements URLArchiver{
-    private final String serviceName = "WaybackMachine";
-    private final String apiUrl = "https://web.archive.org/save/";
+public class WaybackMachineArchiver implements URLArchiver {
+    private static final String SERVICE_NAME = "WaybackMachine";
+    private final boolean automated = true;
+    private static final String API_URL = "https://web.archive.org/save/";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
     private final ConfigModel config;
+    private final CLIController controller;
 
-    public WaybackMachineArchiver(ConfigModel config) {
+    /**
+     * Constructs a new WaybackMachineArchiver.
+     *
+     * @param config     Configuration model for the archiver.
+     * @param controller Controller for managing CLI interactions.
+     */
+    public WaybackMachineArchiver(ConfigModel config, CLIController controller) {
         this.config = config;
+        this.controller = controller;
     }
 
     /**
-     * Archives the given URL using the Wayback Machine service.
+     * Archives a given URL using the Wayback Machine service.
      *
-     * @param url The URL to be archived.
-     * @return A string representing the archived URL, or null if the archiving operation fails.
+     * @param url URL to be archived.
+     * @return The status of the archiving operation.
+     * @throws ArchiverException if an error occurs during the archiving process.
      */
     @Override
     public String archiveURL(String url) throws ArchiverException {
         try {
-            // The data to be sent in the request body
             String postData = "url=" + url + "&capture_all=1&skip_first_archive=1";
+            HttpRequest request = createPostRequest(API_URL, postData);
+            HttpResponse<String> response = sendRequest(request);
 
-            // The API key for authorization
-            String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
+            validateResponse(response);
 
-            // Create an HttpClient
-            // Todo: Implement IDE hint
-            HttpClient httpClient = HttpClient.newHttpClient();
+            WaybackMachineArchiveResponse archiveResponse = new ObjectMapper().readValue(response.body(), WaybackMachineArchiveResponse.class);
+            WaybackMachineJob job = getWaybackMachineJob(archiveResponse.getJob_id());
 
-            // Create a HttpRequest with the necessary headers and data
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(apiUrl))
-                    .header("Accept", "application/json")
-                    .header("Authorization", apiKey)
-                    .header("Content-Type", "application/x-www-form-urlencoded")
-                    .POST(HttpRequest.BodyPublishers.ofString(postData))
-                    .build();
+            validateJobStatus(job);
 
-            // Send the request and retrieve the response
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            this.controller.addPendingJob(new PendingWaybackMachineJob(url, job, this.controller.getFileModel()));
 
-            // Get the response code and body
-            int statusCode = response.statusCode();
-            String responseBody = response.body();
-
-            if (statusCode > 299) {
-                throw new ArchiverException("Wayback Machine Response is not good: " + responseBody);
-            }
-
-            WaybackMachineArchiveResponse archiveResponse = new ObjectMapper().readValue(responseBody, WaybackMachineArchiveResponse.class);
-
-            WaybackMachineJob job = waitForJob(archiveResponse);
-
-            if (job.getStatus().contains("error")) {
-                throw new ArchiverException("Wayback Machine Website threw an exception: " + job.getException());
-            }
-
-            return "https://web.archive.org/web/" + job.getTimestamp() + "/" + job.getOriginal_url();
-
+            return "pending";
 
         } catch (IOException e) {
-            throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
+            if (e.getMessage() != null) {
+                throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
+            }
+            return "pending";
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new ArchiverException("The archiving operation was interrupted", e);
@@ -84,90 +75,119 @@ public class WaybackMachineArchiver implements URLArchiver{
     }
 
     /**
-     * Checks whether the Wayback Machine service is currently available for use.
+     * Checks if the Wayback Machine service is available.
      *
      * @return true if the service is available, false otherwise.
      */
     @Override
     public boolean isAvailable() {
         try {
-            // The API key for authorization
-            String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder(
-                            URI.create(apiUrl + "status/system"))
-                    .header("accept", "application/json")
-                    .header("Authorization", apiKey)
-                    .GET()
-                    .build();
-
-            // Todo: Implement IDE Hints
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // TODO: use archiving over 12h if SNP-Servers are overloaded
-
-            if (response.statusCode() < 300) {
-                return true;
-            }
-
+            HttpRequest request = createGetRequest(API_URL + "status/system");
+            HttpResponse<String> response = sendRequest(request);
+            return response.statusCode() < 300;
         } catch (IOException | InterruptedException e) {
             return false;
         }
-
-        return false;
     }
 
+
     /**
-     * Retrieves the name of the archiving service provided by this class.
+     * Retrieves the name of the Wayback Machine service.
      *
-     * @return A string representing the name of the Wayback Machine service.
+     * @return The name of the service.
      */
     @Override
     public String getServiceName() {
-        return serviceName;
+        return SERVICE_NAME;
     }
 
     /**
-     * method for waiting till the archiving job is finished
-     * @param archiveResponse the response from the archiving request --> contains the job id
-     * @return returns the successful job --> contains the information to the archived urlAutomated URL Submission Wayback Machine
-     * @throws IOException
-     * @throws InterruptedException
+     * Checks if the archiving service is automated.
+     *
+     * @return true if the service is automated, false otherwise.
      */
-    private WaybackMachineJob waitForJob(WaybackMachineArchiveResponse archiveResponse) throws IOException, InterruptedException {
+    @Override
+    public boolean isAutomated() {
+        return automated;
+    }
 
-        // The API key for authorization
-        String apiKey = "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
+    /**
+     * Retrieves the details of a Wayback Machine job using the provided job ID.
+     *
+     * @param jobId The job ID to query.
+     * @return The retrieved Wayback Machine job details.
+     * @throws IOException          if a network-related exception occurs.
+     * @throws InterruptedException if the thread is interrupted while waiting for the response.
+     */
+    private WaybackMachineJob getWaybackMachineJob(String jobId) throws IOException, InterruptedException {
+        HttpRequest request = createGetRequest(API_URL + "status/" + jobId);
+        HttpResponse<String> response = sendRequest(request);
+        return new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
+    }
 
-        // Create an HttpClient
-        // todo: Implement IDE hint
-        HttpClient httpClient = HttpClient.newHttpClient();
+    /**
+     * Updates the status of all pending jobs.
+     *
+     * @throws ArchiverException if an error occurs while updating job statuses.
+     */
+    public void updatePendingJobs() throws ArchiverException {
+        for (PendingWaybackMachineJob job : this.controller.getPendingJobs()) {
+            updateJobStatus(job);
+        }
+    }
 
-        // Create a HttpRequest with the necessary headers and data
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(apiUrl + "status/" + archiveResponse.getJob_id()))
-                .header("Accept", "application/json")
-                .header("Authorization", apiKey)
-                .header("Content-Type", "application/x-www-form-urlencoded")
+    private HttpRequest createPostRequest(String url, String postData) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Accept", APPLICATION_JSON)
+                .header("Authorization", getApiKey())
+                .header("Content-Type", CONTENT_TYPE)
+                .POST(HttpRequest.BodyPublishers.ofString(postData))
+                .build();
+    }
+
+    private HttpRequest createGetRequest(String url) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Accept", APPLICATION_JSON)
+                .header("Authorization", getApiKey())
                 .GET()
                 .build();
+    }
 
-        // Send the request and retrieve the response
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    private HttpResponse<String> sendRequest(HttpRequest request) throws IOException, InterruptedException {
+        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+    }
 
-        WaybackMachineJob job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
-
-
-        while (job.getStatus().equals("pending")) {
-
-            // Send the request and retrieve the response
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            job = new ObjectMapper().readValue(response.body(), WaybackMachineJob.class);
-            // todo: Could be necessary, but needs to be checked
-            Thread.sleep(3000);
+    private void validateResponse(HttpResponse<String> response) throws ArchiverException {
+        if (response.statusCode() > 299) {
+            throw new ArchiverException("Non-successful response: " + response.body());
         }
+    }
 
-        return job;
+    private void validateJobStatus(WaybackMachineJob job) throws ArchiverException {
+        if (job.getStatus().contains("error")) {
+            throw new ArchiverException("Error in Wayback Machine job: " + job.getException());
+        }
+    }
+
+    private void updateJobStatus(PendingWaybackMachineJob job) throws ArchiverException {
+        if (job.getJob().getStatus().equalsIgnoreCase("pending")) {
+            try {
+                job.setJob(getWaybackMachineJob(job.getJob().getJob_id()));
+            } catch (IOException e) {
+                if (e.getMessage() != null) {
+                    throw new ArchiverException("IO error occurred while getting Job: " + job.getJob().getJob_id(), e);
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new ArchiverException("The archiving operation was interrupted", e);
+            }
+        }
+    }
+
+    private String getApiKey() {
+        return "LOW " + this.config.getAccessKey() + ":" + this.config.getSecretKey();
     }
 }

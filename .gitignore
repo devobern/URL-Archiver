@@ -5,9 +5,37 @@ target/
 
 # Ignore everything in the report/_build directory
 **/report/_build/*
+**/test_files/*
 # But don't ignore .pdf files in report/_build
 !**/report/_build/*.pdf
+!**/report/_build/final_presentation/notes/*.pdf
 
+### Latex stuff ###
+# LaTeX generated files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.dvi
+# I actually want the pdf files in the versioning
+# *.pdf
+*.nav
+*.snm
+*.synctex.gz
+*.glg
+*.ist
+*.lol
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
 
 ### IntelliJ IDEA ###
 .idea

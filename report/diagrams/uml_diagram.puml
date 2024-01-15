@@ -1,0 +1,327 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+interface URLArchiver {
++ archiveURL(url: String): String
++ isAvailable(): boolean
++ getServiceName(): String
++ isAutomated(): boolean
+}
+
+interface Exporter {
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+
+interface FileReaderInterface {
++ readFile(filePath: Path): String
+}
+
+
+URLArchiver <|.. ArchiveTodayArchiver
+URLArchiver <|.. WaybackMachineArchiver
+
+ArchiverException <.. URLArchiver : <<throws>>
+ArchiverException <.. ArchiverManager : <<throws>>
+URLExporterException <.. Exporter : <<throws>>
+
+
+
+class CLIController {
+- view: ConsoleView
+- scanner: Scanner
+- archiverManager: ArchiverManager
+- pendingJobs: ArrayList<PendingWaybackMachineJob>
+- fileModel: FileModel
+- currentURLPairIndex: int
+- folderModel: FolderModel
+- currentFileIndex: int
+- running: boolean
+- config: ConfigModel
++ CLIController(locale: Locale)
++ getFileModel(): FileModel
++ getPendingJobs(): ArrayList<PendingWaybackMachineJob>
++ addPendingJob(job: PendingWaybackMachineJob)
++ start(String[])
+}
+CLIController "1" -- "1" ArchiverManager
+CLIController "1" -- "1" ConsoleView
+CLIController "1" -- "1" ConfigModel
+CLIController "1" -- "0..1" FolderModel
+CLIController "1" -- "0..1" FileModel
+CLIController "1" -- "*" PendingWaybackMachineJob
+CLIController ..> ConfigFileHelper : uses
+CLIController ..> PathValidator : uses
+CLIController ..> FileValidator : uses
+CLIController ..> ExporterFactory : uses
+CLIController ..> URLExtractor : uses
+CLIController ..> BrowserOpener : uses
+CLIController ..> FileReaderFactory : uses
+CLIController ..> I18n : uses as resource bundle
+
+class ArchiverResult {
+- archivedUrls: List<String>
+- unavailableArchivers: List<String>
++ ArchiverResult(archivedUrls: List<String>, unavailableArchivers: List<String>)
++ archivedUrls(): List<String>
++ unavailableArchivers(): List<String>
+}
+
+class ArchiverManager {
+- archivers: Map<String, URLArchiver>
++ addArchiver(archiver: URLArchiver)
++ getArchiver(name: String): URLArchiver
++ getSortedArchivers(): List<URLArchiver>
++ archive(url: String, selectedArchivers: List<URLArchiver>): ArchiverResult
+}
+ArchiverManager "1" -- "*" URLArchiver
+ArchiverManager ..> ArchiverResult : returns instance of
+
+class ArchiveTodayArchiver {
+- SERVICE_NAME: String
+- automated: boolean
+- SERVICE_URL: String
+- TIMEOUT_SECONDS: int
+- POLLING_INTERVAL_MS: int
+- HOST_NAME: String
+- PORT: int
+- SOCKET_TIMEOUT_MS: int
+}
+ArchiveTodayArchiver ..> WebDriverFactory : uses
+
+class WaybackMachineArchiver {
+- SERVICE_NAME: String
+- automated: boolean
+- API_URL: String
+- APPLICATION_JSON: String
+- CONTENT_TYPE: String
+- config: ConfigModel
+- controller: CLIController
++ WaybackMachineArchiver(config: ConfigModel, controller: CLIController)
++ updatePendingJobs()
+}
+CLIController <.. WaybackMachineArchiver : manages pending jobs
+WaybackMachineArchiver "1" -- "*" WaybackMachineArchiveResponse
+WaybackMachineArchiver "1" -- "*" WaybackMachineJob
+
+class java.lang.Exception
+class ArchiverException
+class ConfigFileException
+class FileModelException
+class FolderModelException
+class PathValidationException
+class URLExporterException
+
+java.lang.Exception <|-- ArchiverException
+java.lang.Exception <|-- ConfigFileException
+java.lang.Exception <|-- FileModelException
+java.lang.Exception <|-- FolderModelException
+java.lang.Exception <|-- PathValidationException
+java.lang.Exception <|-- URLExporterException
+
+
+class BrowserOpener {
++ {static} openURL(urlString: String)
+}
+
+class ConfigFileHelper {
+- {static} DEFAULT_CONFIG_FILE_PATH: String
+- {static} OBJECT_MAPPER: ObjectMapper
+- {static} <<set>> configFilepath: String
++ {static} read(): ConfigModel
++ {static} save(config: ConfigModel)
++ {static} getBrowser(): SupportedBrowsers
+}
+ConfigFileException <.. ConfigFileHelper : <<throws>>
+ConfigFileHelper "1" -- "*" ConfigFileMapperModel
+ConfigFileHelper "1" -- "*" ConfigModel
+
+class FileValidator {
++ {static} validate(stringPath: String): String
+}
+FileModelException <.. FileValidator : <<throws>>
+
+class I18n {
+- {static} BASE_NAME: String
+- {static} bundle: ResourceBundle
++ {static} getResourceBundle(locale: Locale): ResourceBundle
++ {static} getString(key: String): String
++ {static} getString(key: String , params: Object...)
+}
+
+class PathValidator {
++ {static} validate(inputPath: String)
++ {static} isFolder(inputPath: String): boolean
+}
+PathValidationException <.. PathValidator : <<throws>>
+
+class URLExtractor {
+- {static} URL_PATTERN: Pattern
++ {static} extractURLs(text: String): Set<String>
++ {static} extractURLs(text: String, pattern: Pattern): Set<String>
+}
+
+class WebDriverFactory {
++ {static} getWebDriver(): WebDriver
+}
+ArchiverException <.. WebDriverFactory : <<throws>>
+
+class PendingWaybackMachineJob {
+- <<get>> extractedUrl: String
+- <<get>> file: FileModel
+- <<get/set>> job: WaybackMachineJob
++ PendingWaybackMachineJob(extractedUrl: String, job: WaybackMachineJob, file: FileModel)
+}
+
+class WaybackMachineArchiveResponse {
+- <<get/set>> url: String
+- <<get/set>> job_id: String
+- <<get/set>> message: String
+}
+
+class WaybackMachineJob {
+- <<get/set>> job_id: String
+- <<get/set>> original_url: String
+- <<get/set>> status: String
+- <<get/set>> timestamp: String
+- <<get/set>> exception: String
+}
+
+class BIBExporter {
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+Exporter <|.. BIBExporter
+
+class CSVExporter {
+- {static} DELIMITER: String
+- {static} HEADER_EXTRACTED_URL: String
+- {static} HEADER_ARCHIVED_URL: String
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+Exporter <|.. CSVExporter
+
+class ExporterFactory {
++ {static} getExporter(type: String): Exporter
+}
+ExporterFactory ..> Exporter : returns instance of
+
+class TextFileReader {
+}
+FileReaderInterface <|.. TextFileReader
+
+class PDFFileReader {
+}
+FileReaderInterface <|.. PDFFileReader
+
+class FileReaderFactory {
+- {static} MIME_TYPE_TEXT: String
+- {static} MIME_TYPE_PDF: String
++ {static} getFileReader(mimeType: String): FileReaderInterface
+}
+FileReaderFactory ..> FileReaderInterface : returns instance of
+
+class ConfigFileMapperModel {
+- <<get>> accessKey: String
+- <<get>> secretKey: String
+- <<get>> browser: String
++ ConfigFileMapperModel()
++ ConfigFileMapperModel(accessKey: String, secretKey: String, browser: String)
+}
+
+class ConfigModel {
+- <<get/set>> accessKey: String
+- <<get/set>> secretKey: String
+- <<get/set>> browser: SupportedBrowsers
++ ConfigModel()
++ ConfigModel(accessKey: String, secretKey: String)
++ ConfigModel(accessKey: String, secretKey: String, browser: SupportedBrowsers)
+}
+
+class FileModel {
+- <<get>> mimeType: String
+- <<get>> fileName: String
+- <<get>> filePath: String
+- <<get>> urlPairs: List<URLPair>
++ FileModel(filePath: Path, mimeType: String)
++ addExtractedURLs(extractedURLs: Set<String>)
++ setArchivedURL(extractedURL: String, archivedURLs: List<String>)
++ addArchivedURL(extractedURL: String, archivedURL: String)
++ hasArchivedURLs(): boolean
+}
+FileModel "1" -- "*" URLPair
+
+class FolderModel {
+- index: int
+- <<get>> basePath: String
+- <<get>> files: List<FileModel>
++ FolderModel(inputPath: String)
++ wasLastFile(): boolean
++ next(): FileModel
++ addFile(file: FileModel)
++ removeFile(index: int)
+}
+FolderModelException <.. FolderModel : <<throws>>
+FolderModel "1" -- "1..*" FileModel
+
+class URLPair {
+- <<get>> extractedURL: String
+- <<get/set>> archivedURLs: List<String>
++ URLPair(extractedURL: String)
++ addArchivedURL(archivedURL: String)
++ toString(): String
++ hasArchivedURLs(): boolean
+}
+
+class ConsoleView {
+- {static} OPTIONS: String
+- isArchiving: boolean
++ ConsoleView(locale: Locale)
++ printMessage(key: String)
++ printMessage(exception: Exception)
++ printFormattedMessage(key: String, args: Object...)
++ printOptions()
++ promptUserForOption()
++ printSeparator()
++ promptUserForPath(): String
++ startArchivingIndicator()
++ stopArchivingIndicator()
++ printWelcomeMessage()
+}
+
+class Main {
++ main(args: String[])
+}
+Main "1" --> "1" CLIController : initialize and starts
+
+enum OperatingSystem {
+WINDOWS
+MACOS
+LINUX
+UNKNOWN
+}
+
+enum SupportedBrowsers {
+FIREFOX
+CHROME
+EDGE
+UNSUPPORTED
+DEFAULT
+}
+
+enum UserChoice {
+OPEN
+ARCHIVE
+NEXT
+HELP
+CONFIG
+SHOW_ARCHIVED
+UPDATE_JOBS
+QUIT
+}
+
+
+
+@enduml

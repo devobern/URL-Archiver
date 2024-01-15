@@ -1,21 +1,38 @@
 package ch.bfh.model;
 
+/**
+ * Represents the configuration settings for the application.
+ */
 public class ConfigModel {
     private String accessKey;
     private String secretKey;
     private SupportedBrowsers browser;
 
+    /**
+     * Constructs a ConfigModel with default values.
+     */
     public ConfigModel() {
-        this.accessKey = "";
-        this.secretKey = "";
-        this.browser = SupportedBrowsers.DEFAULT;
-    }
-    public ConfigModel(String accessKey, String secretKey) {
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
-        this.browser = SupportedBrowsers.DEFAULT;
+        this("", "", SupportedBrowsers.DEFAULT);
     }
 
+    /**
+     * Constructs a ConfigModel with specified access and secret keys.
+     * Uses the default browser setting.
+     *
+     * @param accessKey The access key to be used.
+     * @param secretKey The secret key to be used.
+     */
+    public ConfigModel(String accessKey, String secretKey) {
+        this(accessKey, secretKey, SupportedBrowsers.DEFAULT);
+    }
+
+    /**
+     * Constructs a ConfigModel with specified access key, secret key, and browser preference.
+     *
+     * @param accessKey The access key to be used.
+     * @param secretKey The secret key to be used.
+     * @param browser   The browser preference.
+     */
     public ConfigModel(String accessKey, String secretKey, SupportedBrowsers browser) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
@@ -34,7 +51,7 @@ public class ConfigModel {
         return secretKey;
     }
 
-    public void setSecretKey(String secretKey) {
+     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
 

@@ -24,6 +24,7 @@ import static ch.bfh.helper.WebDriverFactory.getWebDriver;
  */
 public class ArchiveTodayArchiver implements URLArchiver {
     private static final String SERVICE_NAME = "ArchiveToday";
+    private final boolean automated = false;
     private static final String SERVICE_URL = "https://archive.today";
     private static final int TIMEOUT_SECONDS = 300;
     private static final int POLLING_INTERVAL_MS = 300;
@@ -127,5 +128,15 @@ public class ArchiveTodayArchiver implements URLArchiver {
     @Override
     public String getServiceName() {
         return SERVICE_NAME;
+    }
+
+    /**
+     * Checks if the archiving service is automated.
+     *
+     * @return true if the service is automated, false otherwise.
+     */
+    @Override
+    public boolean isAutomated() {
+        return automated;
     }
 }

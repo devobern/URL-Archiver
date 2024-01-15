@@ -14,7 +14,7 @@
   invert-title,
 ]{bfhthesis}
 
-\LoadBFHModule{listings,terminal,boxes, tabular}
+\LoadBFHModule{listings, terminal, boxes, tabular}
 %---------------------------------------------------------------------------
 % Documents paths
 %---------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 \makeatother
 %-----------------  Base packages     --------------------------------------
 % Include Packages
-\usepackage[french,ngerman,main=english]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
+\usepackage[main=english]{babel}  % https://www.namsu.de/Extra/pakete/Babel.html
 
 \usepackage{amsmath}          % various features to facilitate writing math formulas
 \usepackage{amsthm}           % enhanced version of latex's newtheorem
@@ -66,30 +66,6 @@
 	\begingroup\color{BFH-Gray}\blindtextblindtext[#1]\endgroup
 }
 %---------------------------------------------------------------------------
-% Glossary Package
-%---------------------------------------------------------------------------
-% the glossaries package uses makeindex
-% if you use TeXnicCenter do the following steps:
-%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
-%  - Select the profile "LaTeX => PDF"
-%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
-%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
-%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
-%
-% for futher informations go to http://ewus.de/tipp-1029.html
-%---------------------------------------------------------------------------
-\usepackage[nonumberlist]{glossaries-extra}
-\makeglossaries
-\input{content/glossary}
-%---------------------------------------------------------------------------
-% Makeindex Package
-%---------------------------------------------------------------------------
-\usepackage{makeidx}
-\makeindex
-%\usepackage{imakeidx}          % To produce index
-%\makeindex[columns=2,intoc]    % Index-Initialisation
-%\makeindex[columns=3,columnseprule,columnsep,intoc]
-%---------------------------------------------------------------------------
 % Hyperref Package (Create links in a pdf)
 %---------------------------------------------------------------------------
 \usepackage[
@@ -108,6 +84,31 @@
 	,citecolor=.
 ]{hyperref}
 %---------------------------------------------------------------------------
+%---------------------------------------------------------------------------
+% Glossary Package
+%---------------------------------------------------------------------------
+% the glossaries package uses makeindex
+% if you use TeXnicCenter do the following steps:
+%  - Goto "Ausgabeprofile definieren" (ctrl + F7)
+%  - Select the profile "LaTeX => PDF"
+%  - Add in register "Nachbearbeitung" a new "Postprozessoren" point named Glossar
+%  - Select makeindex.exe in the field "Anwendung" ( ..\MiKTeX x.x\miktex\bin\makeindex.exe )
+%  - Add this [ -s "%tm.ist" -t "%tmx.glg" -o "%tm.gls" "%tm.glo" ] in the field "Argumente"
+%
+% for futher informations go to http://ewus.de/tipp-1029.html
+%---------------------------------------------------------------------------
+%\usepackage[nonumberlist]{glossaries-extra}
+\usepackage[hyperfirst=false]{glossaries-extra}
+\makeglossaries
+\input{content/glossary}
+%---------------------------------------------------------------------------
+% Makeindex Package
+%---------------------------------------------------------------------------
+\usepackage{makeidx}
+\makeindex
+%\usepackage{imakeidx}          % To produce index
+%\makeindex[columns=2,intoc]    % Index-Initialisation
+%\makeindex[columns=3,columnseprule,columnsep,intoc]
 
 %% %% Customize Footer and Headers in Document
 %% \KOMAoptions{headsepline,plainheadsepline,footsepline,plainfootsepline}%
@@ -136,9 +137,9 @@
 \subtitle{Project report}
 \author{Nicolin Dora \and Abidin Vejseli \and Kilian Wampfler}
 \institution{Bern University of Applied Sciences}
-\department{Technik und Informatik}
-\institute{Informatik}
-\version{0.1}
+\department{School of Engineering and Computer Science}
+\institute{Computer Science}
+\version{1.0}
 \titlegraphic*{\includegraphics{archive-title-image}}
 \advisor{Dr. Simon Kramer}
 \coadvisor{Frank Helbling}
@@ -146,7 +147,7 @@
 %\expert{Some expert}
 \degreeprogram{Project 1}
 \setupSignature{
-	N. Dora={\includegraphics[width=.5\linewidth]{sig_muster}},
+	N. Dora={\includegraphics[width=.5\linewidth]{./pictures/sig_Dora.png}},
 	A. Vejseli={\includegraphics[width=.5\linewidth]{sig_example}},
 	K. Wampfler={\includegraphics[width=.5\linewidth]{sig_example}}
 }
@@ -184,8 +185,11 @@
 \chapter{Implementation}
 \input{content/architecture}
 \input{content/processes}
+\input{content/scrum}
+\input{content/scrum_review}
 
 \chapter{Deployment/Integration}
+\input{content/licensing_and_compliance}
 \input{content/installation}
 \input{content/user_manual}
 
@@ -208,9 +212,13 @@
 
 %------------ Appendix ----------------	
 \appendix
-\includepdf[scale=0.9, pages=1, offset=0in -1.5in, pagecommand=\chapter{Original Project Description}]{content/kms4-03_URL-Archiver.pdf}
-\include{content/libraries_and_licenses}
+\chapter{Appendix}
 
+\include{content/appendix}
+\includepdf[scale=0.9, pages=1, offset=0.4in -0.6in, pagecommand=\section{Original Project Description}\label{org_proj_desc}]{content/kms4-03_URL-Archiver.pdf}
+\include{content/libraries_and_licenses}
+\section{Class Diagram}
+\includepdf[pages=1,fitpaper]{diagrams/uml_diagram.pdf}
 %------------ Authorship declaration translated to main language ------------
 \declarationOfAuthorship
 

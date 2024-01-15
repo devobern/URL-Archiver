@@ -9,87 +9,108 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
+/**
+ * Helper class for handling configuration data, including reading from and writing to a JSON file.
+ */
 public class ConfigFileHelper {
-    private static final String configFilePath = "src/main/resources/config.json";
-    public static ConfigModel read() throws ConfigFileException {
-        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        File configFile = new File(configFilePath);
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-        ConfigModel config = new ConfigModel();
+    private static final String DEFAULT_CONFIG_FILE_PATH = "src/main/resources/config.json";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private static String configFilepath = DEFAULT_CONFIG_FILE_PATH;
 
-        if (configFile.exists() && !configFile.isDirectory()) {
-            try {
-                configMapper = objectMapper.readValue(configFile, ConfigFileMapperModel.class);
-            } catch (IOException e) {
-                throw(new ConfigFileException(e.getMessage()));
-            }
+    /**
+     * Sets the path for the configuration file.
+     *
+     * @param filePath Custom path for the configuration file, falls back to default if null or blank.
+     */
+    public static void setConfigFilePath(String filePath) {
+        configFilepath = filePath != null && !filePath.isBlank() ? filePath : DEFAULT_CONFIG_FILE_PATH;
+    }
+
+    /**
+     * Reads configuration data from a JSON file and returns it as a {@link ConfigModel}.
+     *
+     * @return The configuration data as {@link ConfigModel}.
+     * @throws ConfigFileException If reading the configuration file fails.
+     */
+    public static ConfigModel read() throws ConfigFileException {
+        ConfigFileMapperModel configMapper = getConfigMapper();
+        return mapToConfigModel(configMapper);
+    }
+
+    /**
+     * Writes the provided configuration data to a JSON file. Overwrites the file if it exists.
+     *
+     * @param config Configuration data to save.
+     * @throws ConfigFileException If writing to the configuration file fails.
+     */
+    public static void save(ConfigModel config) throws ConfigFileException {
+        try {
+            File configFile = new File(configFilepath);
+
+            // Write the configuration data to the file. It overwrites if the file already exists.
+            OBJECT_MAPPER.writeValue(configFile, mapToConfigFileMapperModel(config));
+        } catch (IOException e) {
+            throw new ConfigFileException("Error writing configuration: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves the supported browser type specified in the configuration file.
+     *
+     * @return The supported browser as a {@link SupportedBrowsers} enum.
+     * @throws ConfigFileException If reading the configuration file fails.
+     */
+    public static SupportedBrowsers getBrowser() throws ConfigFileException {
+        return getSupportedBrowser(getConfigMapper().getBrowser());
+    }
+
+    private static ConfigFileMapperModel getConfigMapper() throws ConfigFileException {
+        try {
+            return OBJECT_MAPPER.readValue(getConfigFile(), ConfigFileMapperModel.class);
+        } catch (IOException e) {
+            throw new ConfigFileException("Error reading configuration: " + e.getMessage());
+        }
+    }
+
+    private static File getConfigFile() throws ConfigFileException {
+        File configFile = new File(configFilepath);
+
+        if (!configFile.exists() || configFile.isDirectory()) {
+            throw new ConfigFileException("Configuration file does not exist or is a directory: " + configFilepath);
         }
 
+        return configFile;
+    }
+
+    private static ConfigModel mapToConfigModel(ConfigFileMapperModel configMapper) {
+        ConfigModel config = new ConfigModel();
         config.setAccessKey(configMapper.getAccessKey());
         config.setSecretKey(configMapper.getSecretKey());
-
-        switch(configMapper.getBrowser().toUpperCase()) {
-            case "FIREFOX":
-                config.setBrowser(SupportedBrowsers.FIREFOX);
-                break;
-            case "EDGE":
-                config.setBrowser(SupportedBrowsers.EDGE);
-                break;
-            case "CHROME":
-                config.setBrowser(SupportedBrowsers.CHROME);
-                break;
-            case "", "DEFAULT":
-                config.setBrowser(SupportedBrowsers.DEFAULT);
-                break;
-            default:
-                config.setBrowser(SupportedBrowsers.UNSUPPORTED);
-        }
-
+        config.setBrowser(getSupportedBrowser(configMapper.getBrowser()));
         return config;
     }
 
-    public static void save(ConfigModel config) throws ConfigFileException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-        configMapper.setAccessKey(config.getAccessKey());
-        configMapper.setSecretKey(config.getSecretKey());
-        configMapper.setBrowser(config.getBrowser().name());
-
-        try {
-            objectMapper.writeValue(new File(configFilePath), configMapper);
-        } catch (IOException e) {
-            throw(new ConfigFileException(e.getMessage()));
-        }
+    private static ConfigFileMapperModel mapToConfigFileMapperModel(ConfigModel config) {
+        return new ConfigFileMapperModel(
+                config.getAccessKey(),
+                config.getSecretKey(),
+                config.getBrowser().name()
+        );
     }
 
-    public static SupportedBrowsers getBrowser() throws ConfigFileException {
-        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        File configFile = new File(configFilePath);
-        ConfigFileMapperModel configMapper = new ConfigFileMapperModel();
-
-        if (configFile.exists() && !configFile.isDirectory()) {
-            try {
-                configMapper = objectMapper.readValue(configFile, ConfigFileMapperModel.class);
-            } catch (IOException e) {
-                throw(new ConfigFileException(e.getMessage()));
-            }
+    private static SupportedBrowsers getSupportedBrowser(String browserName) {
+        if (browserName == null || browserName.isBlank()) {
+            return SupportedBrowsers.DEFAULT;
         }
 
-        switch(configMapper.getBrowser().toUpperCase()) {
-            case "FIREFOX":
-                return SupportedBrowsers.FIREFOX;
-            case "EDGE":
-                return SupportedBrowsers.EDGE;
-            case "CHROME":
-                return SupportedBrowsers.CHROME;
-            case "", "DEFAULT":
-                return SupportedBrowsers.DEFAULT;
-            default:
-                return SupportedBrowsers.UNSUPPORTED;
-        }
-
+        return switch (browserName.toUpperCase()) {
+            case "FIREFOX" -> SupportedBrowsers.FIREFOX;
+            case "EDGE" -> SupportedBrowsers.EDGE;
+            case "CHROME" -> SupportedBrowsers.CHROME;
+            case "DEFAULT" -> SupportedBrowsers.DEFAULT;
+            default -> SupportedBrowsers.UNSUPPORTED;
+        };
     }
-
 }

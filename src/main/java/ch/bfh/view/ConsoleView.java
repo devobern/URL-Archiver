@@ -3,16 +3,14 @@ package ch.bfh.view;
 import ch.bfh.helper.I18n;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /**
  * Console-based view to interact with the user.
  */
 public class ConsoleView {
-    private final ResourceBundle messages;
+    private final static String OPTIONS = "(o/a/s/u/n/q/c/h)";
     private boolean isArchiving = false;
-    private final String OPTIONS = "(o/a/n/q/c/h)";
 
     /**
      * Initializes the console view with the specified locale.
@@ -20,7 +18,7 @@ public class ConsoleView {
      * @param locale the locale for internationalization.
      */
     public ConsoleView(Locale locale) {
-        this.messages = I18n.getResourceBundle(locale);
+        I18n.getResourceBundle(locale);
     }
 
     /**
@@ -29,7 +27,7 @@ public class ConsoleView {
      * @param key the key used to retrieve the message from the resource bundle.
      */
     public void printMessage(String key) {
-        System.out.print(messages.getString(key));
+        System.out.print(I18n.getString(key));
     }
 
     /**
@@ -39,7 +37,7 @@ public class ConsoleView {
      *
      * @param exception the exception whose message is to be printed.
      */
-    public void printMessage(Exception exception){
+    public void printMessage(Exception exception) {
         System.out.println(exception.getMessage());
     }
 
@@ -51,36 +49,37 @@ public class ConsoleView {
      * @param args arguments to format the message.
      */
     public void printFormattedMessage(String key, Object... args) {
-        System.out.printf(messages.getString(key), args);
-        System.out.println();
+        System.out.println(I18n.getString(key, args));
     }
 
     /**
      * Prints a list of user options to the console.
      */
     public void printOptions() {
-        System.out.println(messages.getString("option.title"));
-        System.out.println("[o]\t" + messages.getString("option.open"));
-        System.out.println("[a]\t" + messages.getString("option.archive"));
-        System.out.println("[n]\t" + messages.getString("option.next"));
-        System.out.println("[q]\t" + messages.getString("option.quit"));
-        System.out.println("[c]\t" + messages.getString("option.config"));
-        System.out.println("[h]\t" + messages.getString("option.help"));
+        System.out.println(I18n.getString("option.title"));
+        System.out.println("[o]\t" + I18n.getString("option.open"));
+        System.out.println("[a]\t" + I18n.getString("option.archive"));
+        System.out.println("[s]\t" + I18n.getString("option.show_archived"));
+        System.out.println("[u]\t" + I18n.getString("option.update_jobs"));
+        System.out.println("[n]\t" + I18n.getString("option.next"));
+        System.out.println("[q]\t" + I18n.getString("option.quit"));
+        System.out.println("[c]\t" + I18n.getString("option.config"));
+        System.out.println("[h]\t" + I18n.getString("option.help"));
         System.out.println();
     }
 
     /**
      * Prompts the user to select an option from the given list.
      */
-    public void promptUserForOption(){
-        System.out.print(messages.getString("options.prompt") + " " + OPTIONS + ":");
+    public void promptUserForOption() {
+        System.out.print(I18n.getString("options.prompt") + " " + OPTIONS + ":");
     }
 
     /**
      * Prints a separator line to the console.
      */
     public void printSeparator() {
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("-".repeat(100) + "\n");
     }
 
     /**
@@ -89,7 +88,7 @@ public class ConsoleView {
      * @return The path entered by the user.
      */
     public String promptUserForPath() {
-        System.out.print(messages.getString("path.prompt"));
+        System.out.print(I18n.getString("path.prompt"));
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -113,8 +112,6 @@ public class ConsoleView {
                     Thread.currentThread().interrupt();
                 }
             }
-            // options dont show with this
-            //System.out.print("\rArchiving Complete\n");  // Clear the indicator
         }).start();
     }
 
@@ -139,9 +136,9 @@ public class ConsoleView {
                 ██║   ██║██╔══██╗██║╚════╝██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
                 ╚██████╔╝██║  ██║███████╗ ██║  ██║██║  ██║╚██████╗██║  ██║██║ ╚████╔╝ ███████╗██║  ██║
                  ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝
-                \t\t\t\t\t\t\t""" + messages.getString("welcome.subtitle"));
+                \t\t\t\t\t\t\t""" + I18n.getString("welcome.subtitle"));
         // Instructions
-        System.out.println(messages.getString("welcome.welcome_text").replace("\\n", "\n"));
+        System.out.println(I18n.getString("welcome.welcome_text").replace("\\n", "\n"));
         System.out.println();
         printOptions();
     }

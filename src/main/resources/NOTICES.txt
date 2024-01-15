@@ -1,0 +1,55 @@
+NOTICES for URL-Archiver
+
+URL-Archiver uses the following open-source components:
+
+JUnit Jupiter API:
+- License: Eclipse Public License v2.0 (EPL-2.0)
+- License URL: https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+- Project URL: https://junit.org/junit5/
+
+JUnit Jupiter Engine:
+- License: Eclipse Public License v2.0 (EPL-2.0)
+- License URL: https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+- Project URL: https://junit.org/junit5/
+
+Selenium Java:
+- License: Apache License 2.0
+- License URL: https://choosealicense.com/licenses/apache-2.0/
+- Project URL: https://www.selenium.dev/
+
+Selenium Logger:
+- License: MIT License
+- License URL: https://choosealicense.com/licenses/mit/
+- Project URL: https://github.com/titusfortner/selenium-logger
+
+Mockito Core:
+- License: MIT License
+- License URL: https://choosealicense.com/licenses/mit/
+- Project URL: https://site.mockito.org/
+
+Mockito JUnit Jupiter:
+- License: MIT License
+- License URL: https://choosealicense.com/licenses/mit/
+- Project URL: https://site.mockito.org/
+
+System Lambda:
+- License: MIT License
+- License URL: https://choosealicense.com/licenses/mit/
+- Project URL: https://github.com/stefanbirkner/system-lambda
+
+Apache PDFBox:
+- License: Apache License 2.0
+- License URL: https://choosealicense.com/licenses/apache-2.0/
+- Project URL: https://pdfbox.apache.org/
+
+Jackson Core:
+- License: Apache License 2.0
+- License URL: https://choosealicense.com/licenses/apache-2.0/
+- Project URL: https://github.com/FasterXML/jackson-core
+
+Jackson Dataformat XML:
+- License: Apache License 2.0
+- License URL: https://choosealicense.com/licenses/apache-2.0/
+- Project URL: https://github.com/FasterXML/jackson-dataformat-xml
+
+This list may not be comprehensive. For full licensing information, please refer to the individual component licenses, available in the 'LICENSES' folder in the root directory of this project.

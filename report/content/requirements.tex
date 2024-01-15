@@ -7,9 +7,37 @@ In this section, we outline the main features (Epics) of the project and break t
 \input{content/epic3}
 \input{content/epic4}
 \input{content/epic5}
+\clearpage
+\subsection{Functional requirements}
+The URL-Archiver project, as described in the original project description, which can be found in the Appendix (\ref{org_proj_desc}), is designed to be a platform-independent Java program that performs several key functions:
 
-\subsection{Functional requirements (added value)}
+\begin{itemize}
+    \item \textbf{Input Processing:} It accepts directories or files (including any Unicode-text- and PDF-Files) as input and scans them for URLs.
+    \item \textbf{URL Extraction:} The program extracts all URLs using regular expressions.
+    \item \textbf{Optional Browser Interaction:} It has an optional feature to open URLs in a web browser.
+    \item \textbf{URL Archiving:} The program posts URLs to an archiving service (Archive Today \& The Wayback Machine) and retrieves the archived URLs.
+    \item \textbf{Output Generation:} It outputs a CSV file containing the original and archived URL pairs.
+    \item \textbf{Optional File Integration:} The program can optionally insert archived URLs into a .BIB file.
+\end{itemize}
 
+Additionally, the project emphasizes minimal, modular, and self-explanatory code. The report for the project is expected to be concise and include the original project description.
 
-\subsection{Boundary and Pre-Conditions}
+\subsection{Boundary}
+The following limits apply:
 
+\begin{itemize}
+    \item \textbf{Input:} The application processes only Unicode-text-files (e.g.: .BIB, .TEX; .HTML; etc.) and PDF-files
+    \item \textbf{Output:} The application exports the extracted and archived URLs in either CSV format or directly in a BIB file.
+    \item \textbf{Archiving:} At present, the application should only support Archive Today and The Wayback Machine. Please refer to the documentation of the Wayback Machine\footnote{\href{https://archive.org/details/spn-2-public-api-page-docs/mode/2up}{API Documentation Wayback Machine}} or Archive Today\footnote{\href{https://archive.ph/faq}{FAQ of Archive Today}} for any restrictions on their APIs or services.
+\end{itemize}
+\clearpage
+\subsection{Pre-conditions}
+For the application to run smoothly, the following pre-conditions must be met:
+
+\begin{itemize}
+    \item \textbf{Java Environment:} The application necessitates the installation of Java Runtime Environment (JRE) version 21 on the system where it is intended to be executed.
+    \item \textbf{File Formats:} The software is designed to operate with specific file formats, primarily Unicode text files and PDF files. It is necessary to provide these file types for successful operation.
+    \item \textbf{Archiving Service Access:} The application requires internet connectivity and access to web archiving services, such as Archive Today, to enable its URL archiving functionality.
+    \item \textbf{Login + S3 Credentials (Wayback Machine only):} To archive with the Wayback Machine, a login and S3 credentials are required.
+\end{itemize}
+\clearpage

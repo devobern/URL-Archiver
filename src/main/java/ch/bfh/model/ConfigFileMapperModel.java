@@ -2,33 +2,45 @@ package ch.bfh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Represents the model for configuration file mapping.
+ * This class is used to map the JSON configuration data details like access keys, secret keys, and browser types to Java objects.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConfigFileMapperModel {
-    private String accessKey = "";
-    private String secretKey = "";
-    private String browser = "";
+    private final String accessKey;
+    private final String secretKey;
+    private final String browser;
+
+    /**
+     * Default constructor initializes the model with empty strings.
+     */
+    public ConfigFileMapperModel() {
+        this("", "", "");
+    }
+
+    /**
+     * Constructs a new ConfigFileMapperModel with specified values.
+     *
+     * @param accessKey the access key
+     * @param secretKey the secret key
+     * @param browser   the browser type
+     */
+    public ConfigFileMapperModel(String accessKey, String secretKey, String browser) {
+        this.accessKey = accessKey == null ? "" : accessKey;
+        this.secretKey = secretKey == null ? "" : secretKey;
+        this.browser = browser == null ? "" : browser;
+    }
 
     public String getAccessKey() {
         return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
     }
 
     public String getSecretKey() {
         return secretKey;
     }
 
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
     public String getBrowser() {
         return browser;
-    }
-
-    public void setBrowser(String browser) {
-        this.browser = browser;
     }
 }

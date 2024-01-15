@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+interface Exporter {
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+
+
+class BIBExporter {
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+Exporter <|.. BIBExporter : implements
+
+class CSVExporter {
+- {static} DELIMITER: String
+- {static} HEADER_EXTRACTED_URL: String
+- {static} HEADER_ARCHIVED_URL: String
++ exportURLs(fileModel: FileModel, destinationPath: String)
++ exportURLs(folderModel: FolderModel, destinationPath: String)
+}
+Exporter <|.. CSVExporter : implements
+
+class ExporterFactory {
++ {static} getExporter(type: String): Exporter
+}
+ExporterFactory ..> Exporter : returns instance of
+
+@enduml
