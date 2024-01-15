@@ -11,12 +11,12 @@ The URL-Archiver does not impose any special hardware requirements. However, an 
 The URL-Archiver is platform-independent \index{platform-independent}, operating on major systems such as Windows (tested on Windows 10, version 22H2  and Windows 11, version 23H2), macOS (tested on macOS Sonoma), and Linux (tested on Ubuntu 20.04.3 LTS). The system has varying browser dependencies based on the operating system: Chrome is required for macOS, Edge for Windows, and Firefox for Ubuntu/Linux (Latest stable versions of the browsers are recommended). Users can change the default Browser in the configuration of the application. Other dependencies are installed with the URL-Archiver and do not require separate installation.
 
 \subsubsection{System Architecture}
-The URL-Archiver uses the \gls{MVCPattern}\index{MVC-Pattern}, as illustrated in figure \ref{fig:mvc_highlevel}, to enable future enhancements, such as adding a \gls{GUI} interface. The \gls{FactoryPattern}\index{Factory Pattern} is applied where appropriate to simplify the extension of functionalities. For instance, adding extra archiving services can be easily accomplished by introducing a new archiving service, as shown in figure \ref{fig:factory_pattern_archiving_services}.
+The URL-Archiver uses the \gls{MVCPattern}\index{Model-View-Controller (MVC) pattern}, as illustrated in figure \ref{fig:mvc_highlevel}, to enable future enhancements, such as adding a \gls{GUI} interface. The \gls{FactoryPattern}\index{Factory Pattern} is applied where appropriate to simplify the extension of functionalities. For instance, adding extra archiving services \index{Archiving Services} can be easily accomplished by introducing a new archiving service, as shown in figure \ref{fig:factory_pattern_archiving_services}.
 
 \begin{figure}
 	\includegraphics[width=0.5\textwidth]{./diagrams/mvc_diagram-Highlevel_MVC.pdf}
 	\centering
-	\caption{High-level MVC-Pattern \index{MVC-Pattern} from URL-Archiver}
+	\caption{High-level MVC-Pattern \index{Model-View-Controller (MVC) pattern} from URL-Archiver}
 	\label{fig:mvc_highlevel}
 \end{figure}
 
@@ -33,10 +33,10 @@ Upon completion of its execution, the URL-Archiver generates a CSV file where ea
 Optionally, if the user provided a BibTeX file, URLs are integrated into the note field of each entry. If there's no existing note field, a new one is created with the format \texttt{note = {Archived Versions: \url{url1}, \url{url2}}}. If a note field already exists, the archived URLs are appended to it in the format \texttt{note = {<current note>, Archived Versions: \url{url1}, \url{url2}}}. This approach ensures that the archived URLs are neatly added to the BibTeX entries, maintaining the integrity of the original data.
 
 \subsubsection{User Interface}
-Currently, the system uses a command-line interface. The MVC-Pattern \index{MVC-Pattern} lays the groundwork for potential future implementation of a GUI interface.
+Currently, the system uses a command-line interface. The MVC-Pattern \index{Model-View-Controller (MVC) pattern} lays the groundwork for potential future implementation of a GUI interface.
 
 \subsubsection{Integration with Other Systems}
-The system integrates with the Wayback Machine via API, with certain limitations detailed in their API documentation\footnote{https://archive.org/details/spn-2-public-api-page-docs/mode/2up}. For archiving on Archive.today, which lacks an API, Selenium is used to automate the process as much as possible. However, users must manually complete captchas.
+The system integrates with the Wayback Machine via API, with certain limitations detailed in their API documentation\footnote{https://archive.org/details/spn-2-public-api-page-docs/mode/2up}. For archiving on Archive.today, which lacks an API, Selenium \index{Selenium} is used to automate the process as much as possible. However, users must manually complete captchas.
 
 \subsubsection{Maintenance and Support}
 Currently, there are no specified maintenance requirements or a support framework for the URL-Archiver.
@@ -68,6 +68,7 @@ The URL-Archiver’s life cycle begins with launch and path input, proceeding to
 \begin{figure}[b]
 	\includegraphics[width=1\textwidth]{./diagrams/process_model-simple-horizontal.pdf}
 	\centering
+	\index{Archiving Services}
 	\caption{High-level operational process}
 	\label{fig:hl_operational_process}
 \end{figure}
