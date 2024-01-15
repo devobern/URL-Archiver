@@ -8,7 +8,7 @@ import ch.bfh.model.FileModel;
  */
 public class PendingWaybackMachineJob {
     private final String extractedUrl;
-    private final FileModel file;
+    private FileModel file;
     private WaybackMachineJob job;
 
     /**
@@ -22,6 +22,17 @@ public class PendingWaybackMachineJob {
         this.extractedUrl = extractedUrl;
         this.job = job;
         this.file = file;
+    }
+
+    /**
+     * Constructor without file (only use this if the file isn't known at the moment). Important: The file has to be set before updating the job status!
+     * @param extractedUrl the extracted url (original url)
+     * @param job the waybackmachine job for tracking
+     */
+    public PendingWaybackMachineJob(String extractedUrl, WaybackMachineJob job) {
+        this.extractedUrl = extractedUrl;
+        this.job = job;
+        this.file = null;
     }
 
     public String getExtractedUrl() {
@@ -39,4 +50,6 @@ public class PendingWaybackMachineJob {
     public FileModel getFile() {
         return file;
     }
+
+    public void setFile(FileModel file) { this.file = file; }
 }

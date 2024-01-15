@@ -64,7 +64,10 @@ public class WaybackMachineArchiver implements URLArchiver {
             return "pending";
 
         } catch (IOException e) {
-            throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
+            if (e.getMessage() != null) {
+                throw new ArchiverException("IO error occurred while archiving URL: " + url, e);
+            }
+            return "pending";
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new ArchiverException("The archiving operation was interrupted", e);
@@ -173,7 +176,10 @@ public class WaybackMachineArchiver implements URLArchiver {
             try {
                 job.setJob(getWaybackMachineJob(job.getJob().getJob_id()));
             } catch (IOException e) {
-                throw new ArchiverException("IO error occurred while getting Job: " + job.getJob().getJob_id(), e);
+                if (e.getMessage() != null) {
+                    throw new ArchiverException("IO error occurred while getting Job: " + job.getJob().getJob_id(), e);
+                }
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 throw new ArchiverException("The archiving operation was interrupted", e);

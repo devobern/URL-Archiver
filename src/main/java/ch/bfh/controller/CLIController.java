@@ -111,7 +111,31 @@ public class CLIController {
         }
         // Calls url extractor and saves hurl's to model
         handlePath(path);
+        handleImportJobs();
         processUserInput();
+    }
+
+    private void handleImportJobs() {
+        if (PendingJobsHelper.existPendingJobs()) {
+            view.printSeparator();
+            if (yesNoPromt("jobs.importPending.prompt")){
+                importJobs();
+            }
+        }
+    }
+
+    private void importJobs() {
+        try {
+            ArrayList<PendingWaybackMachineJob> importedJobs = PendingJobsHelper.read();
+            for (PendingWaybackMachineJob importedJob : importedJobs) {
+                importedJob.setFile(this.fileModel);
+                importedJob.getJob().setStatus("pending");
+            }
+            this.pendingJobs.addAll(importedJobs);
+        } catch (PendingJobsException e) {
+            view.printMessage(e);
+        }
+        statusUpdate();
     }
 
     /**
@@ -422,7 +446,6 @@ public class CLIController {
             // Moved to next URL pair within the same file.
             view.printFormattedMessage("action.next_url");
         }
-        statusUpdate();
     }
 
 
@@ -431,6 +454,13 @@ public class CLIController {
      */
     private void handleQuit() {
         statusUpdate();
+
+        if (!this.pendingJobs.isEmpty()) {
+            if(yesNoPromt("jobs.quitWithPendingJobs.info", this.pendingJobs.size())) {
+                processUserInput();
+                return;
+            }
+        }
 
         // Check if there are any archived URLs using Stream API
         boolean archivedURLs = (folderModel != null) ?
@@ -483,9 +513,15 @@ public class CLIController {
      * @return true if the user answered yes, false otherwise
      */
     private boolean yesNoPromt(String message, Object... args) {
-        view.printFormattedMessage(message, args);
-        String userInput = scanner.nextLine();
-        return userInput.equalsIgnoreCase("y");
+        while (true) {
+            view.printFormattedMessage(message, args);
+            String userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("n")) {
+                return userInput.equalsIgnoreCase("y");
+            } else {
+                view.printFormattedMessage("action.invalid");
+            }
+        }
     }
 
     private void handleExport() {
@@ -574,6 +610,12 @@ public class CLIController {
                 pendingJob.getFile().addArchivedURL(pendingJob.getExtractedUrl(), "https://web.archive.org/web/" + pendingJob.getJob().getTimestamp() + "/" + pendingJob.getJob().getOriginal_url());
                 iterator.remove(); // Safely remove the current element using iterator
             }
+        }
+
+        try {
+            PendingJobsHelper.save(this.pendingJobs);
+        } catch (PendingJobsException e) {
+            view.printMessage(e);
         }
 
     }
