@@ -100,12 +100,33 @@ The URL-Archiver has been carefully designed with a strong emphasis on SOLID pri
 \end{enumerate}
 
 The URL-Archiver's strict adherence to these SOLID principles is a testament to its well-structured, easily maintainable and scalable design. This approach underlines the application's commitment to high quality software engineering practices.
+\newgeometry{bottom=1cm} % sets the left margin to 1cm
+\begin{landscape}
+	\thispagestyle{empty}
+	\subsubsection{Class Diagram}
+	Figure \ref{fig:class_diagram} shows the complete class diagram of our application. A higher resolution version can be found in the appendix, see \ref{app:class_diagram}) (it can be downloaded via double click). 
+	\begin{figure}[h!]
+		\includegraphics[width=1.9\textwidth]{./diagrams/uml_diagram.pdf}
+		\centering
+		\caption{Class Diagram}
+		\label{fig:class_diagram}
+	\end{figure}
 
-\subsubsection{Class Diagram}
-Below the complete class diagram of this application is displayed. 
+\end{landscape}
+\restoregeometry
 
-\clearpage
+\subsection{URL Extraction Process}
 
-%\addcontentsline{lof}{figure}{UML Class Diagram URL-Archiver}
-\includepdf[pages=1,fitpaper]{diagrams/uml_diagram.pdf}
+The extraction of URLs is a crucial aspect of the architecture, as it determines the effectiveness and accuracy of the archiving system. This description outlines the current approach to URL extraction and identifies areas for improvement.
+
+\subsubsection{URL Extraction Mechanism}
+The URL extraction process in the URL-Archiver involves scanning the text content of files and identifying strings that conform to the standard structure of URLs using regular expressions (regex). This technique is essential for processing and archiving the URLs contained within the documents.
+
+\subsubsection{Challenges and Limitations}
+The current implementation of the URL extractor, which uses regex, struggles to accurately identify certain types of URLs. One particular challenge is URLs that end with text enclosed in parentheses "()". This issue exposes a limitation in the regex pattern's ability to handle complex URL structures. Detecting URLs through regex is a well-known challenge in the field. This is evidenced by the collection found at Mathias Bynens' URL regex demo \cite{bynens2024urlregex}.
+
+The project's time constraints prevented the development of a more optimized regex pattern to address these specific cases. However, this limitation has been acknowledged as an area for future improvement. Enhancing the regex would significantly improve the URL-Archiver's functionality, making it more robust in handling diverse URL formats.
+
+Furthermore, since it is nearly impossible to achieve perfect URL detection through automated means alone, it is recommended to include a feature that allows users to manually modify the extracted URLs within the URL-Archiver. This functionality would add an extra layer of accuracy, enabling users to correct any errors in URL extraction and ensuring the integrity of the archived data.
+
 

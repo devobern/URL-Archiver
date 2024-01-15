@@ -76,7 +76,7 @@ The URL-Archiver’s life cycle begins with launch and path input, proceeding to
 Errors within the URL-Archiver are caught and handled, typically prompting the user with a customized error message asking to retry the action. No system stack traces are shown to the user.
 
 \subsubsection{Backup and Recovery}
-Currently, there are no backup features; progress is not saved if the application ends unexpectedly, which is slated for future improvement.
+The URL Archiver immediately serialises queued jobs for the Wayback Machine into a JSON file at the start of the archiving sequence. This protocol is designed to preserve the integrity of jobs awaiting execution, thereby increasing the stability of the system in the midst of possible disturbances, including unexpected application terminations. Consequently, it facilitates the recovery of the queue when the application is subsequently activated. It should be noted, however, that URLs that have been successfully archived are not preserved automatically in the current version of the URL Archiver. This feature is a task for future enhancement of the application.
 
 \subsubsection{Update and Upgrade Policies}
 Software updates require manual download and recompilation from the Git repository. The system does not provide automatic updates or an in-built feature for update checks.
