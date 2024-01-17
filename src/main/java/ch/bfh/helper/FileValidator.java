@@ -1,5 +1,7 @@
 package ch.bfh.helper;
 
+import ch.bfh.exceptions.FileModelException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -8,8 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import ch.bfh.exceptions.FileModelException;
 
 /**
  * Validator for file paths that determines the type of the file and if it's supported.

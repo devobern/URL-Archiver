@@ -1,6 +1,7 @@
 package ch.bfh.helper;
 
 import ch.bfh.exceptions.PathValidationException;
+
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;

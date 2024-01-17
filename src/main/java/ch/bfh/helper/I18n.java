@@ -1,9 +1,9 @@
 package ch.bfh.helper;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.text.MessageFormat;
 
 /**
  * Provides internationalization (i18n) utility methods for retrieving localized strings.
@@ -19,7 +19,6 @@ public class I18n {
      * @param locale the desired locale for the resource bundle
      * @return the resource bundle for the specified locale
      */
-    // TODO: Refactor Logic - To be discussed
     public static ResourceBundle getResourceBundle(Locale locale) {
         if (bundle == null || !bundle.getLocale().equals(locale)) {
             bundle = ResourceBundle.getBundle(BASE_NAME, locale);

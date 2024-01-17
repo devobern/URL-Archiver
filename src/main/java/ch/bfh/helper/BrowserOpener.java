@@ -1,6 +1,6 @@
 package ch.bfh.helper;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +16,7 @@ public class BrowserOpener {
      * Opens the specified URL in the user's default browser.
      *
      * @param urlString The URL to open, correctly formatted with a scheme.
-     * @throws IOException if there is an issue launching the browser.
+     * @throws IOException        if there is an issue launching the browser.
      * @throws URISyntaxException if the URL string is not properly formatted.
      */
     public static void openURL(String urlString) throws IOException, URISyntaxException {
