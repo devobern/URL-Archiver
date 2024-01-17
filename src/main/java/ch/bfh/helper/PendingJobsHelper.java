@@ -2,7 +2,6 @@ package ch.bfh.helper;
 
 
 import ch.bfh.exceptions.PendingJobsException;
-
 import ch.bfh.model.archiving.PendingJobMapper;
 import ch.bfh.model.archiving.PendingWaybackMachineJob;
 import ch.bfh.model.archiving.WaybackMachineJob;
@@ -14,6 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Helper class for managing pending jobs, specifically for handling
+ * serialization and deserialization of pending jobs to and from a JSON file.
+ */
 public class PendingJobsHelper {
     private static final String DEFAULT_PENDING_JOBS_FILE_PATH = "src/main/resources/pending_jobs.json";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
@@ -23,19 +26,19 @@ public class PendingJobsHelper {
 
 
     /**
-     * Sets the path for the pending jobs file.
-     * @param filePath Custom path for the pending jobs file, falls back to default if null or blank.
+     * Sets custom or default file path for pending jobs.
+     *
+     * @param filePath Custom file path; defaults if null or blank.
      */
     public static void setConfigFilePath(String filePath) {
         pendingJobsFilepath = filePath != null && !filePath.isBlank() ? filePath : DEFAULT_PENDING_JOBS_FILE_PATH;
     }
 
-
     /**
-     * writes a list of pending jobs into a json file. Overwrites the file if it already exists.
+     * Saves pending jobs to a file. Overwrites the file if it already exists.
      *
-     * @param pendingJobs a list of PendingWaybackMachine jobs to save
-     * @throws PendingJobsException if writing the pending jobs file fails
+     * @param pendingJobs List of jobs to save.
+     * @throws PendingJobsException If file writing fails.
      */
     public static void save(ArrayList<PendingWaybackMachineJob> pendingJobs) throws PendingJobsException {
         File pendingJobsFile = new File(pendingJobsFilepath);
@@ -52,6 +55,11 @@ public class PendingJobsHelper {
         }
     }
 
+    /**
+     * Checks if there are pending jobs stored.
+     *
+     * @return true if pending jobs exist, false otherwise.
+     */
     public static boolean existPendingJobs() {
         try {
             getPendingJobsFile();
@@ -61,19 +69,38 @@ public class PendingJobsHelper {
         return true;
     }
 
+    /**
+     * Reads pending jobs from a file.
+     *
+     * @return List of read jobs.
+     * @throws PendingJobsException If file reading fails.
+     */
     public static ArrayList<PendingWaybackMachineJob> read() throws PendingJobsException {
         ArrayList<PendingJobMapper> pendingJobsMapper = getPendingJobsMapper();
         return mapToPendingWaybackMachineJob(pendingJobsMapper);
     }
 
+    /**
+     * Retrieves pending jobs data from the file.
+     *
+     * @return ArrayList of PendingJobMapper.
+     * @throws PendingJobsException If reading from file fails.
+     */
     private static ArrayList<PendingJobMapper> getPendingJobsMapper() throws PendingJobsException {
         try {
-            return OBJECT_MAPPER.readValue(getPendingJobsFile(), new TypeReference<ArrayList<PendingJobMapper>>() {});
+            return OBJECT_MAPPER.readValue(getPendingJobsFile(), new TypeReference<ArrayList<PendingJobMapper>>() {
+            });
         } catch (IOException e) {
             throw new PendingJobsException("Error reading pending jobs: " + e.getMessage());
         }
     }
 
+    /**
+     * Gets the file for pending jobs.
+     *
+     * @return File object for the pending jobs.
+     * @throws PendingJobsException If file is not found or is a directory.
+     */
     private static File getPendingJobsFile() throws PendingJobsException {
         File pendingJobsFile = new File(pendingJobsFilepath);
 
@@ -84,6 +111,12 @@ public class PendingJobsHelper {
         return pendingJobsFile;
     }
 
+    /**
+     * Converts PendingWaybackMachineJob list to PendingJobMapper list.
+     *
+     * @param pendingJobs List of PendingWaybackMachineJob.
+     * @return Mapped list of PendingJobMapper.
+     */
     private static ArrayList<PendingJobMapper> mapToPendingJobMapper(ArrayList<PendingWaybackMachineJob> pendingJobs) {
         ArrayList<PendingJobMapper> pendingJobsMapper = new ArrayList<>();
         for (PendingWaybackMachineJob pendingJob : pendingJobs) {
@@ -93,6 +126,12 @@ public class PendingJobsHelper {
         return pendingJobsMapper;
     }
 
+    /**
+     * Converts PendingJobMapper list to PendingWaybackMachineJob list.
+     *
+     * @param pendingJobsMapper List of PendingJobMapper.
+     * @return Mapped list of PendingWaybackMachineJob.
+     */
     private static ArrayList<PendingWaybackMachineJob> mapToPendingWaybackMachineJob(ArrayList<PendingJobMapper> pendingJobsMapper) {
         ArrayList<PendingWaybackMachineJob> pendingJobs = new ArrayList<>();
 
@@ -108,12 +147,17 @@ public class PendingJobsHelper {
         return pendingJobs;
     }
 
+    /**
+     * Deletes the pending jobs file.
+     *
+     * @param file File object representing the pending jobs file.
+     * @throws PendingJobsException If file deletion fails.
+     */
     private static void deletePendingJobsFile(File file) throws PendingJobsException {
-        if(!file.delete()) {
+        if (!file.delete()) {
             throw new PendingJobsException("Couldn't delete the pending jobs file");
         }
     }
-
 
 
 }
