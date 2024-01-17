@@ -26,15 +26,6 @@ public enum UserChoice {
     }
 
     /**
-     * Retrieves the command associated with the user choice.
-     *
-     * @return the command string
-     */
-    public String getCommand() {
-        return command;
-    }
-
-    /**
      * Returns the UserChoice enum value associated with the given command string.
      *
      * @param command the command string to look up
@@ -47,5 +38,14 @@ public enum UserChoice {
             }
         }
         return null;
+    }
+
+    /**
+     * Retrieves the command associated with the user choice.
+     *
+     * @return the command string
+     */
+    public String getCommand() {
+        return command;
     }
 }

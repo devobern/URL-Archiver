@@ -51,7 +51,7 @@ public class ConfigModel {
         return secretKey;
     }
 
-     public void setSecretKey(String secretKey) {
+    public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
 
