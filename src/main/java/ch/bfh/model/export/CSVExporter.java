@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A CSV format exporter for URLs, implementing the Exporter interface.
+ * This class provides functionality to export URL data to a CSV file.
+ */
 public class CSVExporter implements Exporter {
     private static final String DELIMITER = ";";
     private static final String HEADER_EXTRACTED_URL = "extracted url";
@@ -23,10 +27,10 @@ public class CSVExporter implements Exporter {
     /**
      * Exports the URLs of the given file to a CSV file.
      *
-     * @param fileModel            the file to export the URLs from
+     * @param fileModel       the file to export the URLs from
      * @param destinationPath the path to the CSV file
      * @throws FileNotFoundException if the file could not be created
-     * @throws URLExporterException   if the file could not be created
+     * @throws URLExporterException  if the file could not be created
      */
     @Override
     public void exportURLs(FileModel fileModel, String destinationPath) throws IOException, URLExporterException {
@@ -39,10 +43,10 @@ public class CSVExporter implements Exporter {
      * Exports the URLs from all files within the given folder to a single CSV file.
      * Iterates through each file contained in the folder model, aggregating and exporting their URLs.
      *
-     * @param folderModel      the folder containing files from which to export the URLs
-     * @param destinationPath  the path where the CSV file will be saved
-     * @throws IOException            if there is an input/output issue during file creation or writing
-     * @throws URLExporterException   if there's an issue specific to URL exporting process
+     * @param folderModel     the folder containing files from which to export the URLs
+     * @param destinationPath the path where the CSV file will be saved
+     * @throws IOException          if there is an input/output issue during file creation or writing
+     * @throws URLExporterException if there's an issue specific to URL exporting process
      */
     public void exportURLs(FolderModel folderModel, String destinationPath) throws IOException, URLExporterException {
         int maxArchivedUrls = getMaxArchivedUrls(folderModel.getFiles().stream());
@@ -88,11 +92,11 @@ public class CSVExporter implements Exporter {
                 .forEach(urlPair -> {
                     List<String> row = new ArrayList<>();
                     row.add(urlPair.getExtractedURL());
-                    if(urlPair.getArchivedURLs() != null) {
+                    if (urlPair.getArchivedURLs() != null) {
                         row.addAll(urlPair.getArchivedURLs());
                     }
                     // Fill the remaining columns
-                    while(row.size() < headers.size()) {
+                    while (row.size() < headers.size()) {
                         row.add("");
                     }
                     dataRows.add(row.toArray(new String[0]));
@@ -104,10 +108,10 @@ public class CSVExporter implements Exporter {
     /**
      * Writes the provided data rows to a CSV file at the specified destination path.
      *
-     * @param data The data rows to be written to the CSV file.
+     * @param data            The data rows to be written to the CSV file.
      * @param destinationPath The file path where the CSV file will be created.
      * @throws FileNotFoundException if the file cannot be created.
-     * @throws URLExporterException if there is an error during the writing process.
+     * @throws URLExporterException  if there is an error during the writing process.
      */
     private void writeCSV(List<String[]> data, String destinationPath) throws FileNotFoundException, URLExporterException {
         File csvOutputFile = new File(destinationPath);
