@@ -1,10 +1,26 @@
 package ch.bfh.exceptions;
 
+/**
+ * Exception class for handling errors related to archiving operations.
+ */
 public class ArchiverException extends Exception {
+
+    /**
+     * Constructs a new ArchiverException with the specified detail message.
+     *
+     * @param message The detail message. The detail message is saved for
+     *                later retrieval by the {@link Throwable#getMessage()} method.
+     */
     public ArchiverException(String message) {
         super(message);
     }
-    // Constructor with both message and cause
+
+    /**
+     * Constructs a new ArchiverException with the specified detail message and cause.
+     *
+     * @param message The detail message.
+     * @param cause   The cause of the exception.
+     */
     public ArchiverException(String message, Throwable cause) {
         super(message, cause);
     }
