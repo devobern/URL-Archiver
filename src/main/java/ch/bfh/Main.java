@@ -1,6 +1,7 @@
 package ch.bfh;
 
 import ch.bfh.controller.CLIController;
+
 import java.util.Locale;
 
 public class Main {
