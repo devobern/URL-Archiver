@@ -118,7 +118,7 @@ public class CLIController {
     private void handleImportJobs() {
         if (PendingJobsHelper.existPendingJobs()) {
             view.printSeparator();
-            if (yesNoPromt("jobs.importPending.prompt")){
+            if (yesNoPromt("jobs.importPending.prompt")) {
                 importJobs();
             }
         }
@@ -197,7 +197,7 @@ public class CLIController {
                 ));
 
         // Return if no archived URLs are found
-        if(fileUrlMap.values().stream().allMatch(List::isEmpty)){
+        if (fileUrlMap.values().stream().allMatch(List::isEmpty)) {
             view.printFormattedMessage("info.no_archived");
             return;
         }
@@ -456,7 +456,7 @@ public class CLIController {
         statusUpdate();
 
         if (!this.pendingJobs.isEmpty()) {
-            if(yesNoPromt("jobs.quitWithPendingJobs.info", this.pendingJobs.size())) {
+            if (yesNoPromt("jobs.quitWithPendingJobs.info", this.pendingJobs.size())) {
                 processUserInput();
                 return;
             }

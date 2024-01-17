@@ -39,7 +39,7 @@ public class ArchiverManager {
      *
      * @param name the service name identifier of the archiver to retrieve.
      * @return the {@link URLArchiver} instance associated with the given service name,
-     *         or {@code null} if no such archiver is found.
+     * or {@code null} if no such archiver is found.
      */
     public URLArchiver getArchiver(String name) {
         return archivers.get(name);
@@ -55,7 +55,7 @@ public class ArchiverManager {
      * </p>
      *
      * @return a list containing all {@link URLArchiver} instances managed by this
-     *         manager. If no archivers are managed, an empty list is returned.
+     * manager. If no archivers are managed, an empty list is returned.
      */
     public List<URLArchiver> getAllArchivers() {
         return Collections.unmodifiableList(new ArrayList<>(archivers.values()));
@@ -75,14 +75,13 @@ public class ArchiverManager {
      * </p>
      *
      * @return a list containing all {@link URLArchiver} instances managed by this
-     *         manager. If no archivers are managed, an empty list is returned.
+     * manager. If no archivers are managed, an empty list is returned.
      */
     public List<URLArchiver> getSortedArchivers() {
         return archivers.values().stream()
                 .sorted(Comparator.comparing(URLArchiver::isAutomated).reversed())
                 .collect(Collectors.toList());
     }
-
 
 
     /**
@@ -101,9 +100,9 @@ public class ArchiverManager {
      * @param selectedArchivers a list of {@link URLArchiver} instances to perform the archiving.
      *                          Each archiver is used to archive the provided URL.
      * @return an {@link ArchiverResult} object containing lists of successfully archived URLs and
-     *         unavailable archivers. If an archiver successfully processes the URL, its result is added
-     *         to the archived URLs list; if it is unavailable, its name is added to the unavailable
-     *         archivers list.
+     * unavailable archivers. If an archiver successfully processes the URL, its result is added
+     * to the archived URLs list; if it is unavailable, its name is added to the unavailable
+     * archivers list.
      * @throws ArchiverException if an error occurs during the archiving process. This exception is
      *                           thrown to indicate processing errors specific to individual archivers
      *                           or general issues encountered while archiving.
