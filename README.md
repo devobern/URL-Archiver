@@ -189,6 +189,16 @@ For Bibtex entries:
 - Without an existing note field, URLs are added as: note = {Archived Versions: \url{url1}, \url{url2}}
 - With a note field, they're appended as: note = {<current note>, Archived Versions: \url{url1}, \url{url2}}
 
+### Getting S3-Credentials (Wayback Machine)
+
+#### Prerequisite
+A login on [archive.org](https://archive.org/) is required. 
+
+#### Generate S3-Credentials
+The first step is to log in on [archive.org](https://archive.org/account/login). 
+After the sucessfull login the following link has to be opened: [archive.org/account/s3.php](https://archive.org/account/s3.php)
+There the S3-Credentials can be generated and deleted.
+
 ## Project Status and Future Contributions
 
 ### Current Development Status
