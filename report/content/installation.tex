@@ -2,7 +2,7 @@
 
 \section{Installation (Sysadmin) Manual \& Script} \label{sec::installation_manual}
 The URL-Archiver enables the extraction of URLs from any Unicode text or PDF file and allows for interactive archiving
-on one of the supported archiving services.
+on one of the supported archiving services \index{Archiving Services}.
 \begin{bfhWarnBox}
 The application was designed to be platform-independent \index{platform-independent}. However, it has only been tested on the following systems, so it cannot be guaranteed to work without restrictions on other platforms.
 \begin{itemize}
@@ -26,10 +26,11 @@ To build and start the application, ensure that the following dependencies are i
 
 To clone the repository, run the following command in a terminal:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Command to Clone the Repository for URL-Archiver}, label={lst:git_clone}]
 git clone https://github.com/devobern/URL-Archiver.git
 \end{lstlisting}
 
+\clearpage
 \subsection{Build and run scripts}
 
 The build and run scripts are provided for Windows (\texttt{build.ps1}, \texttt{run.ps1}, \texttt{build\_and\_run.ps1}), Linux, and
@@ -56,25 +57,28 @@ MacOS (\texttt{build.sh}, \texttt{run.sh}, \texttt{build\_and\_run.sh}). The scr
 \mbox{}\\
 To build the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Build the URL-Archiver Application on Windows}, label={lst:build_win}]
 ./build.ps1
 \end{lstlisting}
+
 
 \paragraph{Run the application}
 \mbox{}\\
 To run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Run the URL-Archiver Application on Windows}, label={lst:run_win}]
 ./run.ps1
 \end{lstlisting}
+
 
 \paragraph{Build and run the application}
 \mbox{}\\
 To build and run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Build and Run the URL-Archiver Application on Windows}, label={lst:build_run_win}]
 ./build_and_run.ps1
 \end{lstlisting}
+
 
 \subsubsection{Linux and macOS}
 
@@ -82,87 +86,24 @@ To build and run the application, open a command prompt and run the following sc
 \mbox{}\\
 To build the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Build the URL-Archiver Application on Linux and macOS}, label={lst:build_unix}]
 ./build.sh
 \end{lstlisting}
+
 
 \paragraph{Run the application}
 \mbox{}\\
 To run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Run the URL-Archiver Application on Linux and macOS}, label={lst:run_unix}]
 ./run.sh
 \end{lstlisting}
+
 
 \paragraph{Build and run the application}
 \mbox{}\\
 To build and run the application, open a command prompt and run the following script:
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[numbers=none, caption={Script to Build and Run the URL-Archiver Application on Linux and macOS}, label={lst:build_run_unix}]
 ./build_and_run.sh
 \end{lstlisting}
-
-
-\section{User Manual}
-\begin{bfhWarnBox}
-	To follow the instructions in this section, the application must be built. See \ref{sec::installation_manual}.
-\end{bfhWarnBox}
-
-The URL-Archiver is a user-friendly application designed for extracting and archiving URLs from text and PDF files. Its intuitive interface requires minimal user input and ensures efficient management of URLs.
-
-\subsection{Getting Started}
-
-\subsubsection{Windows}
-
-Open Command Prompt, navigate to the application's directory, and execute:
-
-\begin{lstlisting}[numbers=none]
-./run.ps1
-\end{lstlisting}
-
-\subsubsection{Linux / MacOS}
-
-Open Terminal, navigate to the application's directory, and run:
-
-\begin{lstlisting}[numbers=none]
-./run.sh
-\end{lstlisting}
-
-\subsection{Operating Instructions}
-
-Upon launch, provide a path to a text or PDF file, or a directory containing such files. The application will process and display URLs sequentially.
-
-\subsubsection{Navigation}
-
-Use the following keys to navigate through the application:
-
-\begin{itemize}
-	\item \textbf{o}: Open the current URL in the default web browser.
-	\item \textbf{a}: Access the Archive Menu to archive the URL.
-	\item \textbf{s}: Show a list of previously archived URLs.
-	\item \textbf{u}: Update and view pending archive jobs.
-	\item \textbf{n}: Navigate to the next URL.
-	\item \textbf{q}: Quit the application.
-	\item \textbf{c}: Change application settings.
-	\item \textbf{h}: Access the Help Menu for assistance.
-\end{itemize}
-
-\subsubsection{Archiving URLs}
-
-Choose between archiving to Wayback Machine, Archive.today, both services, or canceling.
-
-When opting to use Archive.today for archiving, an automated browser session will initiate, requiring you to complete a captcha. Once resolved, the URL is archived, and the corresponding archived version is then collected and stored within the application.
-
-\subsubsection{Configuration}
-
-Customize Access/Secret Keys and the default browser. Current settings are shown with default values in brackets.
-
-\subsubsection{Exiting}
-
-To exit, press \textbf{q}. If a BibTex file was provided, you'll be prompted to save the archived URLs in the BibTex file. Otherwise, or after saving the URLs in the BibTex file, you'll be prompted to save the archived URLs in a CSV file.
-
-For BibTex entries:
-\begin{itemize}
-	\item Without an existing note field, URLs are added as: \texttt{note = \{Archived Versions: \textbackslash url\{url1\}, \textbackslash url\{url2\}\}}
-	\item With a note field, they're appended as: \texttt{note = \{<current note>, Archived Versions: \textbackslash url\{url1\}, \textbackslash url\{url2\}\}}
-\end{itemize}

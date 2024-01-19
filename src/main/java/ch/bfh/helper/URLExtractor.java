@@ -39,10 +39,10 @@ public class URLExtractor {
      * The method uses the specified regular expression to match URLs within the text
      * and collects them into a set to ensure uniqueness.
      *
-     * @param text The string from which URLs are to be extracted.
+     * @param text    The string from which URLs are to be extracted.
      * @param pattern The pattern to be used for matching URLs.
      * @return A Set of unique URLs found in the provided text according to the given pattern.
-     *         If no URLs are found, an empty Set is returned.
+     * If no URLs are found, an empty Set is returned.
      */
     public static Set<String> extractURLs(String text, Pattern pattern) {
         Set<String> urls = new HashSet<>();

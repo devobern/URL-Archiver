@@ -20,10 +20,10 @@ import java.net.http.HttpResponse;
  */
 public class WaybackMachineArchiver implements URLArchiver {
     private static final String SERVICE_NAME = "WaybackMachine";
-    private final boolean automated = true;
     private static final String API_URL = "https://web.archive.org/save/";
     private static final String APPLICATION_JSON = "application/json";
     private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
+    private final boolean automated = true;
     private final ConfigModel config;
     private final CLIController controller;
 

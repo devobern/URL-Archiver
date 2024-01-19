@@ -180,6 +180,8 @@ When opting to use Archive.today for archiving, an automated browser session wil
 
 Customize Access/Secret Keys and the default browser. Current settings are shown with default values in brackets.
 
+To get your S3-Credentials, follow the instructions in [Getting S3-Credentials (Wayback Machine)](#getting-s3-credentials-wayback-machine). 
+
 #### Exiting
 
 - To exit, press q. If a Bibtex file was provided, you'll be prompted to save the archived URLs in the Bibtex file.
@@ -188,6 +190,14 @@ Customize Access/Secret Keys and the default browser. Current settings are shown
 For Bibtex entries:
 - Without an existing note field, URLs are added as: note = {Archived Versions: \url{url1}, \url{url2}}
 - With a note field, they're appended as: note = {<current note>, Archived Versions: \url{url1}, \url{url2}}
+
+### Getting S3-Credentials (Wayback Machine)
+
+To generate your S3-Credentials, you need a Wayback Machine profile, which you can create [here](https://archive.org/account/signup).
+
+#### Generate S3-Credentials
+1. Login to your Wayback Machine profile [here](https://archive.org/account/login).
+2. Open [this link](https://archive.org/account/s3.php) to generate your S3-Credentials. If needed you can also delete your S3-Credentials on this page.
 
 ## Project Status and Future Contributions
 

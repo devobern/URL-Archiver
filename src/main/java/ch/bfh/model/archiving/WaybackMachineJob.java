@@ -3,7 +3,8 @@ package ch.bfh.model.archiving;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * dataclass for objectmapping the response of get status of job request (wayback machine)
+ * Represents the status response of a job request from the Wayback Machine.
+ * This class is used for mapping the JSON response to Java fields.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WaybackMachineJob {

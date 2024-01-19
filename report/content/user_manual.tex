@@ -1,0 +1,80 @@
+\section{User Manual}
+\begin{bfhWarnBox}
+	To follow the instructions in this section, the application must be built. See \ref{sec::installation_manual}.
+\end{bfhWarnBox}
+
+The URL-Archiver is a user-friendly application designed for extracting and archiving URLs from text and PDF files. Its intuitive interface requires minimal user input and ensures efficient management of URLs.
+
+\subsection{Getting Started}
+
+\subsubsection{Windows}
+
+Open Command Prompt, navigate to the application's directory, and execute:
+
+\begin{lstlisting}[numbers=none, caption={Script to Run the URL-Archiver Application on Windows (User Manual)}, label={lst:user_run_win}]
+	./run.ps1
+\end{lstlisting}
+
+
+\subsubsection{Linux / MacOS}
+
+Open Terminal, navigate to the application's directory, and run:
+
+\begin{lstlisting}[numbers=none, caption={Script to Run the URL-Archiver Application on Linux and macOS (User Manual)}, label={lst:user_run_unix}]
+	./run.sh
+\end{lstlisting}
+
+
+
+
+\subsection{Operating Instructions}
+
+Upon launch, provide a path to a text or PDF file, or a directory containing such files. The application will process and display URLs sequentially.
+
+\subsubsection{Navigation}
+
+Use the following keys to navigate through the application:
+
+\begin{itemize}
+	\item \textbf{o}: Open the current URL in the default web browser.
+	\item \textbf{a}: Access the Archive Menu to archive the URL.
+	\item \textbf{s}: Show a list of previously archived URLs.
+	\item \textbf{u}: Update and view pending archive jobs.
+	\item \textbf{n}: Navigate to the next URL.
+	\item \textbf{q}: Quit the application.
+	\item \textbf{c}: Change application settings.
+	\item \textbf{h}: Access the Help Menu for assistance.
+\end{itemize}
+
+\subsubsection{Archiving URLs}
+
+Choose between archiving to Wayback Machine, Archive.today, both services, or canceling.
+
+When opting to use Archive.today for archiving, an automated browser session will initiate, requiring you to complete a captcha. Once resolved, the URL is archived, and the corresponding archived version is then collected and stored within the application.
+
+\subsubsection{Configuration}
+
+Customize Access/Secret Keys and the default browser. Current settings are shown with default values in brackets. 
+
+To get your S3-Credentials, follow the instructions in \nameref{sub:get_cred_api}. 
+
+\subsubsection{Exiting}
+
+To exit, press \textbf{q}. If a BibTex file was provided, you'll be prompted to save the archived URLs in the BibTex file. Otherwise, or after saving the URLs in the BibTex file, you'll be prompted to save the archived URLs in a CSV file.
+
+For BibTex entries:
+\begin{itemize}
+	\item Without an existing note field, URLs are added as: \texttt{note = \{Archived Versions: \textbackslash url\{url1\}, \textbackslash url\{url2\}\}}
+	\item With a note field, they're appended as: \texttt{note = \{<current note>, Archived Versions: \textbackslash url\{url1\}, \textbackslash url\{url2\}\}}
+\end{itemize}
+
+
+\subsection{Getting S3-Credentials (Wayback Machine)}\label{sub:get_cred_api}
+
+To generate your S3-Credentials, you need a Wayback Machine profile, which you can create \href{https://archive.org/account/signup}{here} (https://archive.org/account/signup).
+
+\subsubsection{Generate S3-Credentials}
+\begin{enumerate}
+	\item Login to your Wayback Machine profile \href{https://archive.org/account/login}{here} (https://archive.org/account/login).
+	\item Open \href{https://archive.org/account/s3.php}{this link} (https://archive.org/account/s3.php) to generate your S3-Credentials. If needed you can also delete your S3-Credentials on this page. 
+\end{enumerate}

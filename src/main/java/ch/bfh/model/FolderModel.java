@@ -11,9 +11,9 @@ import java.util.List;
  * Represents a folder containing multiple file models.
  */
 public class FolderModel {
-    private int index = 0;
     private final String basePath;
     private final List<FileModel> files = new ArrayList<>();
+    private int index = 0;
 
     /**
      * Constructs a FolderModel with the specified directory path.
@@ -61,7 +61,7 @@ public class FolderModel {
      *
      * @return The base directory path as a string.
      */
-    public String getBasePath(){
+    public String getBasePath() {
         return this.basePath;
     }
 

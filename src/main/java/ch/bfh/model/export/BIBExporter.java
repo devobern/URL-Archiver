@@ -11,6 +11,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A BibTeX format exporter for URLs, implementing the Exporter interface.
+ * This class provides functionality to export URL data to a BibTeX (.bib) file, specifically by updating BibTeX entries with archived URLs.
+ */
 public class BIBExporter implements Exporter {
 
     /**
@@ -119,7 +123,7 @@ public class BIBExporter implements Exporter {
      */
     private static String appendToNoteField(String currentLine, String archivedUrls) {
         char closingChar;
-        if(currentLine.trim().endsWith("},") || currentLine.trim().endsWith("}")){
+        if (currentLine.trim().endsWith("},") || currentLine.trim().endsWith("}")) {
             closingChar = '}';
         } else {
             closingChar = '"';
