@@ -14,9 +14,6 @@ The \texttt{ConsoleView} class is essential for presenting information and manag
 \end{figure}
 
 
-
-\clearpage
-
 \subsection{Backend}
 
 \subsubsection{Software Architectural Design}
@@ -32,11 +29,10 @@ This modular structure allows for an efficient separation of code, which aids in
 
 \begin{figure}[h!]
     \center
-    \includegraphics[width=0.7\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
+    \includegraphics[width=0.65\textwidth]{diagrams/mvc_diagram-Highlevel_MVC.png}
     \caption{Highlevel Diagram of implemented MVC Pattern \index{Model-View-Controller (MVC) pattern}}
     \label{fig:MVC_Highlevel}
 \end{figure}
-
 \clearpage
 
 \subsubsection{Factory Pattern}
@@ -88,9 +84,9 @@ An example of the configuration file \index{Configuration File} structure is as 
 \}
 
 Users have the flexibility to modify the configuration file \index{Configuration File} at runtime, or edit the file directly. Currently, the application uses this file to store credentials for the Wayback Machine and to select the correct browser for the Archive Today service. This feature underlines the URL-Archiver's commitment to user customisation and operational efficiency.
-
+\clearpage
 \subsubsection{Adherence to SOLID Principles}
-The URL-Archiver has been carefully designed with a strong emphasis on SOLID principles \index{SOLID Principles}, ensuring a robust, maintainable and scalable architecture.
+The URL-Archiver has been carefully designed with a strong emphasis on SOLID principles\index{SOLID Principles}, ensuring a robust, maintainable and scalable architecture.
 
 \begin{enumerate}
 	\item \textbf{Single Responsibility Principle:} Each class, such as \texttt{FileReaderFactory}, \texttt{ConfigModel} or \texttt{CLIController}, is dedicated to a single responsibility. This principle ensures that each module or class focuses on a single aspect of the application's functionality.
@@ -129,5 +125,4 @@ The current implementation of the URL extractor, which uses regex\index{regex}, 
 The project's time constraints prevented the development of a more optimized regex pattern to address these specific cases. However, this limitation has been acknowledged as an area for future improvement. Enhancing the regex would significantly improve the URL-Archiver's functionality, making it more robust in handling diverse URL formats.
 
 Furthermore, since it is nearly impossible to achieve perfect URL detection through automated means alone, it is recommended to include a feature that allows users to manually modify the extracted URLs within the URL-Archiver. This functionality would add an extra layer of accuracy, enabling users to correct any errors in URL extraction and ensuring the integrity of the archived data.
-\clearpage
 
