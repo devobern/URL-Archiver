@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -101,7 +102,10 @@ class FileValidatorTest {
     void validateBibFileLinux() throws IOException, FileModelException {
         Assumptions.assumeTrue(System.getProperty("os.name").toLowerCase().contains("nux"));
         mockFileMethods(bibPath, "text/x-bibtex");
-        assertEquals("text/x-bibtex", FileValidator.validate(bibPath.toString()));
+        // Apparently, on Fedora the MIME type for BibTeX files is "text/bib"
+        List<String> validValues = Arrays.asList("text/x-bibtex", "text/bib");
+        String result = FileValidator.validate(bibPath.toString());
+        assertTrue(validValues.contains(result));
     }
 
     /**
