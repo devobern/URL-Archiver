@@ -223,6 +223,8 @@ While we are currently not in a position to actively pursue these enhancements, 
 - [ ] Providing more detailed setting options for user customization.
 - [ ] Publishing the application in package repositories to simplify installation.
 - [ ] Improving the code layout, like breaking up the controller for better clarity.
+- [ ] Testing on other platforms (such as Fedora) to ensure platform independence
+- [ ] Support for command line arguments like `./run.sh --archive both --urlsource /tmp/my_url_list.txt` or `./run.sh --archive today --url https://example.com`
 
 ## Deinstallation
 
